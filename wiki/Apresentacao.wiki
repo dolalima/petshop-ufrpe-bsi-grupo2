@@ -8,8 +8,10 @@ O *Petshop* é um sistema de gerenciamento de lojas de animais, para facilitar a
 = Detalhes =
 
 Linguagem de Programação: *Java*
+
 Base de Dados: *SQLite*
-Ferramenta de Desenvolvimento: *NetBeans 6.9.1*
+
+Ferramenta de Desenvolvimento: *NetBeans6.9.1*
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
