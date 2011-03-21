@@ -15,11 +15,18 @@ package petshop;
  *
  * @author Dola
  */
+import javax.swing.JFrame;
+
 public class JanelaPrincipal extends javax.swing.JFrame {
 
     /** Creates new form JanelaPrincipal */
+    
+
     public JanelaPrincipal() {
         initComponents();
+        this.setTitle("Menu Principal");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     /** This method is called from within the constructor to
@@ -31,21 +38,63 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ButtonCadastroCliente = new javax.swing.JButton();
+        jButtonExit = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ButtonCadastroCliente.setText("Cadastro de Clientes");
+        ButtonCadastroCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonCadastroClienteActionPerformed(evt);
+            }
+        });
+
+        jButtonExit.setText("Sair");
+        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonCadastroCliente)
+                .addContainerGap(257, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(339, Short.MAX_VALUE)
+                .addComponent(jButtonExit)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonCadastroCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addComponent(jButtonExit)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ButtonCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastroClienteActionPerformed
+        // TODO add your handling code here:
+        this.setEnabled(false);
+        JanelaCadastroCliente cadastro = new JanelaCadastroCliente(this);
+        cadastro.setVisible(rootPaneCheckingEnabled);
+
+    }//GEN-LAST:event_ButtonCadastroClienteActionPerformed
+
+    private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButtonExitActionPerformed
 
     /**
     * @param args the command line arguments
@@ -53,6 +102,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonCadastroCliente;
+    private javax.swing.JButton jButtonExit;
     // End of variables declaration//GEN-END:variables
 
 }
