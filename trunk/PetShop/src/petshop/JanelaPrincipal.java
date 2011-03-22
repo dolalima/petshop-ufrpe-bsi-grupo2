@@ -87,12 +87,13 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setEnabled(false);
         JanelaCadastroCliente cadastro = new JanelaCadastroCliente(this);
-        cadastro.setVisible(rootPaneCheckingEnabled);
+        cadastro.setVisible(true);
 
     }//GEN-LAST:event_ButtonCadastroClienteActionPerformed
 
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
         
     }//GEN-LAST:event_jButtonExitActionPerformed
 
