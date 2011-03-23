@@ -9,7 +9,7 @@ O *Petshop* é um sistema de gerenciamento de lojas de animais, para facilitar a
 
 Linguagem de Programação: *Java*
 
-Base de Dados: *SQLite*
+Base de Dados: *MySQLite*
 
 Ferramenta de Desenvolvimento: *NetBeans6.9.1*
 
