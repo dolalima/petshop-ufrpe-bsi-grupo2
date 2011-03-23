@@ -23,7 +23,7 @@ public class JanelaCadastroCliente extends JFrame {
     /** Creates new form JanelaCadastroCliente */
     public JanelaCadastroCliente(JFrame janela) {
         initComponents();
-        windowMain = janela;
+        this.windowMain = janela;
     }
      
 
