@@ -63,14 +63,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonVendas.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jButtonVendas.setFont(new java.awt.Font("Tahoma", 0, 48));
         jButtonVendas.setText("Vendas");
+        jButtonVendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVendasActionPerformed(evt);
+            }
+        });
 
         ButtonCadastroAnimal.setText("Cadastro de Animais");
 
         jButton2.setText("Cadastro de Serviços");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 48));
         jButton3.setText("Serviços");
 
         jButton4.setText("Entrada de Estoque");
@@ -91,7 +96,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(jButtonVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addComponent(jButtonExit))
@@ -104,7 +109,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                             .addComponent(ButtonCadastroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(364, 364, 364)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)))
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -155,6 +160,13 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         JanelaCadastroProdutos cadastroProduto = new JanelaCadastroProdutos(this);
         cadastroProduto.setVisible(true);
     }//GEN-LAST:event_ButtonCadastroProdutoActionPerformed
+
+    private void jButtonVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVendasActionPerformed
+        // TODO add your handling code here:
+        this.setEnabled(false);
+        JanelaVendas vendas = new JanelaVendas(this);
+        vendas.setVisible(true);
+    }//GEN-LAST:event_jButtonVendasActionPerformed
 
     /**
     * @param args the command line arguments
