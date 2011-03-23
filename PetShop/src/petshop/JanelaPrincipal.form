@@ -27,7 +27,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonVendas" pref="205" max="32767" attributes="1"/>
+                          <Component id="jButtonVendas" pref="213" max="32767" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                               <Component id="jButtonExit" min="-2" max="-2" attributes="0"/>
@@ -44,7 +44,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="364" max="-2" attributes="0"/>
-                      <Component id="jButton4" pref="137" max="32767" attributes="1"/>
+                      <Component id="jButton4" pref="175" max="32767" attributes="1"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -106,6 +106,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Vendas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVendasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ButtonCadastroAnimal">
       <Properties>
