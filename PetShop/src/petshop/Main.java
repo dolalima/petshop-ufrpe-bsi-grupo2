@@ -5,6 +5,8 @@
 
 package petshop;
 
+import petshop.interfaces.JanelaPrincipal;
+
 /**
  *
  * @author Dola

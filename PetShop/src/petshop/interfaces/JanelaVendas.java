@@ -9,7 +9,7 @@
  * Created on 22/03/2011, 21:52:04
  */
 
-package petshop;
+package petshop.interfaces;
 import javax.swing.JFrame;
 
 /**
@@ -78,7 +78,7 @@ public class JanelaVendas extends javax.swing.JFrame {
 
         jLabel3.setText("Valor Total:");
 
-        jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 24));
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
         jLabel4.setText("00.00");
 
