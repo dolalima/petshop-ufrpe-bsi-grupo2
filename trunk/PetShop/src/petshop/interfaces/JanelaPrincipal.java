@@ -9,7 +9,7 @@
  * Created on 18/03/2011, 15:35:51
  */
 
-package petshop;
+package petshop.interfaces;
 
 /**
  *
