@@ -17,13 +17,16 @@ package petshop.interfaces;
  */
 import javax.swing.JFrame;
 
+
 public class JanelaPrincipal extends javax.swing.JFrame {
 
     /** Creates new form JanelaPrincipal */
     
+    
 
     public JanelaPrincipal() {
         initComponents();
+        this.JanelaInterna.setVisible(false);
         this.setTitle("Menu Principal");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -38,135 +41,107 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ButtonCadastroCliente = new javax.swing.JButton();
-        jButtonExit = new javax.swing.JButton();
-        jButtonVendas = new javax.swing.JButton();
-        ButtonCadastroAnimal = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        ButtonCadastroProduto = new javax.swing.JButton();
+        JanelaInterna = new javax.swing.JInternalFrame();
+        MenuPricipal = new javax.swing.JMenuBar();
+        MenuSistema = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        MenuItemLogout = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        MenuCliente = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ButtonCadastroCliente.setText("Cadastro de Clientes");
-        ButtonCadastroCliente.addActionListener(new java.awt.event.ActionListener() {
+        JanelaInterna.setVisible(true);
+
+        javax.swing.GroupLayout JanelaInternaLayout = new javax.swing.GroupLayout(JanelaInterna.getContentPane());
+        JanelaInterna.getContentPane().setLayout(JanelaInternaLayout);
+        JanelaInternaLayout.setHorizontalGroup(
+            JanelaInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 313, Short.MAX_VALUE)
+        );
+        JanelaInternaLayout.setVerticalGroup(
+            JanelaInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 231, Short.MAX_VALUE)
+        );
+
+        MenuSistema.setText("Sistema");
+
+        jMenuItem6.setText("Vendas de Produtos");
+        MenuSistema.add(jMenuItem6);
+
+        jMenuItem7.setText("Vendas de Serviços");
+        MenuSistema.add(jMenuItem7);
+
+        MenuItemLogout.setText("Logout");
+        MenuSistema.add(MenuItemLogout);
+
+        jMenuItem1.setText("Sair");
+        MenuSistema.add(jMenuItem1);
+
+        MenuPricipal.add(MenuSistema);
+
+        MenuCliente.setText("Cliente");
+
+        jMenuItem3.setText("Consultar");
+        MenuCliente.add(jMenuItem3);
+
+        jMenuItem2.setText("Cadastrar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonCadastroClienteActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
+        MenuCliente.add(jMenuItem2);
 
-        jButtonExit.setText("Sair");
-        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExitActionPerformed(evt);
-            }
-        });
+        jMenuItem4.setText("Modificar");
+        MenuCliente.add(jMenuItem4);
 
-        jButtonVendas.setFont(new java.awt.Font("Tahoma", 0, 48));
-        jButtonVendas.setText("Vendas");
-        jButtonVendas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVendasActionPerformed(evt);
-            }
-        });
+        jMenuItem5.setText("Exluir");
+        MenuCliente.add(jMenuItem5);
 
-        ButtonCadastroAnimal.setText("Cadastro de Animais");
+        MenuPricipal.add(MenuCliente);
 
-        jButton2.setText("Cadastro de Serviços");
+        jMenu1.setText("Produto");
+        MenuPricipal.add(jMenu1);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 48));
-        jButton3.setText("Serviços");
-
-        jButton4.setText("Entrada de Estoque");
-
-        ButtonCadastroProduto.setText("Cadastro de Produtos");
-        ButtonCadastroProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonCadastroProdutoActionPerformed(evt);
-            }
-        });
+        setJMenuBar(MenuPricipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jButtonExit))
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(149, 149, 149)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ButtonCadastroProduto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ButtonCadastroAnimal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ButtonCadastroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(364, 364, 364)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(180, Short.MAX_VALUE)
+                .addComponent(JanelaInterna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonCadastroAnimal))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonCadastroCliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButtonCadastroProduto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-                .addComponent(jButtonExit)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(JanelaInterna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastroClienteActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        this.setEnabled(false);
-        JanelaCadastroCliente cadastro = new JanelaCadastroCliente(this);
-        cadastro.setVisible(true);
-
-    }//GEN-LAST:event_ButtonCadastroClienteActionPerformed
-
-    private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
+        CadastroCliente cadastrocliente = new CadastroCliente();
+        cadastrocliente.setVisible(true);
+        this.JanelaInterna.setTitle("Cadastro de Cliente");
+        this.JanelaInterna.setResizable(true);
+        this.JanelaInterna.add(cadastrocliente);
+        this.JanelaInterna.setVisible(true);
         
-    }//GEN-LAST:event_jButtonExitActionPerformed
-
-    private void ButtonCadastroProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastroProdutoActionPerformed
-        // TODO add your handling code here:
-        this.setEnabled(false);
-        JanelaCadastroProdutos cadastroProduto = new JanelaCadastroProdutos(this);
-        cadastroProduto.setVisible(true);
-    }//GEN-LAST:event_ButtonCadastroProdutoActionPerformed
-
-    private void jButtonVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVendasActionPerformed
-        // TODO add your handling code here:
-        this.setEnabled(false);
-        JanelaVendas vendas = new JanelaVendas(this);
-        vendas.setVisible(true);
-    }//GEN-LAST:event_jButtonVendasActionPerformed
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
     * @param args the command line arguments
@@ -174,14 +149,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonCadastroAnimal;
-    private javax.swing.JButton ButtonCadastroCliente;
-    private javax.swing.JButton ButtonCadastroProduto;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButtonExit;
-    private javax.swing.JButton jButtonVendas;
+    private javax.swing.JInternalFrame JanelaInterna;
+    private javax.swing.JMenu MenuCliente;
+    private javax.swing.JMenuItem MenuItemLogout;
+    private javax.swing.JMenuBar MenuPricipal;
+    private javax.swing.JMenu MenuSistema;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     // End of variables declaration//GEN-END:variables
 
 }
