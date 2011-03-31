@@ -1,32 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * JanelaPrincipal.java
- *
- * Created on 18/03/2011, 15:35:51
- */
-
 package petshop.interfaces;
 
-/**
- *
- * @author Dola
- */
 import javax.swing.JFrame;
 
 
 public class JanelaPrincipal extends javax.swing.JFrame {
 
-    /** Creates new form JanelaPrincipal */
-    
-    
-
     public JanelaPrincipal() {
         initComponents();
-        this.JanelaInterna.setVisible(false);
         this.setTitle("Menu Principal");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -41,7 +21,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JanelaInterna = new javax.swing.JInternalFrame();
         MenuPricipal = new javax.swing.JMenuBar();
         MenuSistema = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -56,19 +35,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        JanelaInterna.setVisible(true);
-
-        javax.swing.GroupLayout JanelaInternaLayout = new javax.swing.GroupLayout(JanelaInterna.getContentPane());
-        JanelaInterna.getContentPane().setLayout(JanelaInternaLayout);
-        JanelaInternaLayout.setHorizontalGroup(
-            JanelaInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
-        );
-        JanelaInternaLayout.setVerticalGroup(
-            JanelaInternaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 231, Short.MAX_VALUE)
-        );
 
         MenuSistema.setText("Sistema");
 
@@ -116,17 +82,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(180, Short.MAX_VALUE)
-                .addComponent(JanelaInterna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+            .addGap(0, 554, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(JanelaInterna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+            .addGap(0, 397, Short.MAX_VALUE)
         );
 
         pack();
@@ -136,10 +96,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastroCliente cadastrocliente = new CadastroCliente();
         cadastrocliente.setVisible(true);
-        this.JanelaInterna.setTitle("Cadastro de Cliente");
-        this.JanelaInterna.setResizable(true);
-        this.JanelaInterna.add(cadastrocliente);
-        this.JanelaInterna.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -149,7 +105,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame JanelaInterna;
     private javax.swing.JMenu MenuCliente;
     private javax.swing.JMenuItem MenuItemLogout;
     private javax.swing.JMenuBar MenuPricipal;
