@@ -8,7 +8,15 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     public JanelaPrincipal() {
         initComponents();
         this.setTitle("Menu Principal");
+
+        
+        PainelConsulta painelAnimais = new PainelConsulta();
+
+        painelSplit.setRightComponent(painelAnimais);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.setSize(700,450);
 
     }
 
@@ -21,6 +29,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        painelSplit = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         MenuPricipal = new javax.swing.JMenuBar();
         MenuSistema = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -35,6 +49,35 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(700, 450));
+
+        painelSplit.setDividerLocation(170);
+        painelSplit.setDividerSize(0);
+        painelSplit.setMinimumSize(new java.awt.Dimension(170, 400));
+        painelSplit.setPreferredSize(new java.awt.Dimension(700, 350));
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(170, 400));
+        jPanel1.setPreferredSize(new java.awt.Dimension(170, 400));
+
+        jButton1.setText("Clientes");
+        jButton1.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(jButton1);
+
+        jButton2.setText("Produtos");
+        jButton2.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(jButton2);
+
+        jButton3.setText("Serviços");
+        jButton3.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(jButton3);
+
+        jButton4.setText("Vendas");
+        jButton4.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(jButton4);
+
+        painelSplit.setLeftComponent(jPanel1);
+
+        getContentPane().add(painelSplit, java.awt.BorderLayout.CENTER);
 
         MenuSistema.setText("Sistema");
 
@@ -78,24 +121,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(MenuPricipal);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        CadastroCliente cadastrocliente = new CadastroCliente();
-        cadastrocliente.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -109,6 +138,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuItemLogout;
     private javax.swing.JMenuBar MenuPricipal;
     private javax.swing.JMenu MenuSistema;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -117,6 +150,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSplitPane painelSplit;
     // End of variables declaration//GEN-END:variables
 
 }
