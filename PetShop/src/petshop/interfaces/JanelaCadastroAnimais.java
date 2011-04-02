@@ -4,9 +4,9 @@
  */
 
 /*
- * PainelCadastroAnimais.java
+ * JanelaCadastroAnimais.java
  *
- * Created on Mar 30, 2011, 3:02:32 PM
+ * Created on Apr 2, 2011, 6:41:55 PM
  */
 
 package petshop.interfaces;
@@ -15,10 +15,10 @@ package petshop.interfaces;
  *
  * @author arthur
  */
-public class PainelCadastroAnimais extends javax.swing.JPanel {
+public class JanelaCadastroAnimais extends javax.swing.JFrame {
 
-    /** Creates new form PainelCadastroAnimais */
-    public PainelCadastroAnimais() {
+    /** Creates new form JanelaCadastroAnimais */
+    public JanelaCadastroAnimais() {
         initComponents();
     }
 
@@ -32,104 +32,87 @@ public class PainelCadastroAnimais extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel1 = new javax.swing.JPanel();
         campoNome = new javax.swing.JTextField();
-        campoReg = new javax.swing.JTextField();
-        botaoPesquisar = new javax.swing.JButton();
         campoRaca = new javax.swing.JTextField();
         comboTipo = new javax.swing.JComboBox();
         botaoLimpar = new javax.swing.JButton();
-        campoIdade = new javax.swing.JTextField();
+        campoDataNasc = new javax.swing.JTextField();
         botaoCadastrar = new javax.swing.JButton();
         comboSexo = new javax.swing.JComboBox();
         areaObservacao = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
-        setLayout(new java.awt.GridBagLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Adicionar Animal");
+        setResizable(false);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         campoNome.setText("Nome");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 115;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        add(campoNome, gridBagConstraints);
-
-        campoReg.setText("Reg. Dono");
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 15;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
-        add(campoReg, gridBagConstraints);
-
-        botaoPesquisar.setText("Pesquisar");
-        botaoPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoPesquisarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        add(botaoPesquisar, gridBagConstraints);
+        gridBagConstraints.ipadx = 115;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        jPanel1.add(campoNome, gridBagConstraints);
 
         campoRaca.setText("Raça");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 80;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        add(campoRaca, gridBagConstraints);
+        jPanel1.add(campoRaca, gridBagConstraints);
 
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tipo", "Cão", "Gato", "Ave", "Roedor" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 20;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        add(comboTipo, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        jPanel1.add(comboTipo, gridBagConstraints);
 
         botaoLimpar.setText("Limpar");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(botaoLimpar, gridBagConstraints);
+        jPanel1.add(botaoLimpar, gridBagConstraints);
 
-        campoIdade.setText("Idade");
+        campoDataNasc.setText("Data de Nasc.");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        add(campoIdade, gridBagConstraints);
+        gridBagConstraints.ipadx = 80;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        jPanel1.add(campoDataNasc, gridBagConstraints);
 
         botaoCadastrar.setText("Cadastrar");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 45;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(botaoCadastrar, gridBagConstraints);
+        jPanel1.add(botaoCadastrar, gridBagConstraints);
 
         comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sexo", "Macho", "Fêmea" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 35;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        add(comboSexo, gridBagConstraints);
+        jPanel1.add(comboSexo, gridBagConstraints);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -139,30 +122,39 @@ public class PainelCadastroAnimais extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 150;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        add(areaObservacao, gridBagConstraints);
+        jPanel1.add(areaObservacao, gridBagConstraints);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botaoPesquisarActionPerformed
-
+    /**
+    * @param args the command line arguments
+    */
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new JanelaCadastroAnimais().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane areaObservacao;
     private javax.swing.JButton botaoCadastrar;
     private javax.swing.JButton botaoLimpar;
-    private javax.swing.JButton botaoPesquisar;
-    private javax.swing.JTextField campoIdade;
+    private javax.swing.JTextField campoDataNasc;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoRaca;
-    private javax.swing.JTextField campoReg;
     private javax.swing.JComboBox comboSexo;
     private javax.swing.JComboBox comboTipo;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
