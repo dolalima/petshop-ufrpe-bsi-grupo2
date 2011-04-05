@@ -4,13 +4,18 @@ import javax.swing.JFrame;
 
 
 public class JanelaPrincipal extends javax.swing.JFrame {
+    
+    PainelConsultaClientes painelClientes;
+    PainelConsultaProdutos painelProdutos;
 
     public JanelaPrincipal() {
         initComponents();
         this.setTitle("Menu Principal");
         
-        PainelConsulta painelAnimais = new PainelConsulta();
-        painelSplit.setRightComponent(painelAnimais);
+        painelClientes = new PainelConsultaClientes();
+        painelProdutos = new PainelConsultaProdutos();
+        
+        painelSplit.setRightComponent(painelClientes);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setSize(700,450);
@@ -23,10 +28,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         painelSplit = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        botaoClientes = new javax.swing.JButton();
+        botaoProdutos = new javax.swing.JButton();
+        botaoServicos = new javax.swing.JButton();
+        botaoVendas = new javax.swing.JButton();
         MenuPricipal = new javax.swing.JMenuBar();
         MenuSistema = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -51,21 +56,31 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(170, 400));
         jPanel1.setPreferredSize(new java.awt.Dimension(170, 400));
 
-        jButton1.setText("Clientes");
-        jButton1.setPreferredSize(new java.awt.Dimension(150, 40));
-        jPanel1.add(jButton1);
+        botaoClientes.setText("Clientes");
+        botaoClientes.setPreferredSize(new java.awt.Dimension(150, 40));
+        botaoClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoClientesMouseClicked(evt);
+            }
+        });
+        jPanel1.add(botaoClientes);
 
-        jButton2.setText("Produtos");
-        jButton2.setPreferredSize(new java.awt.Dimension(150, 40));
-        jPanel1.add(jButton2);
+        botaoProdutos.setText("Produtos");
+        botaoProdutos.setPreferredSize(new java.awt.Dimension(150, 40));
+        botaoProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoProdutosMouseClicked(evt);
+            }
+        });
+        jPanel1.add(botaoProdutos);
 
-        jButton3.setText("Serviços");
-        jButton3.setPreferredSize(new java.awt.Dimension(150, 40));
-        jPanel1.add(jButton3);
+        botaoServicos.setText("Serviços");
+        botaoServicos.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(botaoServicos);
 
-        jButton4.setText("Vendas");
-        jButton4.setPreferredSize(new java.awt.Dimension(150, 40));
-        jPanel1.add(jButton4);
+        botaoVendas.setText("Vendas");
+        botaoVendas.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(botaoVendas);
 
         painelSplit.setLeftComponent(jPanel1);
 
@@ -119,6 +134,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void botaoProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoProdutosMouseClicked
+        if(!painelSplit.getRightComponent().equals(painelProdutos)){
+            painelSplit.setRightComponent(painelProdutos);
+        }
+    }//GEN-LAST:event_botaoProdutosMouseClicked
+
+    private void botaoClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoClientesMouseClicked
+        if(!painelSplit.getRightComponent().equals(painelClientes)){
+            painelSplit.setRightComponent(painelClientes);
+        }
+    }//GEN-LAST:event_botaoClientesMouseClicked
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -126,10 +153,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuItemLogout;
     private javax.swing.JMenuBar MenuPricipal;
     private javax.swing.JMenu MenuSistema;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton botaoClientes;
+    private javax.swing.JButton botaoProdutos;
+    private javax.swing.JButton botaoServicos;
+    private javax.swing.JButton botaoVendas;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
