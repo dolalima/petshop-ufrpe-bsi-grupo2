@@ -2,15 +2,13 @@ package petshop.interfaces;
 
 import java.awt.Dimension;
 
-
+@SuppressWarnings("serial")
 public class PainelConsulta extends javax.swing.JPanel {
 
     public PainelConsulta() {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
