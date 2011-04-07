@@ -4,15 +4,15 @@ import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
 
+@SuppressWarnings("serial")
 public class JanelaCadastroAnimais extends javax.swing.JDialog {
 
-    public JanelaCadastroAnimais() {
+
+	public JanelaCadastroAnimais() {
         initComponents();
     }
 
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 

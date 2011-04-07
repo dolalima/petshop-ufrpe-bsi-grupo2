@@ -2,7 +2,7 @@ package petshop.interfaces;
 
 import javax.swing.JFrame;
 
-
+@SuppressWarnings("serial")
 public class JanelaPrincipal extends javax.swing.JFrame {
     
     PainelConsultaClientes painelClientes;
@@ -22,8 +22,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         painelSplit = new javax.swing.JSplitPane();

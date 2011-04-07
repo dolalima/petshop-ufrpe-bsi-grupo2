@@ -1,6 +1,6 @@
 package petshop.interfaces;
 
-
+@SuppressWarnings("serial")
 public class PainelConsultaClientes extends PainelConsulta {
 
     public PainelConsultaClientes(){

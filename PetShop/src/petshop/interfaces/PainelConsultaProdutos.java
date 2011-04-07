@@ -3,7 +3,7 @@ package petshop.interfaces;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
-
+@SuppressWarnings("serial")
 public class PainelConsultaProdutos extends PainelConsulta {
     
     private JTextField campoAcimaDe;
