@@ -13,10 +13,11 @@ public class Cliente{
     private int codigo;
     private String nome;
     private String sexo;
-    private String endereco;
+    private String rua;
     private int num;
     private String complemento;
     private String bairro;
+    private String cidade;
     private String uf;
     private String cep;
     private String email;
@@ -29,28 +30,29 @@ public class Cliente{
     
     
     
-    
-	public Cliente(int codigo, String nome, String sexo, String endereco,
-			int num, String complemento, String bairro, String uf, String cep,
-			String email, String informacoes, int rg, CPF cpf, int[] telefone,
-			int[] celular, Animal[] animals) {
-		super();
-		this.codigo = codigo;
-		this.nome = nome;
-		this.sexo = sexo;
-		this.endereco = endereco;
-		this.num = num;
-		this.complemento = complemento;
-		this.bairro = bairro;
-		this.uf = uf;
-		this.cep = cep;
-		this.email = email;
-		this.informacoes = informacoes;
-		this.rg = rg;
-		this.cpf = cpf;
-		this.telefone = telefone;
-		this.celular = celular;
-		this.animals = animals;
+    public Cliente(int codigo, String nome, String sexo, String endereco,
+            int num, String complemento, String bairro,String cidade, String uf, String cep,
+            String email, String informacoes, int rg, CPF cpf, int[] telefone,
+            int[] celular, Animal[] animals) {
+
+        super();
+        this.codigo = codigo;
+        this.nome = nome;
+        this.sexo = sexo;
+        this.rua = rua;
+        this.num = num;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.cep = cep;
+        this.email = email;
+        this.informacoes = informacoes;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.celular = celular;
+	this.animals = animals;
 	}
 	
 	
@@ -72,11 +74,11 @@ public class Cliente{
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public String getEndereco() {
-		return endereco;
+	public String getRua() {
+		return rua;
 	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+	public void setRua(String rua) {
+		this.rua = rua;
 	}
 	public int getNum() {
 		return num;
@@ -96,6 +98,12 @@ public class Cliente{
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
+        public void setCidade(String cidade){
+            this.cidade =cidade;
+        }
+        public String getCidade(){
+            return cidade;
+        }
 	public String getUf() {
 		return uf;
 	}
