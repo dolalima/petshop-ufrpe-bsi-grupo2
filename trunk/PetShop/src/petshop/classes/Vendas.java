@@ -2,10 +2,32 @@ package petshop.classes;
 
 import java.util.Date;
 
+/**
+ *
+ * @author arthur
+ */
 public class Vendas {
 	
-	public enum Pagamento {DINHEIRO, CHEQUE, CARTAO};
-	
+    /**
+     * 
+     */
+    public enum Pagamento {
+
+        /**
+         * 
+         */
+        DINHEIRO,
+        /**
+         *
+         */
+        CHEQUE,
+        /**
+         * 
+         */
+        CARTAO
+    };
+
+        
 	private Pagamento tipoPagamento;
 	private boolean parcelado;
 	private Date data;
@@ -13,7 +35,15 @@ public class Vendas {
 	private CarrinhoDeCompras[] carrinho;
 	
 		
-	public Vendas(Pagamento tipoPagamento, boolean parcelado, Date data,
+        /**
+         *
+         * @param tipoPagamento
+         * @param parcelado
+         * @param data
+         * @param cliente
+         * @param carrinho
+         */
+        public Vendas(Pagamento tipoPagamento, boolean parcelado, Date data,
 			Cliente cliente, CarrinhoDeCompras[] carrinho) {
 		super();
 		this.tipoPagamento = tipoPagamento;
@@ -24,48 +54,100 @@ public class Vendas {
 	}
 	
 	
-	public Pagamento getTipoPagamento() {
+        /**
+         *
+         * @return
+         */
+        public Pagamento getTipoPagamento() {
 		return tipoPagamento;
 	}
-	public void setTipoPagamento(Pagamento tipoPagamento) {
+        /**
+         *
+         * @param tipoPagamento
+         */
+        public void setTipoPagamento(Pagamento tipoPagamento) {
 		this.tipoPagamento = tipoPagamento;
 	}
 	
-	public boolean isParcelado() {
+        /**
+         * retornar se a venda esta com parcelamento ou nao.
+         * 
+         * 
+         * 
+         * 
+         *
+         */
+        public boolean isParcelado() {
 		return parcelado;
 	}
-	public void setParcelado(boolean parcelado) {
+        /**
+         *
+         * 
+         */
+        public void setParcelado(boolean parcelado) {
 		this.parcelado = parcelado;
 	}
 	
-	public Date getData() {
+        /**
+         *metodo 
+         * @return retorna
+         */
+        public Date getData() {
 		return data;
 	}
-	public void setData(Date data) {
+        /**
+         *
+         * @param data
+         */
+        public void setData(Date data) {
 		this.data = data;
 	}
 	
-	public Cliente getCliente() {
+        /**
+         *
+         * @return
+         */
+        public Cliente getCliente() {
 		return cliente;
 	}
-	public void setCliente(Cliente cliente) {
+        /**
+         *
+         * @param cliente
+         */
+        public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 	
-	public CarrinhoDeCompras[] getCarrinho() {
+        /**
+         *
+         * @return
+         */
+        public CarrinhoDeCompras[] getCarrinho() {
 		return carrinho;
 	}
-	public void setCarrinho(CarrinhoDeCompras[] carrinho) {
+        /**
+         *
+         * @param carrinho
+         */
+        public void setCarrinho(CarrinhoDeCompras[] carrinho) {
 		this.carrinho = carrinho;
 	}
 	
-	
-	public double total(){
+
+        /**
+         *
+         * @return
+         */
+        public double total(){
 		
 		return 0;
 	}
 	
-	public boolean cadastrarVenda(){
+        /**
+         *
+         * @return
+         */
+        public boolean cadastrarVenda(){
 		
 		return true;
 	}

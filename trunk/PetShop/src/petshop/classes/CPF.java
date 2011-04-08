@@ -1,24 +1,44 @@
 package petshop.classes;
 
+/**
+ *
+ * @author arthur
+ */
 public class CPF {
 	
 	private String cpf;
 
 	
-	public CPF(String cpf) {
+        /**
+         *
+         * @param cpf
+         */
+        public CPF(String cpf) {
 		super();
 		this.cpf = cpf;
 	}
 
-	public void setCpf(String cpf) {
+        /**
+         *
+         * @param cpf
+         */
+        public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
-	public String getCpf() {
+        /**
+         *
+         * @return cpf
+         */
+        public String getCpf() {
 		return cpf;
 	}
 	
-	public boolean verificaValidade(){
+        /**
+         *
+         * @return
+         */
+        public boolean verificaValidade(){
 		
 		return true;
 	}

@@ -1,4 +1,4 @@
-package petshop.interfaces;
+package petshop.gui;
 
 /**
  *

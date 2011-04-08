@@ -2,6 +2,10 @@ package petshop.classes;
 
 import java.util.Date;
 
+/**
+ * dwusiwnbeyweuben
+ * d hcndusi
+ */
 public class Animal {
 	
 	private int codigo;
@@ -13,9 +17,19 @@ public class Animal {
 	private Date dataNasc;
 	
 	
-	public Animal(int codigo, String nome, String especie, String raca,
+        /**
+         *
+         * @param codigo byuwbcyeduwcb
+         * @param nome ytwg
+         * @param especie brweub
+         * @param raca
+         * @param info
+         * @param sexo
+         * @param dataNasc
+         */
+        public Animal(int codigo, String nome, String especie, String raca,
 			String info, String sexo, Date dataNasc) {
-		super();
+		
 		this.codigo = codigo;
 		this.nome = nome;
 		this.especie = especie;
@@ -26,46 +40,102 @@ public class Animal {
 	}
 	
 	
-	public int getCodigo() {
+        /**
+         *
+         * @return codigo: ébeunbsced
+         */
+        public int getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(int codigo) {
+        /**
+         *
+         * @param codigo
+         */
+        public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	public String getNome() {
+        /**
+         *
+         * @return
+         */
+        public String getNome() {
 		return nome;
 	}
-	public void setNome(String nome) {
+        /**
+         *
+         * @param nome
+         */
+        public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getEspecie() {
+        /**
+         *
+         * @return
+         */
+        public String getEspecie() {
 		return especie;
 	}
-	public void setEspecie(String especie) {
+        /**
+         *
+         * @param especie
+         */
+        public void setEspecie(String especie) {
 		this.especie = especie;
 	}
-	public String getRaca() {
+        /**
+         *
+         * @return
+         */
+        public String getRaca() {
 		return raca;
 	}
-	public void setRaca(String raca) {
+        /**
+         *
+         * @param raca
+         */
+        public void setRaca(String raca) {
 		this.raca = raca;
 	}
-	public String getInfo() {
+        /**
+         *
+         * @return
+         */
+        public String getInfo() {
 		return info;
 	}
-	public void setInfo(String info) {
+        /**
+         *
+         * @param info
+         */
+        public void setInfo(String info) {
 		this.info = info;
 	}
-	public String getSexo() {
+        /**
+         *
+         * @return
+         */
+        public String getSexo() {
 		return sexo;
 	}
-	public void setSexo(String sexo) {
+        /**
+         *
+         * @param sexo
+         */
+        public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public Date getDataNasc() {
+        /**
+         *
+         * @return
+         */
+        public Date getDataNasc() {
 		return dataNasc;
 	}
-	public void setDataNasc(Date dataNasc) {
+        /**
+         *
+         * @param dataNasc
+         */
+        public void setDataNasc(Date dataNasc) {
 		this.dataNasc = dataNasc;
 	}
 	

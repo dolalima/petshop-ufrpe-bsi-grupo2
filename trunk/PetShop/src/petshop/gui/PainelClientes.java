@@ -1,9 +1,9 @@
-package petshop.interfaces;
+package petshop.gui;
 
 @SuppressWarnings("serial")
-public class PainelConsultaClientes extends PainelConsulta {
+public class PainelClientes extends Painel {
 
-    public PainelConsultaClientes(){
+    public PainelClientes(){
         super();
 
         comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(
@@ -39,7 +39,7 @@ public class PainelConsultaClientes extends PainelConsulta {
 
 
     private void botaoNovoEvento(java.awt.event.MouseEvent evt) {
-        JanelaCadastroClientes cadastro = new JanelaCadastroClientes();
+        JanelaCadastroCliente cadastro = new JanelaCadastroCliente();
 
         cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         cadastro.setModal(true);
