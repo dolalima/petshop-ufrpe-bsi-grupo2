@@ -159,6 +159,9 @@
                   <Dimension value="[150, 40]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoServicosMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoVendas">
               <Properties>
@@ -167,6 +170,9 @@
                   <Dimension value="[150, 40]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoVendasMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

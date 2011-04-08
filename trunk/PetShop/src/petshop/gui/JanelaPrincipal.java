@@ -19,16 +19,20 @@ import javax.swing.JFrame;
  */
 public class JanelaPrincipal extends javax.swing.JFrame {
 
-    PainelClientes painelClientes;
-    PainelProdutos painelProdutos;
+    PainelConsultaClientes painelClientes;
+    PainelConsultaProdutos painelProdutos;
+    PainelConsultaServicos painelServicos;
+    PainelConsultaVendas painelVendas;
 
     /** Creates new form JanelaPrincipal */
     public JanelaPrincipal() {
         initComponents();
         this.setTitle("Menu Principal");
         
-        painelClientes = new PainelClientes();
-        painelProdutos = new PainelProdutos();
+        painelClientes = new PainelConsultaClientes();
+        painelProdutos = new PainelConsultaProdutos();
+        painelServicos = new PainelConsultaServicos();
+        painelVendas = new PainelConsultaVendas();
         
         painelSplit.setRightComponent(painelClientes);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,10 +100,20 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         botaoServicos.setText("Serviços");
         botaoServicos.setPreferredSize(new java.awt.Dimension(150, 40));
+        botaoServicos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoServicosMouseClicked(evt);
+            }
+        });
         jPanel1.add(botaoServicos);
 
         botaoVendas.setText("Vendas");
         botaoVendas.setPreferredSize(new java.awt.Dimension(150, 40));
+        botaoVendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoVendasMouseClicked(evt);
+            }
+        });
         jPanel1.add(botaoVendas);
 
         painelSplit.setLeftComponent(jPanel1);
@@ -166,6 +180,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             painelSplit.setRightComponent(painelProdutos);
         }
 }//GEN-LAST:event_botaoProdutosMouseClicked
+
+    private void botaoServicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoServicosMouseClicked
+        if(!painelSplit.getRightComponent().equals(painelServicos)){
+            painelSplit.setRightComponent(painelServicos);
+        }
+    }//GEN-LAST:event_botaoServicosMouseClicked
+
+    private void botaoVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoVendasMouseClicked
+        if(!painelSplit.getRightComponent().equals(painelVendas)){
+            painelSplit.setRightComponent(painelVendas);
+        }
+    }//GEN-LAST:event_botaoVendasMouseClicked
 
     /**
     * @param args the command line arguments

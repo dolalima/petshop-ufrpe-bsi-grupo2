@@ -18,7 +18,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author arthur
  */
-public class JanelaCadastroServico extends javax.swing.JFrame {
+public class JanelaCadastroServico extends javax.swing.JDialog {
 
     /** Creates new form JanelaCadastroServico */
     public JanelaCadastroServico() {
