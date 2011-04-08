@@ -15,11 +15,24 @@ package petshop.gui;
  *
  * @author arthur
  */
-public class JanelaVenda extends javax.swing.JFrame {
+public class JanelaVenda extends javax.swing.JDialog {
+
+    JanelaAdicionaProduto adicionaProduto;
+    JanelaAdicionaServico adicionaServico;
+    JanelaAdicionaAnimal adicionaAnimal;
+    JanelaAdicionaCliente adicionaCliente;
 
     /** Creates new form JanelaVenda */
     public JanelaVenda() {
         initComponents();
+
+        adicionaServico = new JanelaAdicionaServico();
+        adicionaProduto = new JanelaAdicionaProduto();
+        adicionaAnimal = new JanelaAdicionaAnimal();
+        adicionaCliente = new JanelaAdicionaCliente();
+
+        campoAnimal.setVisible(false);
+        botaoPesquisarAnimal.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -48,13 +61,19 @@ public class JanelaVenda extends javax.swing.JFrame {
         botaoCancelar = new javax.swing.JButton();
         botaoPagar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nova Venda");
         setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         botaoPesquisarCliente.setText("Pesquisar");
+        botaoPesquisarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoPesquisarClienteMouseClicked(evt);
+            }
+        });
         botaoPesquisarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoPesquisarClienteActionPerformed(evt);
@@ -75,6 +94,11 @@ public class JanelaVenda extends javax.swing.JFrame {
         jPanel1.add(labelCliente, gridBagConstraints);
 
         comboTipoCarrinho.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Produto", "Serviço" }));
+        comboTipoCarrinho.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboTipoCarrinhoItemStateChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -96,6 +120,11 @@ public class JanelaVenda extends javax.swing.JFrame {
         botaoPesquisaItem.setText("P");
         botaoPesquisaItem.setMinimumSize(new java.awt.Dimension(24, 24));
         botaoPesquisaItem.setPreferredSize(new java.awt.Dimension(24, 24));
+        botaoPesquisaItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoPesquisaItemMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -116,6 +145,11 @@ public class JanelaVenda extends javax.swing.JFrame {
         botaoPesquisarAnimal.setText("P");
         botaoPesquisarAnimal.setMinimumSize(new java.awt.Dimension(24, 24));
         botaoPesquisarAnimal.setPreferredSize(new java.awt.Dimension(24, 24));
+        botaoPesquisarAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoPesquisarAnimalMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
@@ -163,7 +197,7 @@ public class JanelaVenda extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel1.add(botaoRemover, gridBagConstraints);
 
-        labelTotal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        labelTotal.setFont(new java.awt.Font("Ubuntu", 0, 18));
         labelTotal.setForeground(new java.awt.Color(225, 1, 1));
         labelTotal.setText("Total 00.00");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -200,6 +234,39 @@ public class JanelaVenda extends javax.swing.JFrame {
     private void botaoPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botaoPesquisarClienteActionPerformed
+
+    private void comboTipoCarrinhoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoCarrinhoItemStateChanged
+        if(comboTipoCarrinho.getSelectedIndex() == 0){
+            campoAnimal.setVisible(false);
+            botaoPesquisarAnimal.setVisible(false);
+        } else {
+            campoAnimal.setVisible(true);
+            botaoPesquisarAnimal.setVisible(true);
+        }
+    }//GEN-LAST:event_comboTipoCarrinhoItemStateChanged
+
+    private void botaoPesquisaItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisaItemMouseClicked
+        JanelaAdiciona adiciona;
+
+        if(comboTipoCarrinho.getSelectedIndex() == 0) adiciona = adicionaProduto;
+        else adiciona = adicionaServico;
+
+        adiciona.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        adiciona.setModal(true);
+        adiciona.setVisible(true);
+    }//GEN-LAST:event_botaoPesquisaItemMouseClicked
+
+    private void botaoPesquisarAnimalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisarAnimalMouseClicked
+        adicionaAnimal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        adicionaAnimal.setModal(true);
+        adicionaAnimal.setVisible(true);
+    }//GEN-LAST:event_botaoPesquisarAnimalMouseClicked
+
+    private void botaoPesquisarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisarClienteMouseClicked
+        adicionaCliente.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        adicionaCliente.setModal(true);
+        adicionaCliente.setVisible(true);
+    }//GEN-LAST:event_botaoPesquisarClienteMouseClicked
 
     /**
     * @param args the command line arguments

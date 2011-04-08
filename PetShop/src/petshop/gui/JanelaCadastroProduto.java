@@ -36,10 +36,10 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Produto");
-        setMinimumSize(new java.awt.Dimension(480, 280));
+        setMinimumSize(new java.awt.Dimension(400, 250));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(320, 200));
+        jPanel1.setPreferredSize(new java.awt.Dimension(255, 152));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         campoNome.setText("Nome");
