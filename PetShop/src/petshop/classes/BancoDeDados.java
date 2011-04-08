@@ -29,7 +29,7 @@ public abstract class BancoDeDados {
     private ResultSetMetaData resultsetmetadata = null;
 
     /**Metodo para conectar o sistema ao banco de dados.**/
-    public void Conect(){
+    public void conectar(){
         try{
             this.connection = DriverManager.getConnection(DATABASE_URL,
                     "root",
@@ -46,7 +46,7 @@ public abstract class BancoDeDados {
      *
      * @param cliente
      */
-    public void CadastraCliente(Cliente cliente){
+    public void cadastrar(Cliente cliente){
         String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,bairro,cidade,cep)"+
                 "VALUES ("+cliente.getNome()+","+cliente.getCpf()+
                 ","+cliente.getRg()+","+cliente.getRua()+","+cliente.getBairro()+
@@ -58,7 +58,7 @@ public abstract class BancoDeDados {
      *
      * @param produto
      */
-    public void CadastraProduto(Produto produto){
+    public void cadastrar(Produto produto){
         String cmd = "INSERT INTO produto () VALUES ()";
         this.ExecuteSQLCmd(cmd);
     }
@@ -67,7 +67,7 @@ public abstract class BancoDeDados {
      *
      * @param servico
      **/
-    public void CadastraServico(Servico servico){
+    public void cadastrar(Servico servico){
         String cmd = "INSERT INTO servico () VALUES ()";
         this.ExecuteSQLCmd(cmd);
     }

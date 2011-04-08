@@ -7,7 +7,7 @@ package petshop;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import petshop.interfaces.JanelaPrincipal;
+import petshop.gui.JanelaPrincipal;
 
 /**
  *

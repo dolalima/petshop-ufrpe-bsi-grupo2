@@ -9,7 +9,7 @@
  * Created on Apr 7, 2011, 1:45:47 PM
  */
 
-package petshop.interfaces;
+package petshop.gui;
 
 import javax.swing.JFrame;
 

@@ -1,16 +1,16 @@
-package petshop.interfaces;
+package petshop.gui;
 
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class PainelConsultaProdutos extends PainelConsulta {
+public class PainelProdutos extends Painel {
     
     private JTextField campoAcimaDe;
     private JTextField campoAbaixoDe;
     private java.awt.GridBagConstraints gridBagConstraints;
 
-    public PainelConsultaProdutos(){
+    public PainelProdutos(){
         super();
         
         campoAcimaDe = new JTextField("Acima de");
@@ -72,7 +72,7 @@ public class PainelConsultaProdutos extends PainelConsulta {
 
 
     private void botaoNovoEvento(java.awt.event.MouseEvent evt) {
-        JanelaCadastroProdutos cadastro = new JanelaCadastroProdutos();
+        JanelaCadastroProduto cadastro = new JanelaCadastroProduto();
 
         cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         cadastro.setModal(true);

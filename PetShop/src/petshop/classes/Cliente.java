@@ -52,7 +52,7 @@ public class Cliente{
         this.cpf = cpf;
         this.telefone = telefone;
         this.celular = celular;
-	this.animals = animals;
+        this.animals = animals;
 	}
 	
 	
