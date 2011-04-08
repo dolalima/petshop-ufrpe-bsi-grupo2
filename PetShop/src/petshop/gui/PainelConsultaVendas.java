@@ -3,16 +3,19 @@ package petshop.gui;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
-@SuppressWarnings("serial")
-public class PainelProdutos extends Painel {
-    
+public class PainelConsultaVendas extends PainelConsulta {
+
     private JTextField campoAcimaDe;
     private JTextField campoAbaixoDe;
     private java.awt.GridBagConstraints gridBagConstraints;
 
-    public PainelProdutos(){
+    JanelaVenda cadastro;
+
+    public PainelConsultaVendas(){
         super();
-        
+
+        cadastro = new JanelaVenda();
+
         campoAcimaDe = new JTextField("Acima de");
         campoAbaixoDe = new JTextField("Abaixo de");
 
@@ -31,7 +34,7 @@ public class PainelProdutos extends Painel {
 
 
         comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "Código", "Nome", "Preço de Custo", "Preço de Venda" }));
+                new String[] { "Código", "Cliente", "Total" }));
 
         comboPesquisa.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -43,22 +46,9 @@ public class PainelProdutos extends Painel {
         comboPesquisa.setMinimumSize(new Dimension(66,24));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null},
-                {null, null, null, null}, {null, null, null, null}, {null, null, null, null}
-            },
+            new Object [][] {  },
             new String [] {
-                "Código", "Nome", "CPF", "RG"
+                "Código", "Cliente", "Total"
             }
         ));
 
@@ -72,8 +62,7 @@ public class PainelProdutos extends Painel {
 
 
     private void botaoNovoEvento(java.awt.event.MouseEvent evt) {
-        JanelaCadastroProduto cadastro = new JanelaCadastroProduto();
-
+        
         cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         cadastro.setModal(true);
         cadastro.setVisible(true);
@@ -81,8 +70,8 @@ public class PainelProdutos extends Painel {
 
 
    private void comboPesquisaEvento(java.awt.event.ItemEvent evt){
-       
-       if(comboPesquisa.getSelectedIndex() >= 2){
+
+       if(comboPesquisa.getSelectedIndex() == 2){
            campoPesquisa.setVisible(false);
            campoAcimaDe.setVisible(true);
            campoAbaixoDe.setVisible(true);
