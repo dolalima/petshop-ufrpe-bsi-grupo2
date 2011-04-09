@@ -1,18 +1,30 @@
 package petshop.classes;
 
-public class CarrinhoServicos extends CarrinhoDeCompras {
+/**
+ * @author arthur
+ *
+ */
+public class CarrinhoServicos {
 	
 	private Animal animal;
 
-	public CarrinhoServicos(ItemVenda item, Animal animal) {
-		super(item);
+	/**
+	 * @param animal
+	 */
+	public CarrinhoServicos(Animal animal) {
 		this.animal = animal;
 	}
 
+	/**
+	 * @return
+	 */
 	public Animal getAnimal() {
 		return animal;
 	}
 
+	/**
+	 * @param animal
+	 */
 	public void setAnimal(Animal animal) {
 		this.animal = animal;
 	}

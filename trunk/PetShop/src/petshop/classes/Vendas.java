@@ -8,148 +8,108 @@ import java.util.Date;
  */
 public class Vendas {
 	
-    /**
-     * 
-     */
-    public enum Pagamento {
-
-        /**
-         * 
-         */
-        DINHEIRO,
-        /**
-         *
-         */
-        CHEQUE,
-        /**
-         * 
-         */
-        CARTAO
-    };
-
         
 	private Pagamento tipoPagamento;
 	private boolean parcelado;
 	private Date data;
 	private Cliente cliente;
-	private CarrinhoDeCompras[] carrinho;
+	private CarrinhoProdutos produtos;
+	private CarrinhoServicos servicos;
 	
-		
-        /**
-         *
-         * @param tipoPagamento
-         * @param parcelado
-         * @param data
-         * @param cliente
-         * @param carrinho
-         */
-        public Vendas(Pagamento tipoPagamento, boolean parcelado, Date data,
-			Cliente cliente, CarrinhoDeCompras[] carrinho) {
+	
+	/**
+	 * @param tipoPagamento
+	 * @param parcelado
+	 * @param data
+	 * @param cliente
+	 * @param produtos
+	 * @param servicos
+	 */
+	public Vendas(Pagamento tipoPagamento, boolean parcelado, Date data,
+			Cliente cliente, CarrinhoProdutos produtos,
+			CarrinhoServicos servicos) {
 		super();
 		this.tipoPagamento = tipoPagamento;
 		this.parcelado = parcelado;
 		this.data = data;
 		this.cliente = cliente;
-		this.carrinho = carrinho;
+		this.produtos = produtos;
+		this.servicos = servicos;
 	}
 	
 	
-        /**
-         *
-         * @return
-         */
-        public Pagamento getTipoPagamento() {
+	/**
+	 * @return the tipoPagamento
+	 */
+	public Pagamento getTipoPagamento() {
 		return tipoPagamento;
 	}
-        /**
-         *
-         * @param tipoPagamento
-         */
-        public void setTipoPagamento(Pagamento tipoPagamento) {
+	/**
+	 * @param tipoPagamento the tipoPagamento to set
+	 */
+	public void setTipoPagamento(Pagamento tipoPagamento) {
 		this.tipoPagamento = tipoPagamento;
 	}
-	
-        /**
-         * retornar se a venda esta com parcelamento ou nao.
-         * 
-         * 
-         * 
-         * 
-         *
-         */
-        public boolean isParcelado() {
+	/**
+	 * @return the parcelado
+	 */
+	public boolean isParcelado() {
 		return parcelado;
 	}
-        /**
-         *
-         * 
-         */
-        public void setParcelado(boolean parcelado) {
+	/**
+	 * @param parcelado the parcelado to set
+	 */
+	public void setParcelado(boolean parcelado) {
 		this.parcelado = parcelado;
 	}
-	
-        /**
-         *metodo 
-         * @return retorna
-         */
-        public Date getData() {
+	/**
+	 * @return the data
+	 */
+	public Date getData() {
 		return data;
 	}
-        /**
-         *
-         * @param data
-         */
-        public void setData(Date data) {
+	/**
+	 * @param data the data to set
+	 */
+	public void setData(Date data) {
 		this.data = data;
 	}
-	
-        /**
-         *
-         * @return
-         */
-        public Cliente getCliente() {
+	/**
+	 * @return the cliente
+	 */
+	public Cliente getCliente() {
 		return cliente;
 	}
-        /**
-         *
-         * @param cliente
-         */
-        public void setCliente(Cliente cliente) {
+	/**
+	 * @param cliente the cliente to set
+	 */
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-        /**
-         *
-         * @return
-         */
-        public CarrinhoDeCompras[] getCarrinho() {
-		return carrinho;
+	/**
+	 * @return the produtos
+	 */
+	public CarrinhoProdutos getProdutos() {
+		return produtos;
 	}
-        /**
-         *
-         * @param carrinho
-         */
-        public void setCarrinho(CarrinhoDeCompras[] carrinho) {
-		this.carrinho = carrinho;
+	/**
+	 * @param produtos the produtos to set
+	 */
+	public void setProdutos(CarrinhoProdutos produtos) {
+		this.produtos = produtos;
 	}
-	
+	/**
+	 * @return the servicos
+	 */
+	public CarrinhoServicos getServicos() {
+		return servicos;
+	}
+	/**
+	 * @param servicos the servicos to set
+	 */
+	public void setServicos(CarrinhoServicos servicos) {
+		this.servicos = servicos;
+	}
 
-        /**
-         *
-         * @return
-         */
-        public double total(){
-		
-		return 0;
-	}
-	
-        /**
-         *
-         * @return
-         */
-        public boolean cadastrarVenda(){
-		
-		return true;
-	}
 	
 }

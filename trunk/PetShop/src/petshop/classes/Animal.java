@@ -3,8 +3,8 @@ package petshop.classes;
 import java.util.Date;
 
 /**
- * dwusiwnbeyweuben
- * d hcndusi
+ * @author arthur
+ *
  */
 public class Animal {
 	
@@ -18,10 +18,9 @@ public class Animal {
 	
 	
         /**
-         *
-         * @param codigo byuwbcyeduwcb
-         * @param nome ytwg
-         * @param especie brweub
+         * @param codigo
+         * @param nome
+         * @param especie
          * @param raca
          * @param info
          * @param sexo
@@ -41,98 +40,97 @@ public class Animal {
 	
 	
         /**
-         *
-         * @return codigo: ébeunbsced
+         * @return
          */
         public int getCodigo() {
 		return codigo;
 	}
+
         /**
-         *
          * @param codigo
          */
         public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
+
         /**
-         *
          * @return
          */
         public String getNome() {
 		return nome;
 	}
+
         /**
-         *
          * @param nome
          */
         public void setNome(String nome) {
 		this.nome = nome;
 	}
+
         /**
-         *
          * @return
          */
         public String getEspecie() {
 		return especie;
 	}
+
         /**
-         *
          * @param especie
          */
         public void setEspecie(String especie) {
 		this.especie = especie;
 	}
+
         /**
-         *
          * @return
          */
         public String getRaca() {
 		return raca;
 	}
+
         /**
-         *
          * @param raca
          */
         public void setRaca(String raca) {
 		this.raca = raca;
 	}
+
         /**
-         *
          * @return
          */
         public String getInfo() {
 		return info;
 	}
+
         /**
-         *
          * @param info
          */
         public void setInfo(String info) {
 		this.info = info;
 	}
+
         /**
-         *
          * @return
          */
         public String getSexo() {
 		return sexo;
 	}
+
         /**
-         *
          * @param sexo
          */
         public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
+
         /**
-         *
          * @return
          */
         public Date getDataNasc() {
 		return dataNasc;
 	}
+
         /**
-         *
          * @param dataNasc
          */
         public void setDataNasc(Date dataNasc) {

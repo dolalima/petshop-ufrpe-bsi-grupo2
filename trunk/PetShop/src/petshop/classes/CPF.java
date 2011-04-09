@@ -38,7 +38,7 @@ public class CPF {
          *
          * @return
          */
-        public boolean verificaValidade(){
+        public boolean isValido(){
 		
 		return true;
 	}

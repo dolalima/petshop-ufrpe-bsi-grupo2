@@ -1,163 +1,191 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package petshop.classes;
 
 /**
+ * @author arthur
  *
- * @author Dola
  */
 public class Cliente{
     private int codigo;
     private String nome;
     private String sexo;
-    private String rua;
-    private int num;
-    private String complemento;
-    private String bairro;
-    private String cidade;
-    private String uf;
-    private String cep;
-    private String email;
-    private String informacoes;
+    private Endereco endereco;
     private int rg;
     private CPF cpf;
     private int[] telefone;
     private int[] celular;
-    private Animal[] animals;
+    private Animal[] animais;
+    private String email;
+    private String informacoes;
     
-    
-    
-    public Cliente(int codigo, String nome, String sexo, String endereco,
-            int num, String complemento, String bairro,String cidade, String uf, String cep,
-            String email, String informacoes, int rg, CPF cpf, int[] telefone,
-            int[] celular, Animal[] animals) {
-
-        super();
-        this.codigo = codigo;
-        this.nome = nome;
-        this.sexo = sexo;
-        this.rua = rua;
-        this.num = num;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.uf = uf;
-        this.cep = cep;
-        this.email = email;
-        this.informacoes = informacoes;
-        this.rg = rg;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.celular = celular;
-        this.animals = animals;
+    	
+	/**
+	 * @param codigo
+	 * @param nome
+	 * @param sexo
+	 * @param endereco
+	 * @param email
+	 * @param informacoes
+	 * @param rg
+	 * @param cpf
+	 * @param telefone
+	 * @param celular
+	 * @param animais
+	 */
+	public Cliente(int codigo, String nome, String sexo, Endereco endereco,
+			String email, String informacoes, int rg, CPF cpf, int[] telefone,
+			int[] celular, Animal[] animais) {
+		
+		super();
+		this.codigo = codigo;
+		this.nome = nome;
+		this.sexo = sexo;
+		this.endereco = endereco;
+		this.email = email;
+		this.informacoes = informacoes;
+		this.rg = rg;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.celular = celular;
+		this.animais = animais;
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public int getCodigo() {
 		return codigo;
 	}
+	/**
+	 * @param codigo
+	 */
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
+	/**
+	 * @return
+	 */
 	public String getNome() {
 		return nome;
 	}
+	/**
+	 * @param nome
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	/**
+	 * @return
+	 */
 	public String getSexo() {
 		return sexo;
 	}
+	/**
+	 * @param sexo
+	 */
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public String getRua() {
-		return rua;
+	/**
+	 * @return
+	 */
+	public Endereco getEndereco() {
+		return endereco;
 	}
-	public void setRua(String rua) {
-		this.rua = rua;
+	/**
+	 * @param endereco
+	 */
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
-	public String getComplemento() {
-		return complemento;
-	}
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-	public String getBairro() {
-		return bairro;
-	}
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-        public void setCidade(String cidade){
-            this.cidade =cidade;
-        }
-        public String getCidade(){
-            return cidade;
-        }
-	public String getUf() {
-		return uf;
-	}
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
-	public String getCep() {
-		return cep;
-	}
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+	/**
+	 * @return
+	 */
 	public String getEmail() {
 		return email;
 	}
+	/**
+	 * @param email
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	/**
+	 * @return
+	 */
 	public String getInformacoes() {
 		return informacoes;
 	}
+	/**
+	 * @param informacoes
+	 */
 	public void setInformacoes(String informacoes) {
 		this.informacoes = informacoes;
 	}
+	/**
+	 * @return
+	 */
 	public int getRg() {
 		return rg;
 	}
+	/**
+	 * @param rg
+	 */
 	public void setRg(int rg) {
 		this.rg = rg;
 	}
+	/**
+	 * @return
+	 */
 	public CPF getCpf() {
 		return cpf;
 	}
+	/**
+	 * @param cpf
+	 */
 	public void setCpf(CPF cpf) {
 		this.cpf = cpf;
 	}
+	/**
+	 * @return
+	 */
 	public int[] getTelefone() {
 		return telefone;
 	}
+	/**
+	 * @param telefone
+	 */
 	public void setTelefone(int[] telefone) {
 		this.telefone = telefone;
 	}
+	/**
+	 * @return
+	 */
 	public int[] getCelular() {
 		return celular;
 	}
+	/**
+	 * @param celular
+	 */
 	public void setCelular(int[] celular) {
 		this.celular = celular;
 	}
-	public Animal[] getAnimals() {
-		return animals;
+
+
+	/**
+	 * @return
+	 */
+	public Animal[] getAnimais() {
+		return animais;
 	}
-	public void setAnimals(Animal[] animals) {
-		this.animals = animals;
+
+	/**
+	 * @param animais
+	 */
+	public void setAnimais(Animal[] animais) {
+		this.animais = animais;
 	}
+
     
     
 }

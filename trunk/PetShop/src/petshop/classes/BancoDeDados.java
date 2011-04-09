@@ -42,6 +42,8 @@ public abstract class BancoDeDados {
             System.out.println("Não foi possivel conectar ao banco de dados");
         }
     }
+    
+    
     /**Metodo publico que cadastra um cliente no banco de dados.
      *
      * @param cliente
@@ -49,10 +51,12 @@ public abstract class BancoDeDados {
     public void cadastrar(Cliente cliente){
         String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,bairro,cidade,cep)"+
                 "VALUES ("+cliente.getNome()+","+cliente.getCpf()+
-                ","+cliente.getRg()+","+cliente.getRua()+","+cliente.getBairro()+
-                ","+cliente.getCidade()+","+cliente.getCep()+")";
+                ","+cliente.getRg()+","+cliente.getEndereco().getRua()+","+cliente.getEndereco().getBairro()+
+                ","+cliente.getEndereco().getCidade()+","+cliente.getEndereco().getCep()+")";
         this.ExecuteSQLCmd(cmd);
     }
+    
+    
     /**
      * Metodo publico que cadastra um pruduto no banco de dados.
      *
@@ -62,6 +66,8 @@ public abstract class BancoDeDados {
         String cmd = "INSERT INTO produto () VALUES ()";
         this.ExecuteSQLCmd(cmd);
     }
+    
+    
     /**
      * Metodo publico que cadastra um servico no banco de dados.
      *
@@ -71,6 +77,8 @@ public abstract class BancoDeDados {
         String cmd = "INSERT INTO servico () VALUES ()";
         this.ExecuteSQLCmd(cmd);
     }
+    
+    
     /**Metodo privado que executa comandos SQL a partir de outros metodos
      * no banco de dados e retorna o resultado para a variavel resultset.
      **/
