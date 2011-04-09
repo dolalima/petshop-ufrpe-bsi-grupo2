@@ -1,18 +1,31 @@
 package petshop.classes;
 
-public class CarrinhoProdutos extends CarrinhoDeCompras {
+/**
+ * @author arthur
+ *
+ */
+public class CarrinhoProdutos {
 	
 	private int qtde;
 	
-	public CarrinhoProdutos(ItemVenda item, int qtde) {
-		super(item);
+	/**
+	 * @param qtde
+	 */
+	public CarrinhoProdutos(int qtde) {
+		
 		this.qtde = qtde;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getQtde() {
 		return qtde;
 	}
 
+	/**
+	 * @param qtde
+	 */
 	public void setQtde(int qtde) {
 		this.qtde = qtde;
 	}

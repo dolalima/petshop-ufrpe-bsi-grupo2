@@ -2,20 +2,37 @@ package petshop.classes;
 
 import java.util.Date;
 
+/**
+ * @author arthur
+ *
+ */
 public class Servico extends ItemVenda {
-	
-	private Date data;
+
+	private Date duracao;
 	
 
+	/**
+	 * @param codigo
+	 * @param nome
+	 * @param precoVenda
+	 * @param data
+	 */
 	public Servico(int codigo, String nome, double precoVenda, Date data) {
 		super(codigo, nome, precoVenda);
-		this.data = data;
+		this.duracao = data;
 	}
 	
-	public Date getData() {
-		return data;
+	/**
+	 * @return
+	 */
+	public Date getDuracao() {
+		return duracao;
 	}
-	public void setData(Date data) {
-		this.data = data;
+	
+	/**
+	 * @param data
+	 */
+	public void setDuracao(Date data) {
+		this.duracao = data;
 	}
 }
