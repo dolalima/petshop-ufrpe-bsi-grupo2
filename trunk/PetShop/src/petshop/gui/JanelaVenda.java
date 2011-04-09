@@ -11,6 +11,8 @@
 
 package petshop.gui;
 
+import javax.swing.text.JTextComponent;
+
 /**
  *
  * @author arthur
@@ -19,7 +21,6 @@ public class JanelaVenda extends javax.swing.JDialog {
 
     JanelaAdicionaProduto adicionaProduto;
     JanelaAdicionaServico adicionaServico;
-    JanelaAdicionaAnimal adicionaAnimal;
     JanelaAdicionaCliente adicionaCliente;
 
     /** Creates new form JanelaVenda */
@@ -28,11 +29,9 @@ public class JanelaVenda extends javax.swing.JDialog {
 
         adicionaServico = new JanelaAdicionaServico();
         adicionaProduto = new JanelaAdicionaProduto();
-        adicionaAnimal = new JanelaAdicionaAnimal();
         adicionaCliente = new JanelaAdicionaCliente();
 
-        campoAnimal.setVisible(false);
-        botaoPesquisarAnimal.setVisible(false);
+        comboAnimal.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -51,8 +50,6 @@ public class JanelaVenda extends javax.swing.JDialog {
         comboTipoCarrinho = new javax.swing.JComboBox();
         campoCodigo = new javax.swing.JTextField();
         botaoPesquisaItem = new javax.swing.JButton();
-        campoAnimal = new javax.swing.JTextField();
-        botaoPesquisarAnimal = new javax.swing.JButton();
         botaoAdd = new javax.swing.JButton();
         scrollItens = new javax.swing.JScrollPane();
         tabelaItens = new javax.swing.JTable();
@@ -60,6 +57,8 @@ public class JanelaVenda extends javax.swing.JDialog {
         labelTotal = new javax.swing.JLabel();
         botaoCancelar = new javax.swing.JButton();
         botaoPagar = new javax.swing.JButton();
+        comboAnimal = new javax.swing.JComboBox();
+        campoQtde = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Venda");
@@ -109,6 +108,14 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(comboTipoCarrinho, gridBagConstraints);
 
         campoCodigo.setText("Código");
+        campoCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoPerdeEtiqueta(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoRetornaEtiqueta(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -133,32 +140,10 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel1.add(botaoPesquisaItem, gridBagConstraints);
 
-        campoAnimal.setText("Animal");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 70;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        jPanel1.add(campoAnimal, gridBagConstraints);
-
-        botaoPesquisarAnimal.setText("P");
-        botaoPesquisarAnimal.setMinimumSize(new java.awt.Dimension(24, 24));
-        botaoPesquisarAnimal.setPreferredSize(new java.awt.Dimension(24, 24));
-        botaoPesquisarAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoPesquisarAnimalMouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        jPanel1.add(botaoPesquisarAnimal, gridBagConstraints);
-
         botaoAdd.setText("Adicionar");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -226,6 +211,32 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(botaoPagar, gridBagConstraints);
 
+        comboAnimal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Animal" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 70;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(comboAnimal, gridBagConstraints);
+
+        campoQtde.setText("Qtde");
+        campoQtde.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoPerdeEtiqueta(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoRetornaEtiqueta(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(campoQtde, gridBagConstraints);
+
         getContentPane().add(jPanel1);
 
         pack();
@@ -237,11 +248,9 @@ public class JanelaVenda extends javax.swing.JDialog {
 
     private void comboTipoCarrinhoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoCarrinhoItemStateChanged
         if(comboTipoCarrinho.getSelectedIndex() == 0){
-            campoAnimal.setVisible(false);
-            botaoPesquisarAnimal.setVisible(false);
+            comboAnimal.setVisible(false);
         } else {
-            campoAnimal.setVisible(true);
-            botaoPesquisarAnimal.setVisible(true);
+            comboAnimal.setVisible(true);
         }
     }//GEN-LAST:event_comboTipoCarrinhoItemStateChanged
 
@@ -256,17 +265,27 @@ public class JanelaVenda extends javax.swing.JDialog {
         adiciona.setVisible(true);
     }//GEN-LAST:event_botaoPesquisaItemMouseClicked
 
-    private void botaoPesquisarAnimalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisarAnimalMouseClicked
-        adicionaAnimal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        adicionaAnimal.setModal(true);
-        adicionaAnimal.setVisible(true);
-    }//GEN-LAST:event_botaoPesquisarAnimalMouseClicked
-
     private void botaoPesquisarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisarClienteMouseClicked
         adicionaCliente.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         adicionaCliente.setModal(true);
         adicionaCliente.setVisible(true);
     }//GEN-LAST:event_botaoPesquisarClienteMouseClicked
+
+    private void campoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoPerdeEtiqueta
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().equals(getEtiqueta(campo))){
+            campo.setText("");
+        }
+    }//GEN-LAST:event_campoPerdeEtiqueta
+
+    private void campoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoRetornaEtiqueta
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().equals("")){
+            campo.setText(getEtiqueta(campo));
+        }
+    }//GEN-LAST:event_campoRetornaEtiqueta
 
     /**
     * @param args the command line arguments
@@ -284,11 +303,11 @@ public class JanelaVenda extends javax.swing.JDialog {
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoPagar;
     private javax.swing.JButton botaoPesquisaItem;
-    private javax.swing.JButton botaoPesquisarAnimal;
     private javax.swing.JButton botaoPesquisarCliente;
     private javax.swing.JButton botaoRemover;
-    private javax.swing.JTextField campoAnimal;
     private javax.swing.JTextField campoCodigo;
+    private javax.swing.JTextField campoQtde;
+    private javax.swing.JComboBox comboAnimal;
     private javax.swing.JComboBox comboTipoCarrinho;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelCliente;
@@ -304,5 +323,13 @@ public class JanelaVenda extends javax.swing.JDialog {
     public void setLabelTotal(double valor){
         
         labelTotal.setText("Total " + valor);        
+    }
+    
+    private String getEtiqueta(JTextComponent campo){
+
+        if(campo.equals(campoCodigo)) return "Código";
+        else if(campo.equals(campoQtde)) return "Qtde";
+
+        return "";
     }
 }

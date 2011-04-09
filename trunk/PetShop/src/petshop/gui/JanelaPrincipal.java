@@ -35,6 +35,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         painelVendas = new PainelConsultaVendas();
         
         painelSplit.setRightComponent(painelClientes);
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setSize(700,450);

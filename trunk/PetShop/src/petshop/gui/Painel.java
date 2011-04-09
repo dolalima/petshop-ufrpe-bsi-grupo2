@@ -22,6 +22,7 @@ public class Painel extends javax.swing.JPanel {
     /** Creates new form panel */
     public Painel() {
         initComponents();
+
     }
 
     /** This metodo nuinnhj is called from within the constructor to
@@ -65,7 +66,7 @@ public class Painel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 30;
+        gridBagConstraints.ipadx = 65;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(comboPesquisa, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -131,4 +132,9 @@ public class Painel extends javax.swing.JPanel {
     javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 
+    protected void setModelo(String[] modelo) {
+
+        comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(modelo));
+        tabela.setModel(new javax.swing.table.DefaultTableModel( new Object [][] {  }, modelo ));
+    }
 }

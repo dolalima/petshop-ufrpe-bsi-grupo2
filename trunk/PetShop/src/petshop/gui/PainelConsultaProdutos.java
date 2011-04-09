@@ -1,6 +1,5 @@
 package petshop.gui;
 
-import java.awt.Dimension;
 import javax.swing.JTextField;
 
 public class PainelConsultaProdutos extends PainelConsulta {
@@ -11,69 +10,14 @@ public class PainelConsultaProdutos extends PainelConsulta {
 
     public PainelConsultaProdutos(){
         super();
-        
-        campoAcimaDe = new JTextField("Acima de");
-        campoAbaixoDe = new JTextField("Abaixo de");
 
+        this.setCadastro(new JanelaCadastroProduto());
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 117;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(campoAcimaDe, gridBagConstraints);
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        gridBagConstraints.gridx = 3;
-        add(campoAbaixoDe, gridBagConstraints);
+        int [] itensPreco = new int[2];
+        itensPreco[0] = 2;
+        itensPreco[1] = 3;
+        this.setItensPreco(itensPreco);
 
-
-        comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "Código", "Nome", "Preço de Custo", "Preço de Venda" }));
-
-        comboPesquisa.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                comboPesquisaEvento(evt);
-            }
-        });
-
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {  },
-            new String [] {
-                "Código", "Nome", "Preço de Custo", "Preço de Venda"
-            }
-        ));
-        
-
-        botaoNovo.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoNovoEvento(evt);
-            }
-        });
+        setModelo(new String[] {"Código", "Nome", "Preço de Compra", "Preço de Venda"});
     }
-
-
-    private void botaoNovoEvento(java.awt.event.MouseEvent evt) {
-        JanelaCadastroProduto cadastro = new JanelaCadastroProduto();
-
-        cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        cadastro.setModal(true);
-        cadastro.setVisible(true);
-    }
-
-
-   private void comboPesquisaEvento(java.awt.event.ItemEvent evt){
-       
-       if(comboPesquisa.getSelectedIndex() >= 2){
-           campoPesquisa.setVisible(false);
-           campoAcimaDe.setVisible(true);
-           campoAbaixoDe.setVisible(true);
-       } else {
-           campoPesquisa.setVisible(true);
-           campoAcimaDe.setVisible(false);
-           campoAbaixoDe.setVisible(false);
-       }
-   }
 }
