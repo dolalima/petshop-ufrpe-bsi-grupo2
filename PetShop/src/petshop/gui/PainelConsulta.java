@@ -5,7 +5,10 @@
 
 package petshop.gui;
 
+import java.awt.Dimension;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
 
 /**
  *
@@ -13,13 +16,21 @@ import javax.swing.JButton;
  */
 public class PainelConsulta extends Painel{
 
-    JButton botaoNovo;
-    JButton botaoAlterar;
-    JButton botaoInformacoes;
+    private JButton botaoNovo;
+    private JButton botaoAlterar;
+    private JButton botaoInformacoes;
+
+    private JTextField campoAcimaDe;
+    private JTextField campoAbaixoDe;
+    private java.awt.GridBagConstraints gridBagConstraints;
+
+    private JDialog cadastro;
+    private int[] itensPreco;
+
 
     public PainelConsulta(){
 
-        java.awt.GridBagConstraints gridBagConstraints;
+        itensPreco = new int[0];
 
         botaoNovo = new JButton();
         botaoAlterar = new JButton();
@@ -32,7 +43,7 @@ public class PainelConsulta extends Painel{
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         add(botaoNovo, gridBagConstraints);
@@ -42,7 +53,7 @@ public class PainelConsulta extends Painel{
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(botaoAlterar, gridBagConstraints);
@@ -56,5 +67,98 @@ public class PainelConsulta extends Painel{
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(botaoInformacoes, gridBagConstraints);
+
+        campoAcimaDe = new JTextField("Acima de");
+        campoAbaixoDe = new JTextField("Abaixo de");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 90;
+        gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
+        add(campoAcimaDe, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
+        gridBagConstraints.gridx = 3;
+        add(campoAbaixoDe, gridBagConstraints);
+
+
+        comboPesquisa.setMaximumSize(new Dimension(66,24));
+        comboPesquisa.setMinimumSize(new Dimension(66,24));
+
+        comboPesquisa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                trocarTipoPesquisa();
+            }
+        });
+
+        botaoNovo.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoNovoEvento(evt);
+            }
+        });
+
+        trocarTipoPesquisa(); //serve para setar os campos de preço serem visiveis ou nao.
+    }
+
+
+    private void botaoNovoEvento(java.awt.event.MouseEvent evt) {
+
+        getCadastro().setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        getCadastro().setModal(true);
+        getCadastro().setVisible(true);
+    }
+
+
+    private void trocarTipoPesquisa(){
+
+       boolean trocarParaPreco = false;
+
+       for(int i = 0; i < itensPreco.length; i++ )
+           if(comboPesquisa.getSelectedIndex() == itensPreco[i])
+               trocarParaPreco = true;
+
+
+       if(trocarParaPreco){
+           campoPesquisa.setVisible(false);
+           campoAcimaDe.setVisible(true);
+           campoAbaixoDe.setVisible(true);
+       } else {
+           campoPesquisa.setVisible(true);
+           campoAcimaDe.setVisible(false);
+           campoAbaixoDe.setVisible(false);
+       }
+
+       this.updateUI();
+   }
+
+    /**
+     * @return cadastro
+     */
+    public JDialog getCadastro() {
+        return cadastro;
+    }
+
+    /**
+     * @param cadastro
+     */
+    public void setCadastro(JDialog cadastro) {
+        this.cadastro = cadastro;
+    }
+
+    /**
+     * @return itensPreco
+     */
+    public int[] getItensPreco() {
+        return itensPreco;
+    }
+
+    /**
+     * @param itensPreco
+     */
+    public void setItensPreco(int[] itensPreco) {
+        this.itensPreco = itensPreco;
     }
 }

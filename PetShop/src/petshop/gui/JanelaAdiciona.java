@@ -11,6 +11,7 @@
 
 package petshop.gui;
 
+import java.awt.Dimension;
 import javax.swing.JButton;
 
 /**
@@ -27,8 +28,11 @@ public class JanelaAdiciona extends javax.swing.JDialog {
         initComponents();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(560, 390));
-        setPreferredSize(new java.awt.Dimension(560, 390));
+        
+        Dimension tamanhoJanela = new Dimension(580, 390);
+        
+        setMinimumSize(tamanhoJanela);
+        setPreferredSize(tamanhoJanela);
 
         painel = new Painel();
 
@@ -79,9 +83,5 @@ public class JanelaAdiciona extends javax.swing.JDialog {
 
 
 
-    protected void setModelo(String[] modelo) {
-
-        painel.comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(modelo));
-        painel.tabela.setModel(new javax.swing.table.DefaultTableModel( new Object [][] {  }, modelo ));
-    }
+    
 }

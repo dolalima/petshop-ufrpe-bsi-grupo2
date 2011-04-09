@@ -22,7 +22,7 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
     public JanelaAdicionaProduto() {
 
         setTitle("Adicionar Produto");
-        setModelo(new String[] { "Código", "Nome", "Preço de Custo", "Preço de Venda" });
+        painel.setModelo(new String[] { "Código", "Nome", "Preço de Custo", "Preço de Venda" });
     }
 
     /** This method is called from within the constructor to
@@ -33,8 +33,6 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -5,30 +5,11 @@ public class PainelConsultaClientes extends PainelConsulta {
     public PainelConsultaClientes(){
         super();
 
-        comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "Código", "Nome", "CPF", "RG" }));
+        this.setCadastro(new JanelaCadastroCliente());
 
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {  },
-            new String [] {
-                "Código", "Nome", "CPF", "RG"
-            }
-        ));
+        int [] itensPreco = new int[0];
+        this.setItensPreco(itensPreco);
 
-        botaoNovo.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoNovo(evt);
-            }
-        });
-    }
-
-
-    private void botaoNovo(java.awt.event.MouseEvent evt) {
-        JanelaCadastroCliente cadastro = new JanelaCadastroCliente();
-
-        cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        cadastro.setModal(true);
-        cadastro.setVisible(true);
+        setModelo(new String[] {"Código", "Nome", "CPF", "RG"});
     }
 }
