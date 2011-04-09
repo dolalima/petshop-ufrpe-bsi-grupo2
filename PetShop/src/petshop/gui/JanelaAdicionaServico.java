@@ -22,7 +22,7 @@ public class JanelaAdicionaServico extends JanelaAdiciona {
     public JanelaAdicionaServico() {
 
         setTitle("Adicionar Serviço");
-        painel.setModelo(new String[] { "Código", "Nome", "Preço" });
+        painel.setModelo(new String[] { "Código", "Nome" });
     }
 
     /** This method is called from within the constructor to
