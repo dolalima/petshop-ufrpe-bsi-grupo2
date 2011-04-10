@@ -7,7 +7,9 @@ package petshop;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import petshop.gui.JanelaPrincipal;
+import petshop.gui.*;
+import petshop.classes.*;
+
 
 /**
  *
@@ -33,8 +35,12 @@ public class Main {
         } catch (IllegalAccessException e) {
         }
 
-        JanelaPrincipal menu = new JanelaPrincipal();
-        menu.setVisible(true);
+        BancoDeDados db = new BancoDeDados() {};
+        db.conectar();
+        JanelaLogin login = new JanelaLogin(db);
+        login.setVisible(true);
+        
+        
 
 
 

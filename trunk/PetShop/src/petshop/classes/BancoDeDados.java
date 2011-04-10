@@ -28,6 +28,8 @@ public abstract class BancoDeDados {
     /**Variavel de recebe os metadados das pesquisas no banco de dados. **/
     private ResultSetMetaData resultsetmetadata = null;
 
+    private boolean conectStatus = false;
+
     /**Metodo para conectar o sistema ao banco de dados.**/
     public void conectar(){
         try{
@@ -36,12 +38,46 @@ public abstract class BancoDeDados {
                     "lima1807");
             this.statement = this.connection.createStatement();
             System.out.print("Conectado");
+            this.conectStatus = true;
 
 
         } catch (SQLException e){
             System.out.println("Não foi possivel conectar ao banco de dados");
         }
     }
+
+    public boolean Login(String user,String senha){
+        try{
+            String cmd = "SELECT user,senha FROM usuarios WHERE user='"+user+"'";
+            System.out.println(cmd);
+            ResultSet dados = this.statement.executeQuery(cmd);
+
+            dados.next();
+            String u = (String) dados.getObject(1);
+            String s = (String) dados.getObject(2);
+            if (user.equals(u))
+                if (senha.equals(s)){
+                    System.out.println("Usuario conectado com exito.");
+                    return true;
+                }
+                else {
+                System.out.println("Senha Invalida");
+                return false;
+                }
+            else {
+                System.out.println("Usuario ou senha Invalida");
+                return false;
+
+            }
+
+        } catch (SQLException e){
+            System.out.print(e);
+            System.out.println("Erro do Sistema");
+            return false;
+        }
+    }
+
+    
     
     
     /**Metodo publico que cadastra um cliente no banco de dados.
@@ -84,7 +120,8 @@ public abstract class BancoDeDados {
      **/
     private void ExecuteSQLCmd(String cmd){
         try{
-        this.resultset = this.statement.executeQuery(cmd);
+        int result = this.statement.executeUpdate(cmd);
+            System.out.print(result);
         } catch(SQLException erro){
             System.out.print("Não foi possivel executa consulta.");
         }
