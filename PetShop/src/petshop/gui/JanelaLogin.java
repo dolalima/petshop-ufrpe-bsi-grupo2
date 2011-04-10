@@ -1,14 +1,18 @@
 package petshop.gui;
-
+import petshop.classes.BancoDeDados;
+import java.sql.*;
 /**
  *
  * @author arthur
  */
 public class JanelaLogin extends javax.swing.JFrame {
+    private BancoDeDados db = null;
 
     /** Creates new form JanelaLogin */
-    public JanelaLogin() {
+    public JanelaLogin(BancoDeDados db) {
         initComponents();
+        this.db=db;
+
     }
 
     /** This method is called from within the constructor to
@@ -51,6 +55,11 @@ public class JanelaLogin extends javax.swing.JFrame {
         getContentPane().add(campoSenha, gridBagConstraints);
 
         botaoEntrar.setText("Entrar");
+        botaoEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEntrarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -61,16 +70,28 @@ public class JanelaLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botaoEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEntrarActionPerformed
+        // TODO add your handling code here:
+        String user = this.campoLogin.getText();
+        String passw = this.campoSenha.getText();
+        boolean resposta = this.db.Login(user, passw);
+        if (resposta==true){
+            this.setVisible(false);
+            JanelaPrincipal menu = new JanelaPrincipal();
+            menu.setVisible(true);
+            }
+    }//GEN-LAST:event_botaoEntrarActionPerformed
+
     /**
     * @param args the command line arguments
     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JanelaLogin().setVisible(true);
-            }
-        });
-    }
+    //public static void main(String args[]) {
+        //java.awt.EventQueue.invokeLater(new Runnable() {
+            //public void run() {
+                //new JanelaLogin().setVisible(true);
+            //}
+        //});
+    //}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoEntrar;
