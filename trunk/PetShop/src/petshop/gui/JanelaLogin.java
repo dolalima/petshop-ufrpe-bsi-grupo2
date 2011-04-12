@@ -1,6 +1,7 @@
 package petshop.gui;
 import petshop.classes.BancoDeDados;
 import java.sql.*;
+import javax.swing.text.JTextComponent;
 /**
  *
  * @author arthur
@@ -36,6 +37,14 @@ public class JanelaLogin extends javax.swing.JFrame {
 
         campoLogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campoLogin.setText("Login");
+        campoLogin.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tirarEtiqueta(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                colocarEtiqueta(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -46,6 +55,14 @@ public class JanelaLogin extends javax.swing.JFrame {
 
         campoSenha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campoSenha.setText("Senha");
+        campoSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tirarEtiqueta(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                colocarEtiqueta(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -55,6 +72,11 @@ public class JanelaLogin extends javax.swing.JFrame {
         getContentPane().add(campoSenha, gridBagConstraints);
 
         botaoEntrar.setText("Entrar");
+        botaoEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logar(evt);
+            }
+        });
         botaoEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoEntrarActionPerformed(evt);
@@ -74,13 +96,33 @@ public class JanelaLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         String user = this.campoLogin.getText();
         String passw = this.campoSenha.getText();
-        boolean resposta = this.db.Login(user, passw);
+        boolean resposta = login(user, passw);
         if (resposta==true){
             this.setVisible(false);
             JanelaPrincipal menu = new JanelaPrincipal();
             menu.setVisible(true);
             }
     }//GEN-LAST:event_botaoEntrarActionPerformed
+
+    private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().equals(getEtiqueta(campo))){
+            campo.setText("");
+        }
+    }//GEN-LAST:event_tirarEtiqueta
+
+    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colocarEtiqueta
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().equals("")){
+            campo.setText(getEtiqueta(campo));
+        }
+    }//GEN-LAST:event_colocarEtiqueta
+
+    private void logar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logar
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logar
 
     /**
     * @param args the command line arguments
@@ -99,4 +141,44 @@ public class JanelaLogin extends javax.swing.JFrame {
     private javax.swing.JTextField campoSenha;
     // End of variables declaration//GEN-END:variables
 
+    //Retorna a etiqueta certa pra cada campo
+    private String getEtiqueta(JTextComponent campo){
+
+        if(campo.equals(campoLogin)) return "Login";
+        else if(campo.equals(campoSenha)) return "Senha";
+
+        return "";
+    }
+
+
+    public static boolean login(String user,String senha){
+        try{
+            String cmd = "SELECT user,senha FROM usuarios WHERE user='"+user+"'";
+            System.out.println(cmd);
+            ResultSet dados = BancoDeDados.statement.executeQuery(cmd);
+
+            dados.next();
+            String u = (String) dados.getObject(1);
+            String s = (String) dados.getObject(2);
+            if (user.equals(u))
+                if (senha.equals(s)){
+                    System.out.println("Usuario conectado com exito.");
+                    return true;
+                }
+                else {
+                System.out.println("Senha Invalida");
+                return false;
+                }
+            else {
+                System.out.println("Usuario ou senha Invalida");
+                return false;
+
+            }
+
+        } catch (SQLException e){
+            System.out.print(e);
+            System.out.println("Erro do Sistema");
+            return false;
+        }
+    }
 }

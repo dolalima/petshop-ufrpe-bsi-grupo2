@@ -31,7 +31,7 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         scrollInformacoes = new javax.swing.JScrollPane();
         areaInformacoes = new javax.swing.JTextArea();
         botaoCadastrar = new javax.swing.JButton();
-        botaoLimpar = new javax.swing.JButton();
+        botaoCancelar = new javax.swing.JButton();
         campoPrecoVenda = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -45,10 +45,10 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         campoNome.setText("Nome");
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -64,10 +64,10 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         campoQtde.setText("Qtde Estoque");
         campoQtde.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -80,10 +80,10 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         campoPrecoCusto.setText("Preço de Custo");
         campoPrecoCusto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -99,10 +99,10 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -132,10 +132,10 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         jPanel1.add(botaoCadastrar, gridBagConstraints);
 
-        botaoLimpar.setText("Limpar");
-        botaoLimpar.addMouseListener(new java.awt.event.MouseAdapter() {
+        botaoCancelar.setText("Cancelar");
+        botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                limparCampos(evt);
+                cancelar(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -145,15 +145,15 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 30;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(botaoLimpar, gridBagConstraints);
+        jPanel1.add(botaoCancelar, gridBagConstraints);
 
         campoPrecoVenda.setText("Preço de Venda");
         campoPrecoVenda.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -169,28 +169,29 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoPerdeEtiqueta
+    private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals(getEtiqueta(campo))){
             campo.setText("");
         }
-}//GEN-LAST:event_campoPerdeEtiqueta
+}//GEN-LAST:event_tirarEtiqueta
 
-    private void campoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoRetornaEtiqueta
+    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colocarEtiqueta
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals("")){
             campo.setText(getEtiqueta(campo));
         }
-}//GEN-LAST:event_campoRetornaEtiqueta
+}//GEN-LAST:event_colocarEtiqueta
 
-    private void limparCampos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limparCampos
-        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja limpar todos os campos?", "Sair", JOptionPane.YES_NO_OPTION);
+    private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
+        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
 
         if(resp == JOptionPane.YES_OPTION)
+            this.dispose();
             limparCampos();
-}//GEN-LAST:event_limparCampos
+}//GEN-LAST:event_cancelar
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         // TODO add your handling code here:
@@ -210,7 +211,7 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaInformacoes;
     private javax.swing.JButton botaoCadastrar;
-    private javax.swing.JButton botaoLimpar;
+    private javax.swing.JButton botaoCancelar;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoPrecoCusto;
     private javax.swing.JTextField campoPrecoVenda;

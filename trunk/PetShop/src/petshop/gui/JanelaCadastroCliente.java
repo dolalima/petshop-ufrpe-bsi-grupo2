@@ -52,7 +52,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoEMail = new javax.swing.JTextField();
         scrollInformacoes = new javax.swing.JScrollPane();
         areaInformacoes = new javax.swing.JTextArea();
-        botaoLimpar = new javax.swing.JButton();
+        botaoCancelar = new javax.swing.JButton();
         botaoCadastrar = new javax.swing.JButton();
         comboAnimais = new javax.swing.JComboBox();
         botaoAddAnimal = new javax.swing.JButton();
@@ -65,10 +65,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoNome.setText("Nome");
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoNomecampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoNomecampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -90,10 +90,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoTelefone.setText("Telefone");
         campoTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoTelefonecampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoTelefonecampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -108,10 +108,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCelular.setText("Celular");
         campoCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoCelularcampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoCelularcampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -125,10 +125,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoEndereco.setText("Endereço");
         campoEndereco.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoEnderecocampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoEnderecocampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -142,10 +142,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoNumero.setText("Número");
         campoNumero.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoNumerocampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoNumerocampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -159,10 +159,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoComplemento.setText("Complemento");
         campoComplemento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoComplementocampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoComplementocampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -176,10 +176,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoBairro.setText("Bairro");
         campoBairro.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoBairrocampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoBairrocampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -193,10 +193,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCidade.setText("Cidade");
         campoCidade.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoCidadecampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoCidadecampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -219,10 +219,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCEP.setText("CEP");
         campoCEP.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoCEPcampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoCEPcampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -236,10 +236,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoRG.setText("RG");
         campoRG.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoRGcampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoRGcampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -254,10 +254,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCPF.setText("CPF");
         campoCPF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoCPFcampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoCPFcampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -272,10 +272,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoEMail.setText("e-Mail");
         campoEMail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                campoEMailcampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                campoEMailcampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -291,10 +291,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                areaInformacoescampoPerdeEtiqueta(evt);
+                tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                areaInformacoescampoRetornaEtiqueta(evt);
+                colocarEtiqueta(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -308,10 +308,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         jPanel1.add(scrollInformacoes, gridBagConstraints);
 
-        botaoLimpar.setText("Limpar");
-        botaoLimpar.addMouseListener(new java.awt.event.MouseAdapter() {
+        botaoCancelar.setText("Cancelar");
+        botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoLimparlimparCampos(evt);
+                cancelar(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -320,7 +320,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(botaoLimpar, gridBagConstraints);
+        jPanel1.add(botaoCancelar, gridBagConstraints);
 
         botaoCadastrar.setText("Cadastrar");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -346,7 +346,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         botaoAddAnimal.setPreferredSize(null);
         botaoAddAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoAddAnimalMouseClicked(evt);
+                adicionarAnimal(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -362,228 +362,36 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoNomecampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoNomecampoPerdeEtiqueta
+    private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals(getEtiqueta(campo))){
             campo.setText("");
         }
-}//GEN-LAST:event_campoNomecampoPerdeEtiqueta
+}//GEN-LAST:event_tirarEtiqueta
 
-    private void campoNomecampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoNomecampoRetornaEtiqueta
+    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colocarEtiqueta
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals("")){
             campo.setText(getEtiqueta(campo));
         }
-}//GEN-LAST:event_campoNomecampoRetornaEtiqueta
+}//GEN-LAST:event_colocarEtiqueta
 
-    private void campoTelefonecampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoTelefonecampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoTelefonecampoPerdeEtiqueta
-
-    private void campoTelefonecampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoTelefonecampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoTelefonecampoRetornaEtiqueta
-
-    private void campoCelularcampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCelularcampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoCelularcampoPerdeEtiqueta
-
-    private void campoCelularcampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCelularcampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoCelularcampoRetornaEtiqueta
-
-    private void campoEnderecocampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoEnderecocampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoEnderecocampoPerdeEtiqueta
-
-    private void campoEnderecocampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoEnderecocampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoEnderecocampoRetornaEtiqueta
-
-    private void campoNumerocampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoNumerocampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoNumerocampoPerdeEtiqueta
-
-    private void campoNumerocampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoNumerocampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoNumerocampoRetornaEtiqueta
-
-    private void campoComplementocampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoComplementocampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoComplementocampoPerdeEtiqueta
-
-    private void campoComplementocampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoComplementocampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoComplementocampoRetornaEtiqueta
-
-    private void campoBairrocampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBairrocampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoBairrocampoPerdeEtiqueta
-
-    private void campoBairrocampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBairrocampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoBairrocampoRetornaEtiqueta
-
-    private void campoCidadecampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCidadecampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoCidadecampoPerdeEtiqueta
-
-    private void campoCidadecampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCidadecampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoCidadecampoRetornaEtiqueta
-
-    private void campoCEPcampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCEPcampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoCEPcampoPerdeEtiqueta
-
-    private void campoCEPcampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCEPcampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoCEPcampoRetornaEtiqueta
-
-    private void campoRGcampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoRGcampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoRGcampoPerdeEtiqueta
-
-    private void campoRGcampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoRGcampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoRGcampoRetornaEtiqueta
-
-    private void campoCPFcampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCPFcampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoCPFcampoPerdeEtiqueta
-
-    private void campoCPFcampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCPFcampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoCPFcampoRetornaEtiqueta
-
-    private void campoEMailcampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoEMailcampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_campoEMailcampoPerdeEtiqueta
-
-    private void campoEMailcampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoEMailcampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_campoEMailcampoRetornaEtiqueta
-
-    private void areaInformacoescampoPerdeEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_areaInformacoescampoPerdeEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-}//GEN-LAST:event_areaInformacoescampoPerdeEtiqueta
-
-    private void areaInformacoescampoRetornaEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_areaInformacoescampoRetornaEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_areaInformacoescampoRetornaEtiqueta
-
-    private void botaoLimparlimparCampos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoLimparlimparCampos
-
-        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja limpar todos os campos?", "Sair", JOptionPane.YES_NO_OPTION);
+    private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
+        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
 
         if(resp == JOptionPane.YES_OPTION)
+            this.dispose();
             limparCampos();
-}//GEN-LAST:event_botaoLimparlimparCampos
+}//GEN-LAST:event_cancelar
 
-    private void botaoAddAnimalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoAddAnimalMouseClicked
+    private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
         JanelaCadastroAnimal animal = new JanelaCadastroAnimal();
 
         animal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         animal.setVisible(true);
-}//GEN-LAST:event_botaoAddAnimalMouseClicked
+}//GEN-LAST:event_adicionarAnimal
 
     /**
     * @param args the command line arguments
@@ -600,7 +408,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JTextArea areaInformacoes;
     private javax.swing.JButton botaoAddAnimal;
     private javax.swing.JButton botaoCadastrar;
-    private javax.swing.JButton botaoLimpar;
+    private javax.swing.JButton botaoCancelar;
     private javax.swing.JTextField campoBairro;
     private javax.swing.JTextField campoCEP;
     private javax.swing.JTextField campoCPF;

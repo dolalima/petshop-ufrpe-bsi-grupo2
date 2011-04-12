@@ -18,27 +18,27 @@ import java.sql.SQLException;
 public abstract class BancoDeDados {
     
     /**Endereço do Banco de Dados**/
-    private static final String DATABASE_URL="jdbc:mysql://localhost/petshop";
+    public static final String DATABASE_URL="jdbc:mysql://localhost/petshop";
     /**Variavel de conexao com o banco de dados**/
-    private Connection connection = null;
+    public static Connection connection = null;
     /**Varivel de execução de comandos SQL no banco de dados**/
-    private Statement statement = null;
+    public static Statement statement = null;
     /**Variavel que recebe o resultado das pesquisas do banco de dados**/
-    private ResultSet resultset = null;
+    public static ResultSet resultset = null;
     /**Variavel de recebe os metadados das pesquisas no banco de dados. **/
-    private ResultSetMetaData resultsetmetadata = null;
+    public static ResultSetMetaData resultsetmetadata = null;
 
-    private boolean conectStatus = false;
+    public static boolean conectStatus = false;
 
     /**Metodo para conectar o sistema ao banco de dados.**/
-    public void conectar(){
+    public static void conectar(){
         try{
-            this.connection = DriverManager.getConnection(DATABASE_URL,
+            BancoDeDados.connection = DriverManager.getConnection(DATABASE_URL,
                     "root",
                     "lima1807");
-            this.statement = this.connection.createStatement();
+            BancoDeDados.statement = BancoDeDados.connection.createStatement();
             System.out.print("Conectado");
-            this.conectStatus = true;
+            BancoDeDados.conectStatus = true;
 
 
         } catch (SQLException e){
@@ -46,50 +46,16 @@ public abstract class BancoDeDados {
         }
     }
 
-    public boolean Login(String user,String senha){
-        try{
-            String cmd = "SELECT user,senha FROM usuarios WHERE user='"+user+"'";
-            System.out.println(cmd);
-            ResultSet dados = this.statement.executeQuery(cmd);
-
-            dados.next();
-            String u = (String) dados.getObject(1);
-            String s = (String) dados.getObject(2);
-            if (user.equals(u))
-                if (senha.equals(s)){
-                    System.out.println("Usuario conectado com exito.");
-                    return true;
-                }
-                else {
-                System.out.println("Senha Invalida");
-                return false;
-                }
-            else {
-                System.out.println("Usuario ou senha Invalida");
-                return false;
-
-            }
-
-        } catch (SQLException e){
-            System.out.print(e);
-            System.out.println("Erro do Sistema");
-            return false;
-        }
-    }
-
-    
-    
-    
     /**Metodo publico que cadastra um cliente no banco de dados.
      *
      * @param cliente
      */
-    public void cadastrar(Cliente cliente){
+    public static void cadastrar(Cliente cliente){
         String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,bairro,cidade,cep)"+
                 "VALUES ("+cliente.getNome()+","+cliente.getCpf()+
                 ","+cliente.getRg()+","+cliente.getEndereco().getRua()+","+cliente.getEndereco().getBairro()+
                 ","+cliente.getEndereco().getCidade()+","+cliente.getEndereco().getCep()+")";
-        this.ExecuteSQLCmd(cmd);
+        BancoDeDados.ExecuteSQLCmd(cmd);
     }
     
     
@@ -98,9 +64,9 @@ public abstract class BancoDeDados {
      *
      * @param produto
      */
-    public void cadastrar(Produto produto){
+    public static void cadastrar(Produto produto){
         String cmd = "INSERT INTO produto () VALUES ()";
-        this.ExecuteSQLCmd(cmd);
+        BancoDeDados.ExecuteSQLCmd(cmd);
     }
     
     
@@ -109,18 +75,18 @@ public abstract class BancoDeDados {
      *
      * @param servico
      **/
-    public void cadastrar(Servico servico){
+    public static void cadastrar(Servico servico){
         String cmd = "INSERT INTO servico () VALUES ()";
-        this.ExecuteSQLCmd(cmd);
+        BancoDeDados.ExecuteSQLCmd(cmd);
     }
     
     
     /**Metodo privado que executa comandos SQL a partir de outros metodos
      * no banco de dados e retorna o resultado para a variavel resultset.
      **/
-    private void ExecuteSQLCmd(String cmd){
+    private static void ExecuteSQLCmd(String cmd){
         try{
-        int result = this.statement.executeUpdate(cmd);
+        int result = BancoDeDados.statement.executeUpdate(cmd);
             System.out.print(result);
         } catch(SQLException erro){
             System.out.print("Não foi possivel executa consulta.");

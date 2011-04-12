@@ -59,15 +59,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         botaoVendas = new javax.swing.JButton();
         MenuPricipal = new javax.swing.JMenuBar();
         MenuSistema = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
         MenuItemLogout = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         MenuCliente = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,12 +118,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         MenuSistema.setText("Sistema");
 
-        jMenuItem6.setText("Vendas de Produtos");
-        MenuSistema.add(jMenuItem6);
-
-        jMenuItem7.setText("Vendas de Serviços");
-        MenuSistema.add(jMenuItem7);
-
         MenuItemLogout.setText("Logout");
         MenuSistema.add(MenuItemLogout);
 
@@ -139,9 +128,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         MenuCliente.setText("Cliente");
 
-        jMenuItem3.setText("Consultar");
-        MenuCliente.add(jMenuItem3);
-
         jMenuItem2.setText("Cadastrar");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,12 +135,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
         MenuCliente.add(jMenuItem2);
-
-        jMenuItem4.setText("Modificar");
-        MenuCliente.add(jMenuItem4);
-
-        jMenuItem5.setText("Exluir");
-        MenuCliente.add(jMenuItem5);
 
         MenuPricipal.add(MenuCliente);
 
@@ -217,13 +197,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSplitPane painelSplit;
     // End of variables declaration//GEN-END:variables
 
+    public void cadastrarCliente(){
+
+    }
 }
