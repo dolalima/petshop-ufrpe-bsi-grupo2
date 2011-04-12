@@ -96,7 +96,7 @@ public class PainelConsulta extends Painel{
         botaoNovo.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoNovoEvento(evt);
+                eventoBotaoNovo(evt);
             }
         });
 
@@ -104,7 +104,7 @@ public class PainelConsulta extends Painel{
     }
 
 
-    private void botaoNovoEvento(java.awt.event.MouseEvent evt) {
+    private void eventoBotaoNovo(java.awt.event.MouseEvent evt) {
 
         getCadastro().setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         getCadastro().setModal(true);
@@ -135,6 +135,7 @@ public class PainelConsulta extends Painel{
    }
 
     /**
+     * Retorna o a janela de cadastro que foi setada.
      * @return cadastro
      */
     public JDialog getCadastro() {
@@ -142,6 +143,7 @@ public class PainelConsulta extends Painel{
     }
 
     /**
+     * Seta uma JanelaCadastro, que vai ser aberta quando for pressionado o botaoNovo
      * @param cadastro
      */
     public void setCadastro(JDialog cadastro) {
@@ -149,6 +151,7 @@ public class PainelConsulta extends Painel{
     }
 
     /**
+     * Retorna a lista dos numeros em que estão os elementos que são preços
      * @return itensPreco
      */
     public int[] getItensPreco() {
@@ -156,6 +159,7 @@ public class PainelConsulta extends Painel{
     }
 
     /**
+     * Configura a lista dos numeros em que estão os elementos que são preços
      * @param itensPreco
      */
     public void setItensPreco(int[] itensPreco) {

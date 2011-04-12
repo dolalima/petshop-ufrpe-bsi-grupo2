@@ -11,6 +11,9 @@
 
 package petshop.gui;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -194,6 +197,11 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(labelTotal, gridBagConstraints);
 
         botaoCancelar.setText("Cancelar");
+        botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cancelar(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -203,6 +211,11 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(botaoCancelar, gridBagConstraints);
 
         botaoPagar.setText("Pagar");
+        botaoPagar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pagar(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
@@ -287,6 +300,22 @@ public class JanelaVenda extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_campoRetornaEtiqueta
 
+    private void pagar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pagar
+        JanelaPagamento cadastro = new JanelaPagamento();
+
+        cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        cadastro.setModal(true);
+        cadastro.setVisible(true);
+    }//GEN-LAST:event_pagar
+
+    private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
+        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
+
+        if(resp == JOptionPane.YES_OPTION)
+            this.dispose();
+            limparCampos();
+    }//GEN-LAST:event_cancelar
+
     /**
     * @param args the command line arguments
     */
@@ -321,7 +350,7 @@ public class JanelaVenda extends javax.swing.JDialog {
      * @param valor O valor do total de compras
      */
     public void setLabelTotal(double valor){
-        
+
         labelTotal.setText("Total " + valor);        
     }
     
@@ -331,5 +360,18 @@ public class JanelaVenda extends javax.swing.JDialog {
         else if(campo.equals(campoQtde)) return "Qtde";
 
         return "";
+    }
+
+    private void limparCampos(){
+
+        labelCliente.setText("CLIENTE");
+        comboTipoCarrinho.setSelectedIndex(0);
+        campoCodigo.setText("Código");
+        campoQtde.setText("Qtde");
+        comboAnimal.setModel(new javax.swing.DefaultComboBoxModel(
+                new String[]{"Animal"}));
+        DefaultTableModel dm = (DefaultTableModel)tabelaItens.getModel();
+        dm.getDataVector().removeAllElements();
+        setLabelTotal(0.0);
     }
 }

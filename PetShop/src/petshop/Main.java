@@ -35,15 +35,13 @@ public class Main {
         } catch (IllegalAccessException e) {
         }
 
-        BancoDeDados db = new BancoDeDados() {};
-        db.conectar();
-        JanelaLogin login = new JanelaLogin(db);
+        BancoDeDados.conectar();
+        JanelaLogin login = new JanelaLogin((BancoDeDados) BancoDeDados.connection);
         login.setVisible(true);
-        
-        
 
-
-
+        //PARA TESTE - NÃO EXCLUIR
+        //JanelaPrincipal janela = new JanelaPrincipal();
+        //janela.setVisible(true);
 
     }
 
