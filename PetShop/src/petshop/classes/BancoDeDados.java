@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public abstract class BancoDeDados {
     
     /**Endereço do Banco de Dados**/
-    public static final String DATABASE_URL="jdbc:mysql://localhost/petshop";
+    public static final String DATABASE_URL="jdbc:mysql://172.16.198.16/petshop";
     /**Variavel de conexao com o banco de dados**/
     public static Connection connection = null;
     /**Varivel de execução de comandos SQL no banco de dados**/

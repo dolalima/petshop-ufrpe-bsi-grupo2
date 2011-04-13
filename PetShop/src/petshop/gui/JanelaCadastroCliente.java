@@ -40,7 +40,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         comboSexo = new javax.swing.JComboBox();
         campoTelefone = new javax.swing.JTextField();
         campoCelular = new javax.swing.JTextField();
-        campoEndereco = new javax.swing.JTextField();
+        campoRua = new javax.swing.JTextField();
         campoNumero = new javax.swing.JTextField();
         campoComplemento = new javax.swing.JTextField();
         campoBairro = new javax.swing.JTextField();
@@ -122,8 +122,8 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         jPanel1.add(campoCelular, gridBagConstraints);
 
-        campoEndereco.setText("Endereço");
-        campoEndereco.addFocusListener(new java.awt.event.FocusAdapter() {
+        campoRua.setText("Rua");
+        campoRua.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
@@ -137,7 +137,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel1.add(campoEndereco, gridBagConstraints);
+        jPanel1.add(campoRua, gridBagConstraints);
 
         campoNumero.setText("Número");
         campoNumero.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -323,6 +323,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         jPanel1.add(botaoCancelar, gridBagConstraints);
 
         botaoCadastrar.setText("Cadastrar");
+        botaoCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cadastrar(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 8;
@@ -393,6 +398,30 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         animal.setVisible(true);
 }//GEN-LAST:event_adicionarAnimal
 
+    private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
+        String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
+
+        boolean precisaRequisitos = false;
+        
+        if(campoNome.getText().equals("Nome")) msg += "- NOME\n"; precisaRequisitos = true;
+        if(comboSexo.getSelectedIndex() == 0) msg += "- SEXO\n"; precisaRequisitos = true;
+        if(campoRua.getText().equals("Rua")) msg += "- RUA\n"; precisaRequisitos = true;
+        if(campoNumero.getText().equals("Número")) msg += "- NÚMERO\n"; precisaRequisitos = true;
+        if(campoBairro.getText().equals("Bairro")) msg += "- BAIRRO\n"; precisaRequisitos = true;
+        if(campoCidade.getText().equals("Cidade")) msg += "- CIDADE\n"; precisaRequisitos = true;
+        if(comboUF.getSelectedIndex() == 0) msg += "- UF\n"; precisaRequisitos = true;
+        if(campoRG.getText().equals("RG")) msg += "- RG\n"; precisaRequisitos = true;
+        if(campoCPF.getText().equals("CPF")) msg += "- CPF\n"; precisaRequisitos = true;
+        if(campoTelefone.getText().equals("Telefone") && campoCelular.getText().equals("Celular")) msg += "- TELEFONE OU CELULAR"; precisaRequisitos = true;
+
+        if(precisaRequisitos){
+            JOptionPane.showMessageDialog(this.getContentPane(), msg);
+            return;
+        }
+
+        System.out.print(msg);
+    }//GEN-LAST:event_cadastrar
+
     /**
     * @param args the command line arguments
     */
@@ -416,10 +445,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JTextField campoCidade;
     private javax.swing.JTextField campoComplemento;
     private javax.swing.JTextField campoEMail;
-    private javax.swing.JTextField campoEndereco;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoNumero;
     private javax.swing.JTextField campoRG;
+    private javax.swing.JTextField campoRua;
     private javax.swing.JTextField campoTelefone;
     private javax.swing.JComboBox comboAnimais;
     private javax.swing.JComboBox comboSexo;
@@ -433,7 +462,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     private String getEtiqueta(JTextComponent campo){
 
         if(campo.equals(campoNome)) return "Nome";
-        else if(campo.equals(campoEndereco)) return "Endereço";
+        else if(campo.equals(campoRua)) return "Rua";
         else if(campo.equals(campoNumero)) return "Número";
         else if(campo.equals(campoComplemento)) return "Complemento";
         else if(campo.equals(campoBairro)) return "Bairro";
@@ -454,7 +483,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
         campoNome.setText("Nome");
         comboSexo.setSelectedIndex(0);
-        campoEndereco.setText("Endereco");
+        campoRua.setText("Endereco");
         campoNumero.setText("Numero");
         campoComplemento.setText("Complemento");
         campoBairro.setText("Bairro");
