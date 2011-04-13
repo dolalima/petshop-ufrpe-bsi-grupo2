@@ -36,12 +36,12 @@ public class Main {
         }
 
         BancoDeDados.conectar();
-        JanelaLogin login = new JanelaLogin((BancoDeDados) BancoDeDados.connection);
-        login.setVisible(true);
+        //JanelaLogin login = new JanelaLogin((BancoDeDados) BancoDeDados.connection);
+        //login.setVisible(true);
 
         //PARA TESTE - NÃO EXCLUIR
-        //JanelaPrincipal janela = new JanelaPrincipal();
-        //janela.setVisible(true);
+        JanelaPrincipal janela = new JanelaPrincipal();
+        janela.setVisible(true);
 
     }
 
