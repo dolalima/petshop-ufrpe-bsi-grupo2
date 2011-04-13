@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public abstract class BancoDeDados {
     
     /**Endereço do Banco de Dados**/
-    public static final String DATABASE_URL="jdbc:mysql://172.16.198.16/petshop";
+    private static final String DATABASE_URL="jdbc:mysql://localhost/petshop";
     /**Variavel de conexao com o banco de dados**/
     public static Connection connection = null;
     /**Varivel de execução de comandos SQL no banco de dados**/
@@ -50,11 +50,22 @@ public abstract class BancoDeDados {
      *
      * @param cliente
      */
-    public static void cadastrar(Cliente cliente){
-        String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,bairro,cidade,cep)"+
+    public void cadastrar(Cliente cliente){
+        String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,ncasa,bairro,cidade,"+
+                "uf,telefone,celular,cep,info)"+
                 "VALUES ("+cliente.getNome()+","+cliente.getCpf()+
                 ","+cliente.getRg()+","+cliente.getEndereco().getRua()+","+cliente.getEndereco().getBairro()+
                 ","+cliente.getEndereco().getCidade()+","+cliente.getEndereco().getCep()+")";
+        System.out.print(cmd);
+        try{
+            //this.statement = this.connection.createStatement();
+            int cod = this.statement.executeUpdate(cmd);
+
+
+        } catch(SQLException e){
+            System.out.print("Erro no cadastro de Cliente");
+        }
+
         BancoDeDados.ExecuteSQLCmd(cmd);
     }
     
