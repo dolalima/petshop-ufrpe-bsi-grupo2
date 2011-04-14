@@ -1,7 +1,19 @@
 package petshop.gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
+import petshop.classes.Animal;
 
 /**
  *
@@ -12,6 +24,18 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
     /** Creates new form JanelaCadastroAnimal */
     public JanelaCadastroAnimal() {
         initComponents();
+
+        this.setLocationRelativeTo(this.getContentPane());
+
+        campoDataNasc.addKeyListener(new KeyListener() {
+                    public void keyTyped(KeyEvent e) {
+                        if (!((e.getKeyChar() >= KeyEvent.VK_0 &&
+                               e.getKeyChar() <= KeyEvent.VK_9) ||
+                              (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))) {
+                            e.consume(); } }
+                    public void keyPressed(KeyEvent e) { }
+                    public void keyReleased(KeyEvent e) { } });
+
     }
 
     /** This method is called from within the constructor to
@@ -37,7 +61,6 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Animal");
-        setMinimumSize(new java.awt.Dimension(450, 280));
         setResizable(false);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -49,6 +72,14 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -67,6 +98,14 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoRaca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -111,6 +150,11 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoDataNasc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                eventoDigitarData(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -143,6 +187,7 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
         jPanel1.add(comboSexo, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
+        areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
         areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -151,6 +196,14 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        areaInformacoes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoMaiusculas(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -195,8 +248,45 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
 }//GEN-LAST:event_cancelar
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
-        // TODO add your handling code here:
+        if(!existemDependencias()){
+            String[] d = campoDataNasc.getText().split("/");
+
+            String nome = campoNome.getText();
+            String sexo = (String) comboSexo.getSelectedItem();
+            Calendar cal = new GregorianCalendar(Integer.valueOf(d[0]),
+                    Integer.valueOf(d[1]),Integer.valueOf(d[2]));
+            String especie = (String) comboEspecie.getSelectedItem();
+            String raca = campoRaca.getText();
+            String info = areaInformacoes.getText();
+        }
     }//GEN-LAST:event_cadastrar
+
+    private void eventoDigitarData(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarData
+        JTextField campo = (JTextField) evt.getComponent();
+
+        if(campo.getText().length() == 10) evt.consume();
+
+        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+            if(campo.getText().length() == 2) campo.setText(campo.getText() + "/");
+            else if(campo.getText().length() == 5) campo.setText(campo.getText() + "/");
+        }
+    }//GEN-LAST:event_eventoDigitarData
+
+    private void campoMaiusculas(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiusculas
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(Character.isLowerCase(evt.getKeyChar())){
+            campo.setText(campo.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_campoMaiusculas
+
+    private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().length() >= getTamanhoMaximo(campo)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_campoTamanhoMaximo
 
     /**
     * @param args the command line arguments
@@ -243,5 +333,67 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
         campoDataNasc.setText("Data de Nascimento");
         campoRaca.setText("Raça");
         areaInformacoes.setText("Informações Adicionais");
+    }
+
+
+    private int getTamanhoMaximo(JTextComponent campo) {
+        if(campo.equals(campoNome)) return 50;
+        else if(campo.equals(campoRaca)) return 50;
+        else if(campo.equals(areaInformacoes)) return 400;
+        
+        return 0;
+    }
+
+    private boolean existemDependencias(){
+        String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
+
+        boolean existeDependencias = false;
+
+        if(dataValida(campoDataNasc.getText())){
+                JOptionPane.showMessageDialog(this.getContentPane(), "A data é inválida");
+                return true;
+        }
+
+        if(campoNome.getText().equals("Nome")){ msg += "- NOME\n"; existeDependencias = true;}
+        if(comboSexo.getSelectedIndex() == 0){ msg += "- SEXO\n"; existeDependencias = true;}
+        if(comboEspecie.getSelectedIndex() == 0){ msg += "- ESPECIE\n"; existeDependencias = true;}
+
+        if(existeDependencias) JOptionPane.showMessageDialog(this.getContentPane(), msg);
+        
+        return existeDependencias;
+    }
+
+    public boolean dataValida(String dateStr){
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar cal = new GregorianCalendar();
+        try {
+            // gerando o calendar
+            cal.setTime(df.parse(dateStr));
+        } catch (ParseException ex) {
+            Logger.getLogger(JanelaCadastroAnimal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // separando os dados da string para comparacao e validacao
+        String[] data = dateStr.split("/");
+        String dia = data[0];
+        String mes = data[1];
+        String ano = data[2];
+
+        // testando se hah discrepancia entre a data que foi
+        // inserida no caledar e a data que foi passada como
+        // string. se houver diferenca, a data passada era
+        // invalida
+        if ((new Integer(dia)).intValue() != (new Integer(cal.get(Calendar.DAY_OF_MONTH))).intValue()) {
+            // dia nao casou
+            return (false);
+        } else if ((new Integer(mes)).intValue() != (new Integer(cal.get(Calendar.MONTH) + 1)).intValue()) {
+            // mes nao casou
+            return (false);
+        } else if ((new Integer(ano)).intValue() != (new Integer(cal.get(Calendar.YEAR))).intValue()) {
+            // ano nao casou
+            return (false);
+        }
+
+        return (true);
     }
 }

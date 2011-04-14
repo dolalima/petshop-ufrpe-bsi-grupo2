@@ -117,6 +117,7 @@ public class PainelConsulta extends Painel{
 
         getCadastro().setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         getCadastro().setModal(true);
+
         getCadastro().setVisible(true);
     }
 

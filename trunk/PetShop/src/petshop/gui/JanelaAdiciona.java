@@ -51,6 +51,7 @@ public class JanelaAdiciona extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
         painel.add(botaoOK, gridBagConstraints);
+        this.setLocationRelativeTo(this.getContentPane());
     }
 
     /** This method is called from within the constructor to
