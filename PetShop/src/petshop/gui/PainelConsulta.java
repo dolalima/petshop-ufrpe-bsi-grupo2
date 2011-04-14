@@ -6,9 +6,14 @@
 package petshop.gui;
 
 import java.awt.Dimension;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -43,7 +48,7 @@ public class PainelConsulta extends Painel{
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         add(botaoNovo, gridBagConstraints);
@@ -53,7 +58,7 @@ public class PainelConsulta extends Painel{
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 60;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(botaoAlterar, gridBagConstraints);
@@ -68,8 +73,12 @@ public class PainelConsulta extends Painel{
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(botaoInformacoes, gridBagConstraints);
 
-        campoAcimaDe = new JTextField("Acima de");
-        campoAbaixoDe = new JTextField("Abaixo de");
+        try {
+            campoAcimaDe = new JFormattedTextField(new MaskFormatter("####-####"));
+            campoAbaixoDe = new JFormattedTextField(new MaskFormatter("####-####"));
+        } catch (ParseException ex) {
+            Logger.getLogger(PainelConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;

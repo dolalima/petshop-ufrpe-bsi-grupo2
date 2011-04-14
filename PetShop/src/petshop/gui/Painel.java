@@ -65,7 +65,6 @@ public class Painel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 65;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(comboPesquisa, gridBagConstraints);
