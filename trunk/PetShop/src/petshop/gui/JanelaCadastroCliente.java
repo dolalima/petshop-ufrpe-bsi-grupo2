@@ -11,8 +11,17 @@
 
 package petshop.gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
+import petshop.classes.Animal;
+import petshop.classes.BancoDeDados;
+import petshop.classes.CPF;
+import petshop.classes.Cliente;
+import petshop.classes.Endereco;
 
 /**
  *
@@ -20,9 +29,29 @@ import javax.swing.text.JTextComponent;
  */
 public class JanelaCadastroCliente extends javax.swing.JDialog {
 
+    private Cliente cliente;
+    private ArrayList<Animal> animais;
+
     /** Creates new form JanelaCadastroCliente */
     public JanelaCadastroCliente() {
         initComponents();
+
+        KeyListener k = new KeyListener() {
+                    public void keyTyped(KeyEvent e) {
+                        if (!((e.getKeyChar() >= KeyEvent.VK_0 &&
+                               e.getKeyChar() <= KeyEvent.VK_9) ||
+                              (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))) {
+                            e.consume(); } }
+                    public void keyPressed(KeyEvent e) { }
+                    public void keyReleased(KeyEvent e) { } };
+        
+        campoTelefone.addKeyListener(k);
+        campoCelular.addKeyListener(k);
+        campoCEP.addKeyListener(k);
+        campoCPF.addKeyListener(k);
+        campoRG.addKeyListener(k);
+        
+        animais = new ArrayList();
     }
 
     /** This method is called from within the constructor to
@@ -96,6 +125,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                eventoDigitarFone(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
@@ -112,6 +146,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoCelular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                eventoDigitarFone(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -225,6 +264,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoCEP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                eventoDigitarCEP(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
@@ -258,6 +302,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoCPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                eventoDigitarCPF(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -418,9 +467,85 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this.getContentPane(), msg);
             return;
         }
+        
+        String CPF = campoCPF.getText().replaceAll(".", "");
+        CPF = CPF.replaceAll("-", "");
+        
+        String tel = campoTelefone.getText().replaceAll("(", "");
+        int dddt = Integer.valueOf(tel.substring(0, 2));
+        tel = tel.replaceAll(")", "");
+        tel = tel.replaceAll("-", "");
+        
+        String cel = campoCelular.getText().replaceAll("(", "");
+        int dddc = Integer.valueOf(cel.substring(0, 2));
+        cel = cel.replaceAll(")", "");
+        cel = cel.replaceAll("-", "");
 
-        System.out.print(msg);
+        String rua = campoRua.getText();
+        int numero = Integer.valueOf(campoNumero.getText());
+        String complemento = campoComplemento.getText();
+        String bairro = campoBairro.getText();
+        String cidade = campoCidade.getText();
+        String uf = (String) comboUF.getSelectedItem();
+        String cep = campoCEP.getText();
+        
+        System.out.print(CPF);
+
+        String nome = campoNome.getText();
+        String sexo = (String) comboSexo.getSelectedItem();
+        Endereco endereco = new Endereco(rua, numero, complemento,
+                bairro, cidade, uf, cep);
+        int rg = Integer.valueOf(campoRG.getText());
+        CPF cpf = new CPF(CPF);
+        String email = campoEMail.getText();
+        int[] telefone = new int[2];
+        telefone[0] = dddt;
+        telefone[1] = Integer.valueOf(tel);
+        int[] celular = new int[2];
+        celular[0] = dddc;
+        celular[1] = Integer.valueOf(cel);
+        Animal[] listaAnimais = (Animal[]) animais.toArray();
+        String informacoes = areaInformacoes.getText();
+        
+        cliente = new Cliente(nome, sexo, endereco, rg, cpf, email,
+                telefone, celular, listaAnimais, informacoes);
+
+        BancoDeDados.cadastrar(cliente);
     }//GEN-LAST:event_cadastrar
+
+    private void eventoDigitarFone(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarFone
+        JTextField campo = (JTextField) evt.getComponent();
+
+        if(campo.getText().length() == 13) evt.consume();
+        
+        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+            if(campo.getText().length() == 0) campo.setText("(");
+            else if(campo.getText().length() == 3) campo.setText(campo.getText() + ")");
+            else if(campo.getText().length() == 8) campo.setText(campo.getText() + "-");
+        }
+    }//GEN-LAST:event_eventoDigitarFone
+
+    private void eventoDigitarCPF(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarCPF
+        JTextField campo = (JTextField) evt.getComponent();
+
+        if(campo.getText().length() == 14) evt.consume();
+
+        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+            if(campo.getText().length() == 3) campo.setText(campo.getText() + ".");
+            else if(campo.getText().length() == 7) campo.setText(campo.getText() + ".");
+            else if(campo.getText().length() == 11) campo.setText(campo.getText() + "-");
+        }
+    }//GEN-LAST:event_eventoDigitarCPF
+
+    private void eventoDigitarCEP(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarCEP
+        JTextField campo = (JTextField) evt.getComponent();
+
+        if(campo.getText().length() == 9) evt.consume();
+
+        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
+            if(campo.getText().length() == 5) campo.setText(campo.getText() + "-");
+        }
+    }//GEN-LAST:event_eventoDigitarCEP
 
     /**
     * @param args the command line arguments
@@ -497,5 +622,9 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCelular.setText("Celular");
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Animais"}));
         areaInformacoes.setText("Informações Adicionais");
+    }
+
+    public void addAnimal(Animal a){
+        animais.add(a);
     }
 }

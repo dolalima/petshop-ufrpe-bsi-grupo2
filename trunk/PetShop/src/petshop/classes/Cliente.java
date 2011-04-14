@@ -11,181 +11,180 @@ public class Cliente{
     private Endereco endereco;
     private int rg;
     private CPF cpf;
+    private String email;
     private int[] telefone;
     private int[] celular;
     private Animal[] animais;
-    private String email;
     private String informacoes;
-    
-    	
-	/**
-	 * @param codigo
-	 * @param nome
-	 * @param sexo
-	 * @param endereco
-	 * @param email
-	 * @param informacoes
-	 * @param rg
-	 * @param cpf
-	 * @param telefone
-	 * @param celular
-	 * @param animais
-	 */
-	public Cliente(int codigo, String nome, String sexo, Endereco endereco,
-			String email, String informacoes, int rg, CPF cpf, int[] telefone,
-			int[] celular, Animal[] animais) {
-		
-		super();
-		this.codigo = codigo;
-		this.nome = nome;
-		this.sexo = sexo;
-		this.endereco = endereco;
-		this.email = email;
-		this.informacoes = informacoes;
-		this.rg = rg;
-		this.cpf = cpf;
-		this.telefone = telefone;
-		this.celular = celular;
-		this.animais = animais;
-	}
-	
-	
-	/**
-	 * @return
-	 */
-	public int getCodigo() {
-		return codigo;
-	}
-	/**
-	 * @param codigo
-	 */
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-	/**
-	 * @return
-	 */
-	public String getNome() {
-		return nome;
-	}
-	/**
-	 * @param nome
-	 */
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	/**
-	 * @return
-	 */
-	public String getSexo() {
-		return sexo;
-	}
-	/**
-	 * @param sexo
-	 */
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-	/**
-	 * @return
-	 */
-	public Endereco getEndereco() {
-		return endereco;
-	}
-	/**
-	 * @param endereco
-	 */
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	/**
-	 * @return
-	 */
-	public String getEmail() {
-		return email;
-	}
-	/**
-	 * @param email
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	/**
-	 * @return
-	 */
-	public String getInformacoes() {
-		return informacoes;
-	}
-	/**
-	 * @param informacoes
-	 */
-	public void setInformacoes(String informacoes) {
-		this.informacoes = informacoes;
-	}
-	/**
-	 * @return
-	 */
-	public int getRg() {
-		return rg;
-	}
-	/**
-	 * @param rg
-	 */
-	public void setRg(int rg) {
-		this.rg = rg;
-	}
-	/**
-	 * @return
-	 */
-	public CPF getCpf() {
-		return cpf;
-	}
-	/**
-	 * @param cpf
-	 */
-	public void setCpf(CPF cpf) {
-		this.cpf = cpf;
-	}
-	/**
-	 * @return
-	 */
-	public int[] getTelefone() {
-		return telefone;
-	}
-	/**
-	 * @param telefone
-	 */
-	public void setTelefone(int[] telefone) {
-		this.telefone = telefone;
-	}
-	/**
-	 * @return
-	 */
-	public int[] getCelular() {
-		return celular;
-	}
-	/**
-	 * @param celular
-	 */
-	public void setCelular(int[] celular) {
-		this.celular = celular;
-	}
+
+    public Cliente(String nome, String sexo, Endereco endereco, int rg, CPF cpf, String email, int[] telefone, int[] celular, Animal[] animais, String informacoes) {
+        
+        this.nome = nome;
+        this.sexo = sexo;
+        this.endereco = endereco;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+        this.celular = celular;
+        this.animais = animais;
+        this.informacoes = informacoes;
+    }
 
 
-	/**
-	 * @return
-	 */
-	public Animal[] getAnimais() {
-		return animais;
-	}
 
-	/**
-	 * @param animais
-	 */
-	public void setAnimais(Animal[] animais) {
-		this.animais = animais;
-	}
+    /**
+     * @return the codigo
+     */
+    public int getCodigo() {
+        return codigo;
+    }
 
-    
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the nome
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    /**
+     * @return the sexo
+     */
+    public String getSexo() {
+        return sexo;
+    }
+
+    /**
+     * @param sexo the sexo to set
+     */
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    /**
+     * @return the endereco
+     */
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    /**
+     * @param endereco the endereco to set
+     */
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    /**
+     * @return the rg
+     */
+    public int getRg() {
+        return rg;
+    }
+
+    /**
+     * @param rg the rg to set
+     */
+    public void setRg(int rg) {
+        this.rg = rg;
+    }
+
+    /**
+     * @return the cpf
+     */
+    public CPF getCpf() {
+        return cpf;
+    }
+
+    /**
+     * @param cpf the cpf to set
+     */
+    public void setCpf(CPF cpf) {
+        this.cpf = cpf;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the telefone
+     */
+    public int[] getTelefone() {
+        return telefone;
+    }
+
+    /**
+     * @param telefone the telefone to set
+     */
+    public void setTelefone(int[] telefone) {
+        this.telefone = telefone;
+    }
+
+    /**
+     * @return the celular
+     */
+    public int[] getCelular() {
+        return celular;
+    }
+
+    /**
+     * @param celular the celular to set
+     */
+    public void setCelular(int[] celular) {
+        this.celular = celular;
+    }
+
+    /**
+     * @return the animais
+     */
+    public Animal[] getAnimais() {
+        return animais;
+    }
+
+    /**
+     * @param animais the animais to set
+     */
+    public void setAnimais(Animal[] animais) {
+        this.animais = animais;
+    }
+
+    /**
+     * @return the informacoes
+     */
+    public String getInformacoes() {
+        return informacoes;
+    }
+
+    /**
+     * @param informacoes the informacoes to set
+     */
+    public void setInformacoes(String informacoes) {
+        this.informacoes = informacoes;
+    }
     
 }
