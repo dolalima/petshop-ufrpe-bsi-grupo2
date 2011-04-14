@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * @author dola
  */
 public abstract class BancoDeDados {
-    
+
     /**Endereço do Banco de Dados**/
     private static final String DATABASE_URL="jdbc:mysql://localhost/petshop";
     /**Variavel de conexao com o banco de dados**/
@@ -35,7 +35,7 @@ public abstract class BancoDeDados {
         try{
             BancoDeDados.connection = DriverManager.getConnection(DATABASE_URL,
                     "root",
-                    "lima1807");
+                    "x4n0n1m0x");
             BancoDeDados.statement = BancoDeDados.connection.createStatement();
             System.out.print("Conectado");
             BancoDeDados.conectStatus = true;
@@ -50,7 +50,7 @@ public abstract class BancoDeDados {
      *
      * @param cliente
      */
-    public void cadastrar(Cliente cliente){
+    public static void cadastrar(Cliente cliente){
         String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,ncasa,bairro,cidade,"+
                 "uf,telefone,celular,cep,info)"+
                 "VALUES ("+cliente.getNome()+","+cliente.getCpf()+
@@ -59,8 +59,10 @@ public abstract class BancoDeDados {
         System.out.print(cmd);
         try{
             //this.statement = this.connection.createStatement();
-            int cod = this.statement.executeUpdate(cmd);
 
+            int cod = statement.executeUpdate(cmd);
+
+            System.out.print(cod);
 
         } catch(SQLException e){
             System.out.print("Erro no cadastro de Cliente");
@@ -68,8 +70,8 @@ public abstract class BancoDeDados {
 
         BancoDeDados.ExecuteSQLCmd(cmd);
     }
-    
-    
+
+
     /**
      * Metodo publico que cadastra um pruduto no banco de dados.
      *
@@ -79,8 +81,8 @@ public abstract class BancoDeDados {
         String cmd = "INSERT INTO produto () VALUES ()";
         BancoDeDados.ExecuteSQLCmd(cmd);
     }
-    
-    
+
+
     /**
      * Metodo publico que cadastra um servico no banco de dados.
      *
@@ -90,8 +92,8 @@ public abstract class BancoDeDados {
         String cmd = "INSERT INTO servico () VALUES ()";
         BancoDeDados.ExecuteSQLCmd(cmd);
     }
-    
-    
+
+
     /**Metodo privado que executa comandos SQL a partir de outros metodos
      * no banco de dados e retorna o resultado para a variavel resultset.
      **/

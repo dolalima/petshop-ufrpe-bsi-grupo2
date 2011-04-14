@@ -1,141 +1,86 @@
 package petshop.classes;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * @author arthur
  *
  */
 public class Animal {
-	
-	private int codigo;
-	private String nome;
-	private String especie;
-	private String raca;
-	private String info;
-	private String sexo;
-	private Date dataNasc;
-	
-	
-        /**
-         * @param codigo
-         * @param nome
-         * @param especie
-         * @param raca
-         * @param info
-         * @param sexo
-         * @param dataNasc
-         */
-        public Animal(int codigo, String nome, String especie, String raca,
-			String info, String sexo, Date dataNasc) {
-		
-		this.codigo = codigo;
-		this.nome = nome;
-		this.especie = especie;
-		this.raca = raca;
-		this.info = info;
-		this.sexo = sexo;
-		this.dataNasc = dataNasc;
-	}
-	
-	
-        /**
-         * @return
-         */
-        public int getCodigo() {
-		return codigo;
-	}
 
-        /**
-         * @param codigo
-         */
-        public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
+    private int codigo;
+    private String nome;
+    private String sexo;
+    private Calendar dataNasc;
+    private String especie;
+    private String raca;
+    private String info;
 
-        /**
-         * @return
-         */
-        public String getNome() {
-		return nome;
-	}
+    public Animal(String nome, String sexo, Calendar dataNasc, String especie, String raca, String info) {
+        
+        this.nome = nome;
+        this.sexo = sexo;
+        this.dataNasc = dataNasc;
+        this.especie = especie;
+        this.raca = raca;
+        this.info = info;
+    }
 
-        /**
-         * @param nome
-         */
-        public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public int getCodigo() {
+        return codigo;
+    }
 
-        /**
-         * @return
-         */
-        public String getEspecie() {
-		return especie;
-	}
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
 
-        /**
-         * @param especie
-         */
-        public void setEspecie(String especie) {
-		this.especie = especie;
-	}
+    public Calendar getDataNasc() {
+        return dataNasc;
+    }
 
-        /**
-         * @return
-         */
-        public String getRaca() {
-		return raca;
-	}
+    public void setDataNasc(Calendar dataNasc) {
+        this.dataNasc = dataNasc;
+    }
 
-        /**
-         * @param raca
-         */
-        public void setRaca(String raca) {
-		this.raca = raca;
-	}
+    public String getEspecie() {
+        return especie;
+    }
 
-        /**
-         * @return
-         */
-        public String getInfo() {
-		return info;
-	}
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
 
-        /**
-         * @param info
-         */
-        public void setInfo(String info) {
-		this.info = info;
-	}
+    public String getInfo() {
+        return info;
+    }
 
-        /**
-         * @return
-         */
-        public String getSexo() {
-		return sexo;
-	}
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
-        /**
-         * @param sexo
-         */
-        public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-        /**
-         * @return
-         */
-        public Date getDataNasc() {
-		return dataNasc;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-        /**
-         * @param dataNasc
-         */
-        public void setDataNasc(Date dataNasc) {
-		this.dataNasc = dataNasc;
-	}
-	
-	
+    public String getRaca() {
+        return raca;
+    }
+
+    public void setRaca(String raca) {
+        this.raca = raca;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+
 }

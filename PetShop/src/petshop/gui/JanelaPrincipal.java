@@ -19,10 +19,10 @@ import javax.swing.JFrame;
  */
 public class JanelaPrincipal extends javax.swing.JFrame {
 
-    PainelConsultaClientes painelClientes;
-    PainelConsultaProdutos painelProdutos;
-    PainelConsultaServicos painelServicos;
-    PainelConsultaVendas painelVendas;
+    private PainelConsultaClientes painelClientes;
+    private PainelConsultaProdutos painelProdutos;
+    private PainelConsultaServicos painelServicos;
+    private PainelConsultaVendas painelVendas;
 
     /** Creates new form JanelaPrincipal */
     public JanelaPrincipal() {

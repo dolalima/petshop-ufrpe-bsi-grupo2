@@ -5,6 +5,8 @@
 
 package petshop;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import petshop.gui.*;
@@ -17,6 +19,7 @@ import petshop.classes.*;
  */
 public class Main {
 
+    JanelaPrincipal menu;
     /**
      * @param args the command line arguments
      */
@@ -36,11 +39,20 @@ public class Main {
         }
 
         BancoDeDados.conectar();
-        //JanelaLogin login = new JanelaLogin((BancoDeDados) BancoDeDados.connection);
-        //login.setVisible(true);
-
-        //PARA TESTE - NÃO EXCLUIR
+        //JanelaLogin janela = new JanelaLogin((BancoDeDados) BancoDeDados.connection);
         JanelaPrincipal janela = new JanelaPrincipal();
+
+        // Get the size of the screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Determine the new location of the window
+        int w = janela.getSize().width;
+        int h = janela.getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
+
+        // Move the window
+        janela.setLocation(x, y);
         janela.setVisible(true);
 
     }

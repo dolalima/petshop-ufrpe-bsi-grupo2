@@ -11,7 +11,6 @@
 
 package petshop.gui;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
@@ -35,6 +34,7 @@ public class JanelaVenda extends javax.swing.JDialog {
         adicionaCliente = new JanelaAdicionaCliente();
 
         comboAnimal.setVisible(false);
+        this.setLocationRelativeTo(this.getContentPane());
     }
 
     /** This method is called from within the constructor to

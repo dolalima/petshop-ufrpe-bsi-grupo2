@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * JanelaCadastroCliente.java
- *
- * Created on Apr 7, 2011, 8:19:40 AM
- */
-
 package petshop.gui;
 
 import java.awt.event.KeyEvent;
@@ -18,7 +7,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
-import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
 import petshop.classes.Cliente;
 import petshop.classes.Endereco;
@@ -36,6 +24,8 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     public JanelaCadastroCliente() {
         initComponents();
 
+        this.setLocationRelativeTo(this.getContentPane());
+
         KeyListener k = new KeyListener() {
                     public void keyTyped(KeyEvent e) {
                         if (!((e.getKeyChar() >= KeyEvent.VK_0 &&
@@ -50,6 +40,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCEP.addKeyListener(k);
         campoCPF.addKeyListener(k);
         campoRG.addKeyListener(k);
+        campoNumero.addKeyListener(k);
         
         animais = new ArrayList();
     }
@@ -98,6 +89,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -170,6 +170,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoRua.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -185,6 +194,14 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -204,6 +221,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoComplemento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -221,6 +247,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoBairro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -236,6 +271,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoCidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -286,6 +330,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoRG.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -327,6 +376,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoEMail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -336,6 +394,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         jPanel1.add(campoEMail, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
+        areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
         areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -344,6 +403,15 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        areaInformacoes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoTamanhoMaximo(evt);
+                campoMaiusculas(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -448,69 +516,40 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 }//GEN-LAST:event_adicionarAnimal
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
-        String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
+        if(!existemDependencias()){
+            //ENDEREÇO
+            String rua = campoRua.getText();
+            int numero = Integer.valueOf(campoNumero.getText());
+            String complemento = campoComplemento.getText();
+            String bairro = campoBairro.getText();
+            String cidade = campoCidade.getText();
+            String uf = (String) comboUF.getSelectedItem();
+            String cep = campoCEP.getText();
 
-        boolean precisaRequisitos = false;
-        
-        if(campoNome.getText().equals("Nome")) msg += "- NOME\n"; precisaRequisitos = true;
-        if(comboSexo.getSelectedIndex() == 0) msg += "- SEXO\n"; precisaRequisitos = true;
-        if(campoRua.getText().equals("Rua")) msg += "- RUA\n"; precisaRequisitos = true;
-        if(campoNumero.getText().equals("Número")) msg += "- NÚMERO\n"; precisaRequisitos = true;
-        if(campoBairro.getText().equals("Bairro")) msg += "- BAIRRO\n"; precisaRequisitos = true;
-        if(campoCidade.getText().equals("Cidade")) msg += "- CIDADE\n"; precisaRequisitos = true;
-        if(comboUF.getSelectedIndex() == 0) msg += "- UF\n"; precisaRequisitos = true;
-        if(campoRG.getText().equals("RG")) msg += "- RG\n"; precisaRequisitos = true;
-        if(campoCPF.getText().equals("CPF")) msg += "- CPF\n"; precisaRequisitos = true;
-        if(campoTelefone.getText().equals("Telefone") && campoCelular.getText().equals("Celular")) msg += "- TELEFONE OU CELULAR"; precisaRequisitos = true;
+            //CLIENTE
+            String nome = campoNome.getText();
+            String sexo = (String) comboSexo.getSelectedItem();
+            Endereco endereco = new Endereco(rua, numero, complemento,
+                    bairro, cidade, uf, cep);
+            int rg = Integer.valueOf(campoRG.getText());
+            CPF cpf = new CPF(campoCPF.getText());
+            String email = campoEMail.getText();
+            String telefone = campoTelefone.getText();
+            String celular = campoCelular.getText();
+            Animal[] listaAnimais;
+            try{
+                listaAnimais = (Animal[]) animais.toArray();
+            } catch (ClassCastException e){
+                listaAnimais = new Animal[0];
+            }
 
-        if(precisaRequisitos){
-            JOptionPane.showMessageDialog(this.getContentPane(), msg);
-            return;
+            String informacoes = areaInformacoes.getText();
+
+            cliente = new Cliente(nome, sexo, endereco, rg, cpf, email,
+                    telefone, celular, listaAnimais, informacoes);
+
+            //BancoDeDados.cadastrar(cliente);
         }
-        
-        String CPF = campoCPF.getText().replaceAll(".", "");
-        CPF = CPF.replaceAll("-", "");
-        
-        String tel = campoTelefone.getText().replaceAll("(", "");
-        int dddt = Integer.valueOf(tel.substring(0, 2));
-        tel = tel.replaceAll(")", "");
-        tel = tel.replaceAll("-", "");
-        
-        String cel = campoCelular.getText().replaceAll("(", "");
-        int dddc = Integer.valueOf(cel.substring(0, 2));
-        cel = cel.replaceAll(")", "");
-        cel = cel.replaceAll("-", "");
-
-        String rua = campoRua.getText();
-        int numero = Integer.valueOf(campoNumero.getText());
-        String complemento = campoComplemento.getText();
-        String bairro = campoBairro.getText();
-        String cidade = campoCidade.getText();
-        String uf = (String) comboUF.getSelectedItem();
-        String cep = campoCEP.getText();
-        
-        System.out.print(CPF);
-
-        String nome = campoNome.getText();
-        String sexo = (String) comboSexo.getSelectedItem();
-        Endereco endereco = new Endereco(rua, numero, complemento,
-                bairro, cidade, uf, cep);
-        int rg = Integer.valueOf(campoRG.getText());
-        CPF cpf = new CPF(CPF);
-        String email = campoEMail.getText();
-        int[] telefone = new int[2];
-        telefone[0] = dddt;
-        telefone[1] = Integer.valueOf(tel);
-        int[] celular = new int[2];
-        celular[0] = dddc;
-        celular[1] = Integer.valueOf(cel);
-        Animal[] listaAnimais = (Animal[]) animais.toArray();
-        String informacoes = areaInformacoes.getText();
-        
-        cliente = new Cliente(nome, sexo, endereco, rg, cpf, email,
-                telefone, celular, listaAnimais, informacoes);
-
-        BancoDeDados.cadastrar(cliente);
     }//GEN-LAST:event_cadastrar
 
     private void eventoDigitarFone(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarFone
@@ -546,6 +585,22 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             if(campo.getText().length() == 5) campo.setText(campo.getText() + "-");
         }
     }//GEN-LAST:event_eventoDigitarCEP
+
+    private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().length() >= getTamanhoMaximo(campo)){
+            evt.consume();
+        }        
+    }//GEN-LAST:event_campoTamanhoMaximo
+
+    private void campoMaiusculas(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiusculas
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(Character.isLowerCase(evt.getKeyChar())){
+            campo.setText(campo.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_campoMaiusculas
 
     /**
     * @param args the command line arguments
@@ -626,5 +681,47 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
     public void addAnimal(Animal a){
         animais.add(a);
+    }
+
+
+    private int getTamanhoMaximo(JTextComponent campo){
+
+        if(campo.equals(campoNome)) return 80;
+        else if(campo.equals(campoRua)) return 70;
+        else if(campo.equals(campoNumero)) return 4;
+        else if(campo.equals(campoComplemento)) return 30;
+        else if(campo.equals(campoBairro)) return 30;
+        else if(campo.equals(campoCidade)) return 30;
+        else if(campo.equals(campoRG)) return 15;
+        else if(campo.equals(campoEMail)) return 70;
+        else if(campo.equals(areaInformacoes)) return 400;
+
+        return 0;
+    }
+
+
+    private boolean existemDependencias(){
+        String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
+
+        boolean existeDependencias = false;
+
+        if(campoNome.getText().equals("Nome")){ msg += "- NOME\n"; existeDependencias = true;}
+        if(comboSexo.getSelectedIndex() == 0){ msg += "- SEXO\n"; existeDependencias = true;}
+        if(campoRua.getText().equals("Rua")){ msg += "- RUA\n"; existeDependencias = true;}
+        if(campoNumero.getText().equals("Número")){ msg += "- NÚMERO\n"; existeDependencias = true;}
+        if(campoBairro.getText().equals("Bairro")){ msg += "- BAIRRO\n"; existeDependencias = true;}
+        if(campoCidade.getText().equals("Cidade")){ msg += "- CIDADE\n"; existeDependencias = true;}
+        if(comboUF.getSelectedIndex() == 0){ msg += "- UF\n"; existeDependencias = true;}
+        if(campoRG.getText().equals("RG")){ msg += "- RG\n"; existeDependencias = true;}
+        if(campoCPF.getText().equals("CPF")){ msg += "- CPF\n"; existeDependencias = true;}
+        if(campoTelefone.getText().equals("Telefone") && campoCelular.getText().equals("Celular")){
+            msg += "- TELEFONE OU CELULAR"; existeDependencias = true;
+        }
+
+        if(existeDependencias){
+            JOptionPane.showMessageDialog(this.getContentPane(), msg);
+        }
+
+        return existeDependencias;
     }
 }

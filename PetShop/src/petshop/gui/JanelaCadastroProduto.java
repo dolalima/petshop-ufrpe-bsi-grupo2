@@ -12,6 +12,8 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
     /** Creates new form JanelaCadastroProduto */
     public JanelaCadastroProduto() {
         initComponents();
+
+        this.setLocationRelativeTo(this.getContentPane());
     }
 
     /** This method is called from within the constructor to
@@ -36,10 +38,8 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Produto");
-        setMinimumSize(new java.awt.Dimension(400, 250));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(255, 152));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         campoNome.setText("Nome");
@@ -95,6 +95,7 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         jPanel1.add(campoPrecoCusto, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
+        areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
         areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {

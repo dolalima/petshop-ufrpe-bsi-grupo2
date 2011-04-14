@@ -1,19 +1,27 @@
 package petshop.gui;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import petshop.classes.BancoDeDados;
 import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 /**
  *
  * @author arthur
  */
 public class JanelaLogin extends javax.swing.JFrame {
-    private BancoDeDados db = null;
+
+    String usuario;
+    String senha;
 
     /** Creates new form JanelaLogin */
-    public JanelaLogin(BancoDeDados db) {
+    public JanelaLogin() {
         initComponents();
-        this.db=db;
 
+        usuario = "";
+        senha = "";
     }
 
     /** This method is called from within the constructor to
@@ -26,7 +34,7 @@ public class JanelaLogin extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        campoLogin = new javax.swing.JTextField();
+        campoUsuario = new javax.swing.JTextField();
         campoSenha = new javax.swing.JTextField();
         botaoEntrar = new javax.swing.JButton();
 
@@ -35,9 +43,9 @@ public class JanelaLogin extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        campoLogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoLogin.setText("Login");
-        campoLogin.addFocusListener(new java.awt.event.FocusAdapter() {
+        campoUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoUsuario.setText("Usuário");
+        campoUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
@@ -51,7 +59,7 @@ public class JanelaLogin extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 130;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        getContentPane().add(campoLogin, gridBagConstraints);
+        getContentPane().add(campoUsuario, gridBagConstraints);
 
         campoSenha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campoSenha.setText("Senha");
@@ -61,6 +69,11 @@ public class JanelaLogin extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                transformaSenha(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -77,11 +90,6 @@ public class JanelaLogin extends javax.swing.JFrame {
                 logar(evt);
             }
         });
-        botaoEntrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoEntrarActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -91,18 +99,6 @@ public class JanelaLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botaoEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEntrarActionPerformed
-        // TODO add your handling code here:
-        String user = this.campoLogin.getText();
-        String passw = this.campoSenha.getText();
-        boolean resposta = login(user, passw);
-        if (resposta==true){
-            this.setVisible(false);
-            JanelaPrincipal menu = new JanelaPrincipal();
-            menu.setVisible(true);
-            }
-    }//GEN-LAST:event_botaoEntrarActionPerformed
 
     private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
         JTextComponent campo = (JTextComponent) evt.getComponent();
@@ -122,63 +118,115 @@ public class JanelaLogin extends javax.swing.JFrame {
 
     private void logar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logar
         // TODO add your handling code here:
+        if(!existemPendencias()){
+            usuario = this.campoUsuario.getText();
+            if(login(usuario, senha)) {
+                this.setVisible(false);
+                JanelaPrincipal janela = new JanelaPrincipal();
+
+                // Get the size of the screen
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+                // Determine the new location of the window
+                int w = janela.getSize().width;
+                int h = janela.getSize().height;
+                int x = (dim.width-w)/2;
+                int y = (dim.height-h)/2;
+
+                // Move the window
+                janela.setLocation(x, y);
+                janela.setVisible(true);
+            }
+        }
     }//GEN-LAST:event_logar
+
+    private void transformaSenha(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_transformaSenha
+        JTextField campo = (JTextField) evt.getComponent();
+
+        if(campo.getText().length() == 30) evt.consume();
+
+        if(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+            if(senha.length() > 0){
+                String ast = campoSenha.getText();
+                senha = senha.substring(0, senha.length()-1);
+                //campoSenha.setText(ast.substring(0, ast.length()-1));
+            }
+        } else {
+            senha = senha + Character.toString(evt.getKeyChar());
+            evt.setKeyChar('*');
+        }
+
+        System.out.print(senha + "\n");
+    }//GEN-LAST:event_transformaSenha
 
     /**
     * @param args the command line arguments
     */
-    //public static void main(String args[]) {
-        //java.awt.EventQueue.invokeLater(new Runnable() {
-            //public void run() {
-                //new JanelaLogin().setVisible(true);
-            //}
-        //});
-    //}
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new JanelaLogin().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoEntrar;
-    private javax.swing.JTextField campoLogin;
     private javax.swing.JTextField campoSenha;
+    private javax.swing.JTextField campoUsuario;
     // End of variables declaration//GEN-END:variables
 
     //Retorna a etiqueta certa pra cada campo
     private String getEtiqueta(JTextComponent campo){
 
-        if(campo.equals(campoLogin)) return "Login";
+        if(campo.equals(campoUsuario)) return "Usuário";
         else if(campo.equals(campoSenha)) return "Senha";
 
         return "";
     }
 
 
-    public static boolean login(String user,String senha){
-        try{
-            String cmd = "SELECT user,senha FROM usuarios WHERE user='"+user+"'";
+    private boolean login(String user, String senha) {
+        try {
+            String cmd = "SELECT user,senha FROM usuarios WHERE user='" + user + "'";
             System.out.println(cmd);
             ResultSet dados = BancoDeDados.statement.executeQuery(cmd);
 
             dados.next();
             String u = (String) dados.getObject(1);
             String s = (String) dados.getObject(2);
-            if (user.equals(u))
-                if (senha.equals(s)){
+            if (user.equals(u)) {
+                if (senha.equals(s)) {
                     System.out.println("Usuario conectado com exito.");
                     return true;
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Senha Invalida");
+                    return false;
                 }
-                else {
-                System.out.println("Senha Invalida");
-                return false;
-                }
-            else {
-                System.out.println("Usuario ou senha Invalida");
+            } else {
+                JOptionPane.showMessageDialog(this.getContentPane(), "Usuario invalido");
                 return false;
 
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.print(e);
             System.out.println("Erro do Sistema");
             return false;
         }
+    }
+
+    public boolean existemPendencias(){
+        boolean pendencia = false;
+
+        if(campoUsuario.getText().equals("Usuário")){
+            JOptionPane.showMessageDialog(this.getContentPane(), "Preencha o campo de usuário");
+            pendencia = true;
+        } else if(campoSenha.getText().equals("Senha")){
+            JOptionPane.showMessageDialog(this.getContentPane(), "Preencha o campo de senha");
+            pendencia = true;
+        }
+
+        return pendencia;
     }
 }

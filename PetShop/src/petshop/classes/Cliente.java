@@ -12,12 +12,12 @@ public class Cliente{
     private int rg;
     private CPF cpf;
     private String email;
-    private int[] telefone;
-    private int[] celular;
+    private String telefone;
+    private String celular;
     private Animal[] animais;
     private String informacoes;
 
-    public Cliente(String nome, String sexo, Endereco endereco, int rg, CPF cpf, String email, int[] telefone, int[] celular, Animal[] animais, String informacoes) {
+    public Cliente(String nome, String sexo, Endereco endereco, int rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
         
         this.nome = nome;
         this.sexo = sexo;
@@ -29,6 +29,10 @@ public class Cliente{
         this.celular = celular;
         this.animais = animais;
         this.informacoes = informacoes;
+    }
+
+    public Cliente() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 
@@ -134,28 +138,28 @@ public class Cliente{
     /**
      * @return the telefone
      */
-    public int[] getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
     /**
      * @param telefone the telefone to set
      */
-    public void setTelefone(int[] telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
     /**
      * @return the celular
      */
-    public int[] getCelular() {
+    public String getCelular() {
         return celular;
     }
 
     /**
      * @param celular the celular to set
      */
-    public void setCelular(int[] celular) {
+    public void setCelular(String celular) {
         this.celular = celular;
     }
 

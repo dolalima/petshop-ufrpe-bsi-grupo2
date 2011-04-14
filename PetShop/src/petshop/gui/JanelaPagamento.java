@@ -22,6 +22,7 @@ public class JanelaPagamento extends javax.swing.JDialog {
         initComponents();
         
         checkParcelado.setEnabled(false);
+        this.setLocationRelativeTo(this.getContentPane());
     }
 
     /** This method is called from within the constructor to

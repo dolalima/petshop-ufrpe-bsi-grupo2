@@ -23,6 +23,8 @@ public class JanelaCadastroServico extends javax.swing.JDialog {
     /** Creates new form JanelaCadastroServico */
     public JanelaCadastroServico() {
         initComponents();
+
+        this.setLocationRelativeTo(this.getContentPane());
     }
 
     /** This method is called from within the constructor to
@@ -46,9 +48,8 @@ public class JanelaCadastroServico extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Serviço");
-        setMinimumSize(new java.awt.Dimension(330, 260));
+        setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(320, 200));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         campoNome.setText("Nome");
@@ -87,6 +88,7 @@ public class JanelaCadastroServico extends javax.swing.JDialog {
         jPanel1.add(campoDuracao, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
+        areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
         areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
