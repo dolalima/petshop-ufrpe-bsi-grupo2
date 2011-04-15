@@ -2,6 +2,7 @@ package petshop.classes;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
@@ -23,6 +24,8 @@ public abstract class BancoDeDados {
     public static Connection connection = null;
     /**Varivel de execução de comandos SQL no banco de dados**/
     public static Statement statement = null;
+    //**varivel de comando sql pre configurados**//
+    public static PreparedStatement preparedStatement = null;
     /**Variavel que recebe o resultado das pesquisas do banco de dados**/
     public static ResultSet resultset = null;
     /**Variavel de recebe os metadados das pesquisas no banco de dados. **/
@@ -35,7 +38,7 @@ public abstract class BancoDeDados {
         try{
             BancoDeDados.connection = DriverManager.getConnection(DATABASE_URL,
                     "root",
-                    "x4n0n1m0x");
+                    "lima1807");
             BancoDeDados.statement = BancoDeDados.connection.createStatement();
             System.out.print("Conectado");
             BancoDeDados.conectStatus = true;
@@ -51,24 +54,35 @@ public abstract class BancoDeDados {
      * @param cliente
      */
     public static void cadastrar(Cliente cliente){
-        String cmd = "INSERT INTO cliente (nome,cpf,rg,rua,ncasa,bairro,cidade,"+
-                "uf,telefone,celular,cep,info)"+
-                "VALUES ("+cliente.getNome()+","+cliente.getCpf()+
-                ","+cliente.getRg()+","+cliente.getEndereco().getRua()+","+cliente.getEndereco().getBairro()+
-                ","+cliente.getEndereco().getCidade()+","+cliente.getEndereco().getCep()+")";
-        System.out.print(cmd);
         try{
-            //this.statement = this.connection.createStatement();
+            //
+            preparedStatement = connection.prepareStatement("INSERT INTO cliente(nome,"
+                    +"sexo,cpf,rg,rua,ncasa,bairro,cidade,complemento,uf,telefone,"
+                    + "celular,cep,info) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            //
+            preparedStatement.setString(1, cliente.getNome());
+            preparedStatement.setString(2, cliente.getSexo());
+            preparedStatement.setString(3, cliente.getCpf().getCpf());
+            preparedStatement.setInt(4, cliente.getRg());
+            preparedStatement.setString(5, cliente.getEndereco().getRua());
+            preparedStatement.setInt(6, cliente.getEndereco().getNum());
+            preparedStatement.setString(7, cliente.getEndereco().getBairro());
+            preparedStatement.setString(8,cliente.getEndereco().getCidade());
+            preparedStatement.setString(9, cliente.getEndereco().getComplemento());
+            preparedStatement.setString(10, cliente.getEndereco().getUf());
+            preparedStatement.setString(11, cliente.getTelefone());
+            preparedStatement.setString(12, cliente.getCelular());
+            preparedStatement.setString(13, cliente.getEndereco().getCep());
+            preparedStatement.setString(14, cliente.getInformacoes());
+                       
+            int cod = preparedStatement.executeUpdate();
 
-            int cod = statement.executeUpdate(cmd);
-
-            System.out.print(cod);
+            System.out.println("ID de cliente "+Integer.toString(cod));
 
         } catch(SQLException e){
-            System.out.print("Erro no cadastro de Cliente");
+            e.printStackTrace();
+            System.out.println("Erro no cadastro de Cliente");
         }
-
-        BancoDeDados.ExecuteSQLCmd(cmd);
     }
 
 
@@ -105,4 +119,5 @@ public abstract class BancoDeDados {
             System.out.print("Não foi possivel executa consulta.");
         }
     }
+    
 }

@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
+import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
 import petshop.classes.Cliente;
 import petshop.classes.Endereco;
@@ -548,7 +549,8 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
             cliente = new Cliente(nome, sexo, endereco, rg, cpf, email,
                     telefone, celular, listaAnimais, informacoes);
 
-            //BancoDeDados.cadastrar(cliente);
+            
+            BancoDeDados.cadastrar(cliente);
         }
     }//GEN-LAST:event_cadastrar
 
