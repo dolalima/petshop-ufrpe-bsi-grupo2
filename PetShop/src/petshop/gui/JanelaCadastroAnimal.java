@@ -21,9 +21,13 @@ import petshop.classes.Animal;
  */
 public class JanelaCadastroAnimal extends javax.swing.JDialog {
 
+    JanelaCadastroCliente janelaCliente;
+
     /** Creates new form JanelaCadastroAnimal */
-    public JanelaCadastroAnimal() {
+    public JanelaCadastroAnimal(JanelaCadastroCliente janelaCliente) {
         initComponents();
+
+        this.janelaCliente = janelaCliente;
 
         this.setLocationRelativeTo(this.getContentPane());
 
@@ -258,6 +262,13 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
             String especie = (String) comboEspecie.getSelectedItem();
             String raca = campoRaca.getText();
             String info = areaInformacoes.getText();
+            
+            Animal animal = new Animal(nome, sexo, cal, especie, raca, info);
+
+            janelaCliente.adicionarAnimal(animal);
+
+            JOptionPane.showMessageDialog(this.getContentPane(), "Animal cadastrado com sucesso!");
+            this.dispose();
         }
     }//GEN-LAST:event_cadastrar
 
@@ -294,7 +305,7 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaCadastroAnimal().setVisible(true);
+                new JanelaCadastroAnimal(null).setVisible(true);
             }
         });
     }
@@ -349,7 +360,7 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
 
         boolean existeDependencias = false;
 
-        if(dataValida(campoDataNasc.getText())){
+        if(!dataValida(campoDataNasc.getText())){
                 JOptionPane.showMessageDialog(this.getContentPane(), "A data é inválida");
                 return true;
         }
