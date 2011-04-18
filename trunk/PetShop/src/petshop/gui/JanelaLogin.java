@@ -149,14 +149,11 @@ public class JanelaLogin extends javax.swing.JFrame {
             if(senha.length() > 0){
                 String ast = campoSenha.getText();
                 senha = senha.substring(0, senha.length()-1);
-                //campoSenha.setText(ast.substring(0, ast.length()-1));
             }
         } else {
             senha = senha + Character.toString(evt.getKeyChar());
             evt.setKeyChar('*');
         }
-
-        System.out.print(senha + "\n");
     }//GEN-LAST:event_transformaSenha
 
     /**

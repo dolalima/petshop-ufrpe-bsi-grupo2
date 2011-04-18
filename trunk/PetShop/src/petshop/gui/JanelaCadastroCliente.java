@@ -44,6 +44,8 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoNumero.addKeyListener(k);
         
         animais = new ArrayList();
+
+        reiniciar();
     }
 
     /** This method is called from within the constructor to
@@ -76,7 +78,8 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         botaoCancelar = new javax.swing.JButton();
         botaoCadastrar = new javax.swing.JButton();
         comboAnimais = new javax.swing.JComboBox();
-        botaoAddAnimal = new javax.swing.JButton();
+        botaoAdicionarAnimal = new javax.swing.JButton();
+        botaoRemoverAnimal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -105,7 +108,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 250;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNome, gridBagConstraints);
 
         comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sexo", "Masculino", "Feminino" }));
@@ -114,7 +117,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboSexo, gridBagConstraints);
 
         campoTelefone.setText("Telefone");
@@ -137,7 +140,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 80;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoTelefone, gridBagConstraints);
 
         campoCelular.setText("Celular");
@@ -159,7 +162,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 80;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCelular, gridBagConstraints);
 
         campoRua.setText("Rua");
@@ -185,7 +188,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoRua, gridBagConstraints);
 
         campoNumero.setText("Número");
@@ -210,7 +213,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNumero, gridBagConstraints);
 
         campoComplemento.setText("Complemento");
@@ -236,7 +239,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoComplemento, gridBagConstraints);
 
         campoBairro.setText("Bairro");
@@ -262,7 +265,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoBairro, gridBagConstraints);
 
         campoCidade.setText("Cidade");
@@ -289,7 +292,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 170;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCidade, gridBagConstraints);
 
         comboUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "UF", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "GO", "ES", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SP", "SC", "SE", "TO" }));
@@ -297,7 +300,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboUF, gridBagConstraints);
 
         campoCEP.setText("CEP");
@@ -319,7 +322,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCEP, gridBagConstraints);
 
         campoRG.setText("RG");
@@ -342,7 +345,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 120;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoRG, gridBagConstraints);
 
         campoCPF.setText("CPF");
@@ -365,7 +368,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 170;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCPF, gridBagConstraints);
 
         campoEMail.setText("e-Mail");
@@ -391,7 +394,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoEMail, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
@@ -423,7 +426,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 30;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(scrollInformacoes, gridBagConstraints);
 
         botaoCancelar.setText("Cancelar");
@@ -437,7 +440,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(botaoCancelar, gridBagConstraints);
 
         botaoCadastrar.setText("Cadastrar");
@@ -452,33 +455,48 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(botaoCadastrar, gridBagConstraints);
 
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Animais" }));
+        comboAnimais.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                mudarComboAnimais(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboAnimais, gridBagConstraints);
 
-        botaoAddAnimal.setText("Adicionar");
-        botaoAddAnimal.setMinimumSize(null);
-        botaoAddAnimal.setPreferredSize(null);
-        botaoAddAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
+        botaoAdicionarAnimal.setText("Adicionar");
+        botaoAdicionarAnimal.setMinimumSize(null);
+        botaoAdicionarAnimal.setPreferredSize(null);
+        botaoAdicionarAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 adicionarAnimal(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
+        jPanel1.add(botaoAdicionarAnimal, gridBagConstraints);
+
+        botaoRemoverAnimal.setText("Remover");
+        botaoRemoverAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removerAnimal(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.ipadx = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel1.add(botaoAddAnimal, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 5);
+        jPanel1.add(botaoRemoverAnimal, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -506,11 +524,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
         if(resp == JOptionPane.YES_OPTION)
             this.dispose();
-            limparCampos();
+            reiniciar();
 }//GEN-LAST:event_cancelar
 
     private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
-        JanelaCadastroAnimal animal = new JanelaCadastroAnimal();
+        JanelaCadastroAnimal animal = new JanelaCadastroAnimal(this);
 
         animal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         animal.setVisible(true);
@@ -604,6 +622,18 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_campoMaiusculas
 
+    private void mudarComboAnimais(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboAnimais
+        if(comboAnimais.getSelectedIndex() > 0)
+            botaoRemoverAnimal.setVisible(true);
+        else
+            botaoRemoverAnimal.setVisible(false);
+    }//GEN-LAST:event_mudarComboAnimais
+
+    private void removerAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removerAnimal
+        animais.remove(comboAnimais.getSelectedIndex()-1);
+        comboAnimais.removeItemAt(comboAnimais.getSelectedIndex());
+    }//GEN-LAST:event_removerAnimal
+
     /**
     * @param args the command line arguments
     */
@@ -617,9 +647,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaInformacoes;
-    private javax.swing.JButton botaoAddAnimal;
+    private javax.swing.JButton botaoAdicionarAnimal;
     private javax.swing.JButton botaoCadastrar;
     private javax.swing.JButton botaoCancelar;
+    private javax.swing.JButton botaoRemoverAnimal;
     private javax.swing.JTextField campoBairro;
     private javax.swing.JTextField campoCEP;
     private javax.swing.JTextField campoCPF;
@@ -661,7 +692,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     }
 
 
-    private void limparCampos(){
+    private void reiniciar(){
 
         campoNome.setText("Nome");
         comboSexo.setSelectedIndex(0);
@@ -679,10 +710,14 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         campoCelular.setText("Celular");
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Animais"}));
         areaInformacoes.setText("Informações Adicionais");
+
+        botaoRemoverAnimal.setVisible(false);
     }
 
-    public void addAnimal(Animal a){
+    public void adicionarAnimal(Animal a){
         animais.add(a);
+
+        comboAnimais.addItem(a.getNome());
     }
 
 

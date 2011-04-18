@@ -80,7 +80,6 @@ public abstract class BancoDeDados {
             System.out.println("ID de cliente "+Integer.toString(cod));
 
         } catch(SQLException e){
-            e.printStackTrace();
             System.out.println("Erro no cadastro de Cliente");
         }
     }
