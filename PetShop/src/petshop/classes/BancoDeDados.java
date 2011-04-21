@@ -53,13 +53,13 @@ public abstract class BancoDeDados {
      *
      * @param cliente
      */
-    public static void cadastrar(Cliente cliente){
+    public static boolean cadastrar(Cliente cliente){
         try{
-            //
+            // Configuração de pre-comando
             preparedStatement = connection.prepareStatement("INSERT INTO cliente(nome,"
                     +"sexo,cpf,rg,rua,ncasa,bairro,cidade,complemento,uf,telefone,"
                     + "celular,cep,info) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            //
+            // Entrada de valores
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setString(2, cliente.getSexo());
             preparedStatement.setString(3, cliente.getCpf().getCpf());
@@ -74,13 +74,15 @@ public abstract class BancoDeDados {
             preparedStatement.setString(12, cliente.getCelular());
             preparedStatement.setString(13, cliente.getEndereco().getCep());
             preparedStatement.setString(14, cliente.getInformacoes());
-                       
+            //Execução de comando
             int cod = preparedStatement.executeUpdate();
 
             System.out.println("ID de cliente "+Integer.toString(cod));
+            return true;
 
         } catch(SQLException e){
             System.out.println("Erro no cadastro de Cliente");
+            return false;
         }
     }
 
@@ -91,8 +93,22 @@ public abstract class BancoDeDados {
      * @param produto
      */
     public static void cadastrar(Produto produto){
-        String cmd = "INSERT INTO produto () VALUES ()";
-        BancoDeDados.ExecuteSQLCmd(cmd);
+        try{
+            // Configuração de pre-comando
+            preparedStatement = connection.prepareStatement("INSERT INTO produro "+
+                    "(codigo,nome,qt,preco_custo,preco_venda) VALUES (?,?,?,?,?)");
+            //Entrada de valores
+            preparedStatement.setInt(1, produto.getCodigo());
+            preparedStatement.setString(2, produto.getNome());
+            preparedStatement.setInt(3, produto.getQtdeEstoque());
+            preparedStatement.setDouble(4, produto.getPrecoCusto());
+            preparedStatement.setDouble(5, produto.getPrecoVenda());
+
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
 
