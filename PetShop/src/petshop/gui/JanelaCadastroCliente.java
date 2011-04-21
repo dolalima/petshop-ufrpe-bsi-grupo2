@@ -696,8 +696,8 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
         campoNome.setText("Nome");
         comboSexo.setSelectedIndex(0);
-        campoRua.setText("Endereco");
-        campoNumero.setText("Numero");
+        campoRua.setText("Rua");
+        campoNumero.setText("Número");
         campoComplemento.setText("Complemento");
         campoBairro.setText("Bairro");
         campoCidade.setText("Cidade");
