@@ -6,49 +6,40 @@ package petshop.classes;
  */
 public class Produto extends ItemVenda {
 
-	private double precoCusto;
-	private int qtdeEstoque;
+    private double precoCusto;
+    private int qtdeEstoque;
+    private String informacoes;
 
-	/**
-	 * @param codigo
-	 * @param nome
-	 * @param precoVenda
-	 * @param precoCusto
-	 * @param qtdeEestoque
-	 */
-	public Produto(int codigo, String nome, double precoVenda, double precoCusto, int qtdeEstoque) {
-		super(codigo, nome, precoVenda);
-		this.precoCusto = precoCusto;
-		this.qtdeEstoque = qtdeEstoque;
-	}
+    public Produto(int codigo, String nome, double precoVenda, double precoCusto, int qtdeEstoque, String informacoes) {
+        super(codigo, nome, precoVenda);
+        this.precoCusto = precoCusto;
+        this.qtdeEstoque = qtdeEstoque;
+        this.informacoes = informacoes;
+    }
 
-	/**
-	 * @return
-	 */
-	public double getPrecoCusto() {
-		return precoCusto;
-	}
+    public String getInformacoes() {
+        return informacoes;
+    }
 
-	/**
-	 * @param precoCusto
-	 */
-	public void setPrecoCusto(double precoCusto) {
-		this.precoCusto = precoCusto;
-	}
-	
-	/**
-	 * @return
-	 */
-	public int getQtdeEstoque() {
-		return qtdeEstoque;
-	}
+    public void setInformacoes(String informacoes) {
+        this.informacoes = informacoes;
+    }
 
+    public double getPrecoCusto() {
+        return precoCusto;
+    }
 
-	/**
-	 * @param qtdeEstoque
-	 */
-	public void setQtdeEstoque(int qtdeEstoque) {
-		this.qtdeEstoque = qtdeEstoque;
-	}
+    public void setPrecoCusto(double precoCusto) {
+        this.precoCusto = precoCusto;
+    }
+
+    public int getQtdeEstoque() {
+        return qtdeEstoque;
+    }
+
+    public void setQtdeEstoque(int qtdeEstoque) {
+        this.qtdeEstoque = qtdeEstoque;
+    }
+
 
 }

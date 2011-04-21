@@ -154,6 +154,8 @@ public class JanelaLogin extends javax.swing.JFrame {
             senha = senha + Character.toString(evt.getKeyChar());
             evt.setKeyChar('*');
         }
+
+        System.out.print(senha+"\n");
     }//GEN-LAST:event_transformaSenha
 
     /**
