@@ -95,18 +95,22 @@ public abstract class BancoDeDados {
     public static void cadastrar(Produto produto){
         try{
             // Configuração de pre-comando
-            preparedStatement = connection.prepareStatement("INSERT INTO produro "+
-                    "(codigo,nome,qt,preco_custo,preco_venda) VALUES (?,?,?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO produtos "+
+                    "(codigo,nome,qt,preco_custo,preco_venda,info) VALUES (?,?,?,?,?,?)");
             //Entrada de valores
             preparedStatement.setInt(1, produto.getCodigo());
             preparedStatement.setString(2, produto.getNome());
             preparedStatement.setInt(3, produto.getQtdeEstoque());
             preparedStatement.setDouble(4, produto.getPrecoCusto());
             preparedStatement.setDouble(5, produto.getPrecoVenda());
+            preparedStatement.setString(6, produto.getInformacoes());
+
+            preparedStatement.executeUpdate();
 
 
         }catch(SQLException e){
             e.printStackTrace();
+            System.out.println("Erro ao cadastra produto.");
         }
 
     }
