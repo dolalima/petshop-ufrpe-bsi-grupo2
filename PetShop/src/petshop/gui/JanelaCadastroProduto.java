@@ -35,7 +35,7 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
                     public void keyTyped(KeyEvent e) {
                         if (!((e.getKeyChar() >= KeyEvent.VK_0 &&
                                e.getKeyChar() <= KeyEvent.VK_9) ||
-                               (e.getKeyChar() <= KeyEvent.VK_COMMA) ||
+                               (e.getKeyChar() <= KeyEvent.VK_PERIOD) ||
                               (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))) {
                             e.consume(); } }
                     public void keyPressed(KeyEvent e) { }
@@ -308,20 +308,20 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
 
         //nao deixa ter mais de 1 virgula e coloca 0 automaticamente caso campo
         //seja vazio
-        if(evt.getKeyChar() == KeyEvent.VK_COMMA){
-            if(t.contains(","))
+        if(evt.getKeyChar() == KeyEvent.VK_PERIOD){
+            if(t.contains("."))
                 evt.consume();
             if(t.equals(""))
                 campo.setText("0");
         }
         //Nao deixa decimal ser maior que 2
         if(t.length() > 3)
-            if(t.substring(t.length()-3, t.length()-2).equals(","))
+            if(t.substring(t.length()-3, t.length()-2).equals("."))
                 evt.consume();
         //se tamanho do preco == 5 e nao for backspace e nao tiver outra virgula
         //coloca virgula automaticamente
-        if(t.length() == 5 && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && !t.contains(","))
-            campo.setText(t + ",");
+        if(t.length() == 5 && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && !t.contains("."))
+            campo.setText(t + ".");
     }//GEN-LAST:event_eventoDigitarPreco
 
     private void campoMaiuscula(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiuscula
