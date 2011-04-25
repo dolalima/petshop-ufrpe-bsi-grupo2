@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
@@ -246,24 +245,15 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
     private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
 
-        if(resp == JOptionPane.YES_OPTION)
+        if(resp == JOptionPane.YES_OPTION){
             this.dispose();
-            limparCampos();
+            reiniciar();
+        }
 }//GEN-LAST:event_cancelar
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         if(!existemDependencias()){
-            String[] d = campoDataNasc.getText().split("/");
-
-            String nome = campoNome.getText();
-            String sexo = (String) comboSexo.getSelectedItem();
-            Calendar cal = new GregorianCalendar(Integer.valueOf(d[0]),
-                    Integer.valueOf(d[1]),Integer.valueOf(d[2]));
-            String especie = (String) comboEspecie.getSelectedItem();
-            String raca = campoRaca.getText();
-            String info = areaInformacoes.getText();
-            
-            Animal animal = new Animal(nome, sexo, cal, especie, raca, info);
+            Animal animal = gerarAnimal();
 
             janelaCliente.adicionarAnimal(animal);
 
@@ -336,7 +326,7 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
     }
 
 
-    private void limparCampos(){
+    private void reiniciar(){
 
         campoNome.setText("Nome");
         comboSexo.setSelectedIndex(0);
@@ -406,5 +396,25 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
         }
 
         return (true);
+    }
+
+
+    private Animal gerarAnimal(){
+        String[] d = campoDataNasc.getText().split("/");
+
+        String nome = campoNome.getText();
+        String sexo = (String) comboSexo.getSelectedItem();
+        Calendar cal = new GregorianCalendar(Integer.valueOf(d[0]),
+                Integer.valueOf(d[1]),Integer.valueOf(d[2]));
+        String especie = (String) comboEspecie.getSelectedItem();
+        String raca = "";
+        String info = "";
+
+        if(!campoRaca.getText().equals(getEtiqueta(campoRaca)))
+                raca = campoRaca.getText();
+        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
+                info = areaInformacoes.getText();
+
+        return new Animal(nome, sexo, cal, especie, raca, info);
     }
 }

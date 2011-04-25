@@ -9,7 +9,7 @@ public class Cliente{
     private String nome;
     private String sexo;
     private Endereco endereco;
-    private int rg;
+    private long rg;
     private CPF cpf;
     private String email;
     private String telefone;
@@ -17,7 +17,7 @@ public class Cliente{
     private Animal[] animais;
     private String informacoes;
 
-    public Cliente(String nome, String sexo, Endereco endereco, int rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
+    public Cliente(String nome, String sexo, Endereco endereco, long rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
         
         this.nome = nome;
         this.sexo = sexo;
@@ -105,7 +105,7 @@ public class Cliente{
     /**
      * @return the rg
      */
-    public int getRg() {
+    public long getRg() {
         return rg;
     }
 
