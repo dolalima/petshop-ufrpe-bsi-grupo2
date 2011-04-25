@@ -40,7 +40,7 @@ public abstract class BancoDeDados {
                     "root",
                     "lima1807");
             BancoDeDados.statement = BancoDeDados.connection.createStatement();
-            System.out.print("Conectado");
+            System.out.println("Conectado");
             BancoDeDados.conectStatus = true;
 
 
@@ -92,7 +92,8 @@ public abstract class BancoDeDados {
      *
      * @param produto
      */
-    public static void cadastrar(Produto produto){
+    public static boolean cadastrar(Produto produto){
+
         try{
             // Configuração de pre-comando
             preparedStatement = connection.prepareStatement("INSERT INTO produtos "+
@@ -104,25 +105,91 @@ public abstract class BancoDeDados {
             preparedStatement.setDouble(4, produto.getPrecoCusto());
             preparedStatement.setDouble(5, produto.getPrecoVenda());
             preparedStatement.setString(6, produto.getInformacoes());
-
+            // Executando comando SQL
             preparedStatement.executeUpdate();
+            //
+            return true;
 
 
         }catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erro ao cadastra produto.");
+            return false;
         }
 
     }
 
+    public static Cliente[] consultarCliente(String consulta, String flag){
+        int i=0;
+        int j=0;
+        try{
+            if (flag.equals("nome")) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
+                        + "WHERE nome LIKE ?");
+                preparedStatement.setString(1, "%"+consulta+"%");
+                resultset = preparedStatement.executeQuery();
+            }
 
+            resultsetmetadata = resultset.getMetaData();
+            while (resultset.next()){
+                j=j+1;
+            }
+            System.out.printf("J: %d \n",j);
+            Cliente[] clienteList= new Cliente[j];
+            resultset.beforeFirst();
+            while (resultset.next()){
+                //Contador de cliente
+                i=i+1;
+                Cliente cliente = new Cliente();
+                cliente.setCodigo((Integer)resultset.getObject(1));
+                cliente.setNome((String)resultset.getObject(2));
+                cliente.setSexo((String)resultset.getObject(3));
+                CPF cpf = new CPF((String)resultset.getObject(4));
+                cliente.setCpf(cpf);
+                cliente.setRg((Integer)resultset.getObject(5));
+                //Enderero do cliente
+                String rua = (String)resultset.getObject(6);
+                int n = (Integer)resultset.getObject(7);
+                String bairro =(String)resultset.getObject(8);
+                String cidade =(String)resultset.getObject(9);
+                String complemento = (String)resultset.getObject(10);
+                String uf = (String)resultset.getObject(11);
+                String cep = (String)resultset.getObject(14);
+                //
+                Endereco endereco = new Endereco();
+                endereco.setRua(rua);
+                endereco.setNum(n);
+                endereco.setBairro(bairro);
+                endereco.setCidade(cidade);
+                endereco.setComplemento(complemento);
+                endereco.setUf(uf);
+                endereco.setCep(cep);
+                cliente.setEndereco(endereco);
+                //
+                cliente.setTelefone((String)resultset.getObject(12));
+                cliente.setCelular((String)resultset.getObject(13));
+                cliente.setInformacoes((String)resultset.getObject(15));
+
+                System.out.printf("I: %d \n",i);
+                clienteList[i-1]=cliente;
+            }
+            return clienteList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Cliente[] clienteList = new Cliente[0];
+            return clienteList;
+        }
+    }
+
+    
     /**
      * Metodo publico que cadastra um servico no banco de dados.
      *
      * @param servico
      **/
     public static void cadastrar(Servico servico){
-        String cmd = "INSERT INTO servico () VALUES ()";
+        String cmd = "INSERT INTO servicos () VALUES ()";
         BancoDeDados.ExecuteSQLCmd(cmd);
     }
 

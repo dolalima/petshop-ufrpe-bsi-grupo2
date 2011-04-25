@@ -35,6 +35,10 @@ public class Endereco {
 		this.uf = uf;
 		this.cep = cep;
 	}
+
+    Endereco() {
+
+    }
 	
 	
 	/**
