@@ -120,8 +120,8 @@ public abstract class BancoDeDados {
     }
 
     public static Cliente[] consultarCliente(String consulta, String flag){
-        int i=0;
-        int j=0;
+        int contador=0;
+        int nRegistros=0;
         try{
             if (flag.equals("nome")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
@@ -132,14 +132,13 @@ public abstract class BancoDeDados {
 
             resultsetmetadata = resultset.getMetaData();
             while (resultset.next()){
-                j=j+1;
+                nRegistros=nRegistros+1;
             }
-            System.out.printf("J: %d \n",j);
-            Cliente[] clienteList= new Cliente[j];
+            Cliente[] clienteList= new Cliente[nRegistros];
             resultset.beforeFirst();
             while (resultset.next()){
                 //Contador de cliente
-                i=i+1;
+                contador=contador+1;
                 Cliente cliente = new Cliente();
                 cliente.setCodigo((Integer)resultset.getObject(1));
                 cliente.setNome((String)resultset.getObject(2));
@@ -170,8 +169,8 @@ public abstract class BancoDeDados {
                 cliente.setCelular((String)resultset.getObject(13));
                 cliente.setInformacoes((String)resultset.getObject(15));
 
-                System.out.printf("I: %d \n",i);
-                clienteList[i-1]=cliente;
+
+                clienteList[contador-1]=cliente;
             }
             return clienteList;
 
@@ -179,6 +178,42 @@ public abstract class BancoDeDados {
             e.printStackTrace();
             Cliente[] clienteList = new Cliente[0];
             return clienteList;
+        }
+    }
+
+    public static Produto[] consultarProduto(String consulta,String flag){
+        int contador = 0;
+        int nRegistro = 0;
+        try{
+            if(flag.equals("nome")){
+                preparedStatement = connection.prepareStatement("SELECT * FROM "+
+                        "produtos WHERE nome LIKE ?");
+                preparedStatement.setString(1, "%"+consulta+"%");
+                resultset = preparedStatement.executeQuery();
+            }
+            while (resultset.next()){
+                nRegistro++;
+            }
+            Produto[] produtoList = new Produto[nRegistro];
+            resultset.beforeFirst();
+            while (resultset.next()){
+                contador++;
+                Produto produto = new Produto();
+                produto.setCodigo((Integer)resultset.getObject(1));
+                produto.setNome((String)resultset.getObject(2));
+                produto.setQtdeEstoque((Integer)resultset.getObject(3));
+                produto.setPrecoCusto((Double)resultset.getObject(4));
+                produto.setPrecoVenda((Double)resultset.getObject(5));
+                produto.setInformacoes((String)resultset.getObject(6));
+
+                produtoList[contador -1]=produto;
+
+            }
+            return produtoList;
+        }catch(SQLException e){
+            e.printStackTrace();
+            Produto[] produtoList = new Produto[0];
+            return produtoList;
         }
     }
 

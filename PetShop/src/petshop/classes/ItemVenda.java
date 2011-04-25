@@ -22,6 +22,9 @@ public class ItemVenda {
 		this.nome = nome;
 		this.precoVenda = precoVenda;
 	}
+        public ItemVenda(){
+
+        }
 
 	/**
 	 * @return

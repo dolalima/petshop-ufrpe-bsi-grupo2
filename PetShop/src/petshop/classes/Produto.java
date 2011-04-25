@@ -17,6 +17,10 @@ public class Produto extends ItemVenda {
         this.informacoes = informacoes;
     }
 
+    public Produto() {
+        super();
+    }
+
     public String getInformacoes() {
         return informacoes;
     }
