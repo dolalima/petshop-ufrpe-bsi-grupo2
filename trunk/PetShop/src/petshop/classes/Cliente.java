@@ -32,7 +32,16 @@ public class Cliente{
     }
 
     public Cliente() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        this.nome = null;
+        this.sexo = null;
+        this.endereco = null;
+        this.rg = 0;
+        this.cpf = null;
+        this.email = null;
+        this.telefone = null;
+        this.celular = null;
+        this.animais = null;
+        this.informacoes = null;
     }
 
 
