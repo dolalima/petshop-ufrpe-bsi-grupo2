@@ -2,6 +2,7 @@ package petshop.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -285,18 +286,14 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         if(!existemDependencias()){
-            
-            int codigo = Integer.valueOf(campoCodigo.getText());
-            String nome = campoNome.getText();
-            int qtde = Integer.valueOf(campoQtde.getText());
-            double precoCusto = Double.valueOf(campoPrecoCusto.getText());
-            double precoVenda = Double.valueOf(campoPrecoVenda.getText());
-            String informacoes = areaInformacoes.getText();
+            produto = gerarProduto();
 
-            produto = new Produto(codigo, nome, precoCusto, precoVenda, qtde, informacoes);
-
-            
-            BancoDeDados.cadastrar(produto);
+            if(BancoDeDados.cadastrar(produto)){
+                JOptionPane.showMessageDialog(this.getContentPane(), "Produto cadastrado com sucesso!");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar produto!");
+            }
         }
     }//GEN-LAST:event_cadastrar
 
@@ -415,5 +412,24 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
         else if(campo.equals(areaInformacoes)) return 400;
 
         return 0;
+    }
+
+
+    private Produto gerarProduto(){
+
+        long codigo = new Random().nextLong();
+        String informacoes = "";
+
+        if(!campoCodigo.getText().equals(getEtiqueta(campoCodigo)))
+                codigo = Long.valueOf(campoCodigo.getText());
+        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
+                informacoes = areaInformacoes.getText();
+
+        String nome = campoNome.getText();
+        int qtdeEstoque = Integer.valueOf(campoQtde.getText());
+        double precoCusto = Double.valueOf(campoPrecoCusto.getText());
+        double precoVenda = Double.valueOf(campoPrecoVenda.getText());
+
+        return new Produto(codigo, nome, precoCusto, precoVenda, qtdeEstoque, informacoes);
     }
 }

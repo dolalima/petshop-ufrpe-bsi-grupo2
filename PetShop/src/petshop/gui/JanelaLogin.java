@@ -5,23 +5,16 @@ import java.awt.event.KeyEvent;
 import petshop.classes.BancoDeDados;
 import java.sql.*;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
 /**
  *
  * @author arthur
  */
 public class JanelaLogin extends javax.swing.JFrame {
 
-    String usuario;
-    String senha;
 
     /** Creates new form JanelaLogin */
     public JanelaLogin() {
         initComponents();
-
-        usuario = "";
-        senha = "";
     }
 
     /** This method is called from within the constructor to
@@ -35,54 +28,28 @@ public class JanelaLogin extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         campoUsuario = new javax.swing.JTextField();
-        campoSenha = new javax.swing.JTextField();
         botaoEntrar = new javax.swing.JButton();
+        labelUsuario = new javax.swing.JLabel();
+        labelSenha = new javax.swing.JLabel();
+        campoSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(270, 380));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        campoUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoUsuario.setText("Usuário");
-        campoUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
+        campoUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                enter(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 130;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(campoUsuario, gridBagConstraints);
-
-        campoSenha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoSenha.setText("Senha");
-        campoSenha.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        campoSenha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                transformaSenha(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 130;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        getContentPane().add(campoSenha, gridBagConstraints);
 
         botaoEntrar.setText("Entrar");
         botaoEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -93,33 +60,47 @@ public class JanelaLogin extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 50;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(botaoEntrar, gridBagConstraints);
+
+        labelUsuario.setText("Usuário:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(labelUsuario, gridBagConstraints);
+
+        labelSenha.setText("Senha:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(labelSenha, gridBagConstraints);
+
+        campoSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                enter(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 130;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(campoSenha, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
-        }
-    }//GEN-LAST:event_tirarEtiqueta
-
-    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colocarEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-    }//GEN-LAST:event_colocarEtiqueta
-
     private void logar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logar
         // TODO add your handling code here:
         if(!existemPendencias()){
-            usuario = this.campoUsuario.getText();
+            String usuario = this.campoUsuario.getText();
+            String senha = String.valueOf(this.campoSenha.getPassword());
             if(login(usuario, senha)) {
                 this.setVisible(false);
                 JanelaPrincipal janela = new JanelaPrincipal();
@@ -140,23 +121,11 @@ public class JanelaLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logar
 
-    private void transformaSenha(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_transformaSenha
-        JTextField campo = (JTextField) evt.getComponent();
-
-        if(campo.getText().length() == 30) evt.consume();
-
-        if(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE){
-            if(senha.length() > 0){
-                String ast = campoSenha.getText();
-                senha = senha.substring(0, senha.length()-1);
-            }
-        } else {
-            senha = senha + Character.toString(evt.getKeyChar());
-            evt.setKeyChar('*');
+    private void enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enter
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){
+            logar(null);
         }
-
-        System.out.print(senha+"\n");
-    }//GEN-LAST:event_transformaSenha
+    }//GEN-LAST:event_enter
 
     /**
     * @param args the command line arguments
@@ -171,19 +140,11 @@ public class JanelaLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoEntrar;
-    private javax.swing.JTextField campoSenha;
+    private javax.swing.JPasswordField campoSenha;
     private javax.swing.JTextField campoUsuario;
+    private javax.swing.JLabel labelSenha;
+    private javax.swing.JLabel labelUsuario;
     // End of variables declaration//GEN-END:variables
-
-    //Retorna a etiqueta certa pra cada campo
-    private String getEtiqueta(JTextComponent campo){
-
-        if(campo.equals(campoUsuario)) return "Usuário";
-        else if(campo.equals(campoSenha)) return "Senha";
-
-        return "";
-    }
-
 
     private boolean login(String user, String senha) {
         try {
@@ -218,10 +179,10 @@ public class JanelaLogin extends javax.swing.JFrame {
     public boolean existemPendencias(){
         boolean pendencia = false;
 
-        if(campoUsuario.getText().equals("Usuário")){
+        if(campoUsuario.getText().equals("")){
             JOptionPane.showMessageDialog(this.getContentPane(), "Preencha o campo de usuário");
             pendencia = true;
-        } else if(campoSenha.getText().equals("Senha")){
+        } else if(String.valueOf(this.campoSenha.getPassword()).equals("")){
             JOptionPane.showMessageDialog(this.getContentPane(), "Preencha o campo de senha");
             pendencia = true;
         }

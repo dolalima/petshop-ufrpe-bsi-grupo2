@@ -17,7 +17,7 @@ public class Servico extends ItemVenda {
 	 * @param precoVenda
 	 * @param data
 	 */
-	public Servico(int codigo, String nome, double precoVenda, Date data) {
+	public Servico(long codigo, String nome, double precoVenda, Date data) {
 		super(codigo, nome, precoVenda);
 		this.duracao = data;
 	}

@@ -10,7 +10,7 @@ public class Produto extends ItemVenda {
     private int qtdeEstoque;
     private String informacoes;
 
-    public Produto(int codigo, String nome, double precoVenda, double precoCusto, int qtdeEstoque, String informacoes) {
+    public Produto(long codigo, String nome, double precoVenda, double precoCusto, int qtdeEstoque, String informacoes) {
         super(codigo, nome, precoVenda);
         this.precoCusto = precoCusto;
         this.qtdeEstoque = qtdeEstoque;

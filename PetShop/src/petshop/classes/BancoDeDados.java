@@ -63,7 +63,7 @@ public abstract class BancoDeDados {
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setString(2, cliente.getSexo());
             preparedStatement.setString(3, cliente.getCpf().getCpf());
-            preparedStatement.setInt(4, cliente.getRg());
+            preparedStatement.setLong(4, cliente.getRg());
             preparedStatement.setString(5, cliente.getEndereco().getRua());
             preparedStatement.setInt(6, cliente.getEndereco().getNum());
             preparedStatement.setString(7, cliente.getEndereco().getBairro());
@@ -81,6 +81,7 @@ public abstract class BancoDeDados {
             return true;
 
         } catch(SQLException e){
+            e.printStackTrace();
             System.out.println("Erro no cadastro de Cliente");
             return false;
         }
@@ -99,7 +100,7 @@ public abstract class BancoDeDados {
             preparedStatement = connection.prepareStatement("INSERT INTO produtos "+
                     "(codigo,nome,qt,preco_custo,preco_venda,info) VALUES (?,?,?,?,?,?)");
             //Entrada de valores
-            preparedStatement.setInt(1, produto.getCodigo());
+            preparedStatement.setLong(1, produto.getCodigo());
             preparedStatement.setString(2, produto.getNome());
             preparedStatement.setInt(3, produto.getQtdeEstoque());
             preparedStatement.setDouble(4, produto.getPrecoCusto());

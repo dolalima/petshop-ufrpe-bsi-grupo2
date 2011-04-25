@@ -522,9 +522,10 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
 
-        if(resp == JOptionPane.YES_OPTION)
+        if(resp == JOptionPane.YES_OPTION){
             this.dispose();
             reiniciar();
+        }
 }//GEN-LAST:event_cancelar
 
     private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
@@ -536,39 +537,14 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         if(!existemDependencias()){
-            //ENDEREÇO
-            String rua = campoRua.getText();
-            int numero = Integer.valueOf(campoNumero.getText());
-            String complemento = campoComplemento.getText();
-            String bairro = campoBairro.getText();
-            String cidade = campoCidade.getText();
-            String uf = (String) comboUF.getSelectedItem();
-            String cep = campoCEP.getText();
+            cliente = gerarCliente();
 
-            //CLIENTE
-            String nome = campoNome.getText();
-            String sexo = (String) comboSexo.getSelectedItem();
-            Endereco endereco = new Endereco(rua, numero, complemento,
-                    bairro, cidade, uf, cep);
-            int rg = Integer.valueOf(campoRG.getText());
-            CPF cpf = new CPF(campoCPF.getText());
-            String email = campoEMail.getText();
-            String telefone = campoTelefone.getText();
-            String celular = campoCelular.getText();
-            Animal[] listaAnimais;
-            try{
-                listaAnimais = (Animal[]) animais.toArray();
-            } catch (ClassCastException e){
-                listaAnimais = new Animal[0];
+            if(BancoDeDados.cadastrar(cliente)){
+                JOptionPane.showMessageDialog(this.getContentPane(), "Cliente cadastrado com sucesso!");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
             }
-
-            String informacoes = areaInformacoes.getText();
-
-            cliente = new Cliente(nome, sexo, endereco, rg, cpf, email,
-                    telefone, celular, listaAnimais, informacoes);
-
-            
-            BancoDeDados.cadastrar(cliente);
         }
     }//GEN-LAST:event_cadastrar
 
@@ -760,5 +736,50 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         }
 
         return existeDependencias;
+    }
+
+    public Cliente gerarCliente(){
+        String complemento = "";
+        String cep = "";
+        String email = "";
+        String telefone = "";
+        String celular = "";
+        String informacoes = "";
+
+        if(!campoComplemento.getText().equals(getEtiqueta(campoComplemento)))
+            complemento = campoComplemento.getText();
+        if(!campoCEP.getText().equals(getEtiqueta(campoCEP)))
+            cep = campoCEP.getText();
+        if(!campoEMail.getText().equals(getEtiqueta(campoEMail)))
+            email = campoEMail.getText();
+        if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone)))
+            telefone = campoTelefone.getText();
+        if(!campoCelular.getText().equals(getEtiqueta(campoCelular)))
+            celular = campoCelular.getText();
+        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
+            informacoes = areaInformacoes.getText();
+        
+        //ENDEREÇO
+        String rua = campoRua.getText();
+        int numero = Integer.valueOf(campoNumero.getText());
+        String bairro = campoBairro.getText();
+        String cidade = campoCidade.getText();
+        String uf = (String) comboUF.getSelectedItem();
+
+        //CLIENTE
+        String nome = campoNome.getText();
+        String sexo = (String) comboSexo.getSelectedItem();
+        Endereco endereco = new Endereco(rua, numero, complemento, bairro, cidade, uf, cep);
+        long rg = Long.valueOf(campoRG.getText());
+        CPF cpf = new CPF(campoCPF.getText());
+        Animal[] listaAnimais;
+        try{
+            listaAnimais = (Animal[]) animais.toArray();
+        } catch (ClassCastException e){
+            listaAnimais = new Animal[0];
+        }
+        
+        return new Cliente(nome, sexo, endereco, rg, cpf, email,
+                telefone, celular, listaAnimais, informacoes);
     }
 }
