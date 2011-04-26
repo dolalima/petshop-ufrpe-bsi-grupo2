@@ -120,14 +120,14 @@ public abstract class BancoDeDados {
 
     }
 
-    public static Cliente[] consultarCliente(String consulta, String flag){
+    public static Cliente[] consultar(Cliente c){
         int contador=0;
         int nRegistros=0;
         try{
-            if (flag.equals("nome")) {
+            if (!c.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE nome LIKE ?");
-                preparedStatement.setString(1, "%"+consulta+"%");
+                preparedStatement.setString(1, "%"+c.getNome()+"%");
                 resultset = preparedStatement.executeQuery();
             }
 
@@ -182,14 +182,14 @@ public abstract class BancoDeDados {
         }
     }
 
-    public static Produto[] consultarProduto(String consulta,String flag){
+    public static Produto[] consultar(Produto p){
         int contador = 0;
         int nRegistro = 0;
         try{
-            if(flag.equals("nome")){
+            if(!p.getNome().equals("")){
                 preparedStatement = connection.prepareStatement("SELECT * FROM "+
                         "produtos WHERE nome LIKE ?");
-                preparedStatement.setString(1, "%"+consulta+"%");
+                preparedStatement.setString(1, "%"+p.getNome()+"%");
                 resultset = preparedStatement.executeQuery();
             }
             while (resultset.next()){
