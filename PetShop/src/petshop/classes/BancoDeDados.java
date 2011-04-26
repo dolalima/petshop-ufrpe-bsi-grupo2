@@ -224,9 +224,26 @@ public abstract class BancoDeDados {
      *
      * @param servico
      **/
-    public static void cadastrar(Servico servico){
-        String cmd = "INSERT INTO servicos () VALUES ()";
-        BancoDeDados.ExecuteSQLCmd(cmd);
+    public static boolean cadastrar(Servico servico){
+        try{
+            // Pre-comando SQL
+            preparedStatement = connection.prepareStatement("INSERT INTO produtos "
+                    + "(codigo,nome,duracao,preco,info) VALUES (?,?,?,?,?)");
+            //Configuração das varieaveis
+            preparedStatement.setLong(1, servico.getCodigo());
+            preparedStatement.setString(2, servico.getNome());
+            preparedStatement.setInt(3, (int) servico.getDuracao().getTime());
+            preparedStatement.setDouble(4, servico.getPrecoVenda());
+            preparedStatement.setString(5, servico.getInfo());
+            //Execução de comando SQL
+            preparedStatement.executeUpdate();
+            //
+            return true;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

@@ -9,6 +9,7 @@ import java.util.Date;
 public class Servico extends ItemVenda {
 
 	private Date duracao;
+        private String info;
 	
 
 	/**
@@ -35,4 +36,12 @@ public class Servico extends ItemVenda {
 	public void setDuracao(Date data) {
 		this.duracao = data;
 	}
+        
+        public void setInfo(String info){
+            this.info = info;
+        }
+        public String getInfo() {
+
+            return info;
+        }
 }
