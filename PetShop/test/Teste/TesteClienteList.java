@@ -21,7 +21,7 @@ public class TesteClienteList {
     public static void main(String[] args) {
         BancoDeDados.conectar();
         
-        c = BancoDeDados.consultarCliente("LIMA", "nome");
+        c = BancoDeDados.consultar(new Cliente());
         System.out.printf("Resultado da Pesquisa: %d \n",c.length);
 
 
