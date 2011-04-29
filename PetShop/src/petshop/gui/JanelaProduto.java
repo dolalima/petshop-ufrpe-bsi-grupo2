@@ -13,12 +13,14 @@ import petshop.classes.Produto;
  *
  * @author arthur
  */
-public class JanelaCadastroProduto extends javax.swing.JDialog {
+public class JanelaProduto extends javax.swing.JDialog {
     
     Produto produto;
-    
-    /** Creates new form JanelaCadastroProduto */
-    public JanelaCadastroProduto() {
+    private TipoJanela tipo;
+
+    /** Creates new form JanelaProduto */
+    public JanelaProduto(TipoJanela tipo) {
+        this.tipo = tipo;
         initComponents();
 
         this.setLocationRelativeTo(this.getContentPane());
@@ -345,7 +347,7 @@ public class JanelaCadastroProduto extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaCadastroProduto().setVisible(true);
+                new JanelaProduto(TipoJanela.CADASTRO).setVisible(true);
             }
         });
     }

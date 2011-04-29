@@ -7,7 +7,7 @@ package petshop.classes;
 public class Cliente{
     private int codigo;
     private String nome;
-    private String sexo;
+    private char sexo;
     private Endereco endereco;
     private long rg;
     private CPF cpf;
@@ -17,7 +17,7 @@ public class Cliente{
     private Animal[] animais;
     private String informacoes;
 
-    public Cliente(String nome, String sexo, Endereco endereco, long rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
+    public Cliente(String nome, char sexo, Endereco endereco, long rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
         
         this.nome = nome;
         this.sexo = sexo;
@@ -32,16 +32,30 @@ public class Cliente{
     }
 
     public Cliente() {
-        this.nome = null;
-        this.sexo = null;
-        this.endereco = null;
+        this.nome = "";
+        this.sexo = ' ';
+        this.endereco = new Endereco();
         this.rg = 0;
-        this.cpf = null;
-        this.email = null;
-        this.telefone = null;
-        this.celular = null;
-        this.animais = null;
-        this.informacoes = null;
+        this.cpf = new CPF("");
+        this.email = "";
+        this.telefone = "";
+        this.celular = "";
+        this.animais = new Animal[0];
+        this.informacoes = "";
+    }
+
+    public Cliente(int cod) {
+        this.codigo = cod;
+        this.nome = "";
+        this.sexo = ' ';
+        this.endereco = new Endereco();
+        this.rg = 0;
+        this.cpf = new CPF("");
+        this.email = "";
+        this.telefone = "";
+        this.celular = "";
+        this.animais = new Animal[0];
+        this.informacoes = "";
     }
 
 
@@ -77,14 +91,14 @@ public class Cliente{
     /**
      * @return the sexo
      */
-    public String getSexo() {
+    public char getSexo() {
         return sexo;
     }
 
     /**
      * @param sexo the sexo to set
      */
-    public void setSexo(String sexo) {
+    public void setSexo(char sexo) {
         this.sexo = sexo;
     }
 

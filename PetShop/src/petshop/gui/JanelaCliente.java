@@ -3,7 +3,11 @@ package petshop.gui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
@@ -16,13 +20,15 @@ import petshop.classes.Endereco;
  *
  * @author arthur
  */
-public class JanelaCadastroCliente extends javax.swing.JDialog {
+public class JanelaCliente extends javax.swing.JDialog {
 
     private Cliente cliente;
     private ArrayList<Animal> animais;
+    private TipoJanela tipo;
 
-    /** Creates new form JanelaCadastroCliente */
-    public JanelaCadastroCliente() {
+    /** Creates new form JanelaCliente */
+    public JanelaCliente(TipoJanela tipo) {
+        this.tipo = tipo;
         initComponents();
 
         this.setLocationRelativeTo(this.getContentPane());
@@ -45,7 +51,12 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         
         animais = new ArrayList();
 
+
         reiniciar();
+
+        if(this.tipo == TipoJanela.ALTERACAO){
+            botaoCadastrar.setText("Alterar");
+        }
     }
 
     /** This method is called from within the constructor to
@@ -529,7 +540,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 }//GEN-LAST:event_cancelar
 
     private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
-        JanelaCadastroAnimal animal = new JanelaCadastroAnimal(this);
+        JanelaAnimal animal = new JanelaAnimal(this);
 
         animal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         animal.setVisible(true);
@@ -539,12 +550,22 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         if(!existemDependencias()){
             cliente = gerarCliente();
 
-            if(BancoDeDados.cadastrar(cliente)){
-                JOptionPane.showMessageDialog(this.getContentPane(), "Cliente cadastrado com sucesso!");
-                this.dispose();
+            if(tipo == TipoJanela.CADASTRO){
+                if(BancoDeDados.cadastrar(cliente)){
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Cliente cadastrado com sucesso!");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
+                }
             } else {
-                JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
+                if(BancoDeDados.alterar(cliente)){
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Cliente alterado com sucesso!");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
+                }
             }
+            
         }
     }//GEN-LAST:event_cadastrar
 
@@ -608,6 +629,11 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     private void removerAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removerAnimal
         animais.remove(comboAnimais.getSelectedIndex()-1);
         comboAnimais.removeItemAt(comboAnimais.getSelectedIndex());
+
+        if(tipo == TipoJanela.ALTERACAO){
+            Animal[] a = BancoDeDados.consultar(new Animal((String) comboAnimais.getSelectedItem()));
+            BancoDeDados.remover(a[0]);
+        }
     }//GEN-LAST:event_removerAnimal
 
     /**
@@ -616,7 +642,7 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaCadastroCliente().setVisible(true);
+                new JanelaCliente(TipoJanela.CADASTRO).setVisible(true);
             }
         });
     }
@@ -768,7 +794,9 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
 
         //CLIENTE
         String nome = campoNome.getText();
-        String sexo = (String) comboSexo.getSelectedItem();
+        char sexo;
+        if(comboSexo.getSelectedIndex() == 1) sexo = 'M';
+        else sexo = 'F';
         Endereco endereco = new Endereco(rua, numero, complemento, bairro, cidade, uf, cep);
         long rg = Long.valueOf(campoRG.getText());
         CPF cpf = new CPF(campoCPF.getText());
@@ -782,4 +810,90 @@ public class JanelaCadastroCliente extends javax.swing.JDialog {
         return new Cliente(nome, sexo, endereco, rg, cpf, email,
                 telefone, celular, listaAnimais, informacoes);
     }
+
+    public JTextArea getAreaInformacoes() {
+        return areaInformacoes;
+    }
+
+    public JButton getBotaoAdicionarAnimal() {
+        return botaoAdicionarAnimal;
+    }
+
+    public JButton getBotaoCadastrar() {
+        return botaoCadastrar;
+    }
+
+    public JButton getBotaoCancelar() {
+        return botaoCancelar;
+    }
+
+    public JButton getBotaoRemoverAnimal() {
+        return botaoRemoverAnimal;
+    }
+
+    public JTextField getCampoBairro() {
+        return campoBairro;
+    }
+
+    public JTextField getCampoCEP() {
+        return campoCEP;
+    }
+
+    public JTextField getCampoCPF() {
+        return campoCPF;
+    }
+
+    public JTextField getCampoCelular() {
+        return campoCelular;
+    }
+
+    public JTextField getCampoCidade() {
+        return campoCidade;
+    }
+
+    public JTextField getCampoComplemento() {
+        return campoComplemento;
+    }
+
+    public JTextField getCampoEMail() {
+        return campoEMail;
+    }
+
+    public JTextField getCampoNome() {
+        return campoNome;
+    }
+
+    public JTextField getCampoNumero() {
+        return campoNumero;
+    }
+
+    public JTextField getCampoRG() {
+        return campoRG;
+    }
+
+    public JTextField getCampoRua() {
+        return campoRua;
+    }
+
+    public JTextField getCampoTelefone() {
+        return campoTelefone;
+    }
+
+    public JComboBox getComboAnimais() {
+        return comboAnimais;
+    }
+
+    public JComboBox getComboSexo() {
+        return comboSexo;
+    }
+
+    public JComboBox getComboUF() {
+        return comboUF;
+    }
+
+    public JScrollPane getScrollInformacoes() {
+        return scrollInformacoes;
+    }
+
+
 }

@@ -11,7 +11,7 @@ public class PainelConsultaProdutos extends PainelConsulta {
     public PainelConsultaProdutos(){
         super();
 
-        this.setCadastro(new JanelaCadastroProduto());
+        this.setCadastro(new JanelaProduto(TipoJanela.CADASTRO));
 
         int [] itensPreco = new int[2];
         itensPreco[0] = 2;

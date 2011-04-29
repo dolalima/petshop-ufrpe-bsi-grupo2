@@ -5,7 +5,7 @@ public class PainelConsultaServicos extends PainelConsulta {
     public PainelConsultaServicos(){
         super();
 
-        this.setCadastro(new JanelaCadastroServico());
+        this.setCadastro(new JanelaServico(TipoJanela.CADASTRO));
 
         int [] itensPreco = new int[1];
         itensPreco[0] = 2;

@@ -10,13 +10,13 @@ public class Animal {
 
     private int codigo;
     private String nome;
-    private String sexo;
+    private char sexo;
     private Calendar dataNasc;
     private String especie;
     private String raca;
     private String info;
 
-    public Animal(String nome, String sexo, Calendar dataNasc, String especie, String raca, String info) {
+    public Animal(String nome, char sexo, Calendar dataNasc, String especie, String raca, String info) {
         
         this.nome = nome;
         this.sexo = sexo;
@@ -24,6 +24,10 @@ public class Animal {
         this.especie = especie;
         this.raca = raca;
         this.info = info;
+    }
+
+    public Animal(String nome) {
+        this.nome = nome;
     }
 
     public int getCodigo() {
@@ -74,11 +78,11 @@ public class Animal {
         this.raca = raca;
     }
 
-    public String getSexo() {
+    public char getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(char sexo) {
         this.sexo = sexo;
     }
 
