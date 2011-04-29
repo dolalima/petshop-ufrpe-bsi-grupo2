@@ -18,12 +18,12 @@ import petshop.classes.Animal;
  *
  * @author arthur
  */
-public class JanelaCadastroAnimal extends javax.swing.JDialog {
+public class JanelaAnimal extends javax.swing.JDialog {
 
-    JanelaCadastroCliente janelaCliente;
+    JanelaCliente janelaCliente;
 
-    /** Creates new form JanelaCadastroAnimal */
-    public JanelaCadastroAnimal(JanelaCadastroCliente janelaCliente) {
+    /** Creates new form JanelaAnimal */
+    public JanelaAnimal(JanelaCliente janelaCliente) {
         initComponents();
 
         this.janelaCliente = janelaCliente;
@@ -295,7 +295,7 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaCadastroAnimal(null).setVisible(true);
+                new JanelaAnimal(null).setVisible(true);
             }
         });
     }
@@ -371,7 +371,7 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
             // gerando o calendar
             cal.setTime(df.parse(dateStr));
         } catch (ParseException ex) {
-            Logger.getLogger(JanelaCadastroAnimal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JanelaAnimal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // separando os dados da string para comparacao e validacao
@@ -403,7 +403,9 @@ public class JanelaCadastroAnimal extends javax.swing.JDialog {
         String[] d = campoDataNasc.getText().split("/");
 
         String nome = campoNome.getText();
-        String sexo = (String) comboSexo.getSelectedItem();
+        char sexo;
+        if(comboSexo.getSelectedIndex() == 1) sexo = 'M';
+        else sexo = 'F';
         Calendar cal = new GregorianCalendar(Integer.valueOf(d[0]),
                 Integer.valueOf(d[1]),Integer.valueOf(d[2]));
         String especie = (String) comboEspecie.getSelectedItem();

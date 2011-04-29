@@ -4,7 +4,7 @@
  */
 
 /*
- * JanelaCadastroServico.java
+ * JanelaServico.java
  *
  * Created on Apr 8, 2011, 3:40:20 PM
  */
@@ -22,12 +22,14 @@ import petshop.classes.Servico;
  *
  * @author arthur
  */
-public class JanelaCadastroServico extends javax.swing.JDialog {
+public class JanelaServico extends javax.swing.JDialog {
 
     Servico servico;
+    private TipoJanela tipo;
 
-    /** Creates new form JanelaCadastroServico */
-    public JanelaCadastroServico() {
+    /** Creates new form JanelaCliente */
+    public JanelaServico(TipoJanela tipo) {
+        this.tipo = tipo;
         initComponents();
 
         this.setLocationRelativeTo(this.getContentPane());
@@ -318,7 +320,7 @@ public class JanelaCadastroServico extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaCadastroServico().setVisible(true);
+                new JanelaServico(TipoJanela.CADASTRO).setVisible(true);
             }
         });
     }

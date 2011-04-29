@@ -61,7 +61,7 @@ public abstract class BancoDeDados {
                     + "celular,cep,info) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             // Entrada de valores
             preparedStatement.setString(1, cliente.getNome());
-            preparedStatement.setString(2, cliente.getSexo());
+            preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
             preparedStatement.setString(3, cliente.getCpf().getCpf());
             preparedStatement.setLong(4, cliente.getRg());
             preparedStatement.setString(5, cliente.getEndereco().getRua());
@@ -124,7 +124,12 @@ public abstract class BancoDeDados {
         int contador=0;
         int nRegistros=0;
         try{
-            if (!c.getNome().equals("")) {
+            if (c.getCodigo() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
+                        + "WHERE id_cliente LIKE ?");
+                preparedStatement.setString(1, "%"+c.getCodigo()+"%");
+                resultset = preparedStatement.executeQuery();
+            } else if (!c.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE nome LIKE ?");
                 preparedStatement.setString(1, "%"+c.getNome()+"%");
@@ -143,7 +148,7 @@ public abstract class BancoDeDados {
                 Cliente cliente = new Cliente();
                 cliente.setCodigo((Integer)resultset.getObject(1));
                 cliente.setNome((String)resultset.getObject(2));
-                cliente.setSexo((String)resultset.getObject(3));
+                cliente.setSexo(((String)resultset.getObject(3)).charAt(0));
                 CPF cpf = new CPF((String)resultset.getObject(4));
                 cliente.setCpf(cpf);
                 cliente.setRg((Integer)resultset.getObject(5));
@@ -257,6 +262,18 @@ public abstract class BancoDeDados {
         } catch(SQLException erro){
             System.out.print("Não foi possivel executa consulta.");
         }
+    }
+
+    public static boolean alterar(Cliente cliente) {
+        return false;
+    }
+
+    public static Animal[] consultar(Animal animal) {
+        return new Animal[0];
+    }
+
+    public static boolean remover(Animal animal) {
+        return false;
     }
     
 }

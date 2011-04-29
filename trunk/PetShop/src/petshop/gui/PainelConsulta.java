@@ -6,14 +6,9 @@
 package petshop.gui;
 
 import java.awt.Dimension;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -21,9 +16,9 @@ import javax.swing.text.MaskFormatter;
  */
 public class PainelConsulta extends Painel{
 
-    private JButton botaoNovo;
-    private JButton botaoAlterar;
-    private JButton botaoInformacoes;
+    protected JButton botaoNovo;
+    protected JButton botaoAlterar;
+    protected JButton botaoInformacoes;
 
     private JTextField campoAcimaDe;
     private JTextField campoAbaixoDe;
@@ -34,7 +29,7 @@ public class PainelConsulta extends Painel{
 
 
     public PainelConsulta(){
-
+        
         itensPreco = new int[0];
 
         botaoNovo = new JButton();
@@ -73,12 +68,8 @@ public class PainelConsulta extends Painel{
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(botaoInformacoes, gridBagConstraints);
 
-        try {
-            campoAcimaDe = new JFormattedTextField(new MaskFormatter("####-####"));
-            campoAbaixoDe = new JFormattedTextField(new MaskFormatter("####-####"));
-        } catch (ParseException ex) {
-            Logger.getLogger(PainelConsulta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        campoAcimaDe = new JTextField();
+        campoAbaixoDe = new JTextField();
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -174,5 +165,5 @@ public class PainelConsulta extends Painel{
      */
     public void setItensPreco(int[] itensPreco) {
         this.itensPreco = itensPreco;
-    }
+    }    
 }
