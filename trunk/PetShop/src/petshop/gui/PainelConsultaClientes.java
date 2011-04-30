@@ -31,7 +31,7 @@ public class PainelConsultaClientes extends PainelConsulta {
         Cliente c = cliente[0];
 
         janela.getCampoNome().setText(c.getNome());
-        if(c.getSexo() == 'M') janela.getComboSexo().setSelectedIndex(1);
+        if(c.getSexo().equals("M")) janela.getComboSexo().setSelectedIndex(1);
         else janela.getComboSexo().setSelectedIndex(2);
         janela.getCampoRua().setText(c.getEndereco().getRua());
         janela.getCampoNumero().setText(String.valueOf(c.getEndereco().getNum()));

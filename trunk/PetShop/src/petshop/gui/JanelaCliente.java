@@ -794,9 +794,9 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         //CLIENTE
         String nome = campoNome.getText();
-        char sexo;
-        if(comboSexo.getSelectedIndex() == 1) sexo = 'M';
-        else sexo = 'F';
+        String sexo;
+        if(comboSexo.getSelectedIndex() == 1) sexo = "M";
+        else sexo = "F";
         Endereco endereco = new Endereco(rua, numero, complemento, bairro, cidade, uf, cep);
         long rg = Long.valueOf(campoRG.getText());
         CPF cpf = new CPF(campoCPF.getText());

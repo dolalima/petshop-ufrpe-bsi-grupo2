@@ -22,6 +22,10 @@ public class Servico extends ItemVenda {
 		super(codigo, nome, precoVenda);
 		this.duracao = data;
 	}
+
+    Servico() {
+
+    }
 	
 	/**
 	 * @return

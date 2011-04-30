@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Classe de selação do sistema com banco de dados, as atividades de cadastrar, pesquisar,
@@ -53,7 +54,7 @@ public abstract class BancoDeDados {
             Cliente cliente = new Cliente();
             cliente.setCodigo((Integer) resultset.getObject(1));
             cliente.setNome((String) resultset.getObject(2));
-            cliente.setSexo((String) resultset.getObject(3));
+            cliente.setSexo((String)resultset.getObject(3));
             CPF cpf = new CPF((String) resultset.getObject(4));
             cliente.setCpf(cpf);
             cliente.setRg((Integer) resultset.getObject(5));
@@ -119,7 +120,7 @@ public abstract class BancoDeDados {
                     + "celular,cep,info) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             // Entrada de valores
             preparedStatement.setString(1, cliente.getNome());
-            preparedStatement.setString(2, cliente.getSexo());
+            preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
             preparedStatement.setString(3, cliente.getCpf().getCpf());
             preparedStatement.setLong(4, cliente.getRg());
             preparedStatement.setString(5, cliente.getEndereco().getRua());
@@ -190,7 +191,7 @@ public abstract class BancoDeDados {
             //Configuração das varieaveis
             preparedStatement.setLong(1, servico.getCodigo());
             preparedStatement.setString(2, servico.getNome());
-            preparedStatement.setInt(3, (int) servico.getDuracao());
+            preparedStatement.setInt(3, (int) servico.getDuracao().getTime());
             preparedStatement.setDouble(4, servico.getPrecoVenda());
             preparedStatement.setString(5, servico.getInfo());
             //Execução de comando SQL
@@ -228,7 +229,6 @@ public abstract class BancoDeDados {
                 contador = contador + 1;
 
                 clienteList[contador - 1] = gerarClienteFromResultset(resultset);
-                ;
             }
             return clienteList;
 
@@ -302,7 +302,9 @@ public abstract class BancoDeDados {
                 Servico servico = new Servico();
                 servico.setCodigo((Integer) resultset.getObject(1));
                 servico.setNome((String) resultset.getObject(2));
-                servico.setDuracao((Integer) resultset.getObject(3));
+                Date tempo = new Date();
+                tempo.setTime((Long)resultset.getObject(3));
+                servico.setDuracao(tempo);
                 servico.setPrecoVenda((Double) resultset.getObject(4));
                 servico.setInfo((String) resultset.getObject(6));
 
@@ -331,7 +333,7 @@ public abstract class BancoDeDados {
                     + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) WHERE codigo=?");
             // introdução das variaveis no comando
             preparedStatement.setString(1, cliente.getNome());
-            preparedStatement.setString(2, cliente.getSexo());
+            preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
             preparedStatement.setString(3, cliente.getCpf().getCpf());
             preparedStatement.setLong(4, cliente.getRg());
             preparedStatement.setString(5, cliente.getEndereco().getRua());
@@ -406,7 +408,7 @@ public abstract class BancoDeDados {
                     + "WHERE codigo=?");
             //Configuração das varieaveis
             preparedStatement.setString(1, servico.getNome());
-            preparedStatement.setInt(2, (int) servico.getDuracao());
+            preparedStatement.setInt(2, (int) servico.getDuracao().getTime());
             preparedStatement.setDouble(3, servico.getPrecoVenda());
             preparedStatement.setString(4, servico.getInfo());
             // Codido do servico que ira ser alterado
@@ -434,5 +436,13 @@ public abstract class BancoDeDados {
         } catch (SQLException erro) {
             System.out.print("Não foi possivel executa consulta.");
         }
+    }
+
+    public static Animal[] consultar(Animal animal) {
+        return new Animal[0];
+    }
+
+    public static boolean remover(Animal animal) {
+        return false;
     }
 }

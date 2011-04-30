@@ -24,11 +24,14 @@ public class TesteProdutoList {
         BancoDeDados.conectar();
         DecimalFormat preco = new DecimalFormat("0.00");
 
-        p=BancoDeDados.consultar(new Produto());
+        Produto produto = new Produto();
+        produto.setNome("RACAO");
+        p=BancoDeDados.consultar(produto);
         System.out.print("Produtos: \n");
         for (int i=0;i<p.length;i++){
             System.out.printf("Nome: %s\tValor: %s \n", p[i].getNome(),preco.format(p[i].getPrecoVenda()));
         }
-    }
+
+        }
 
 }

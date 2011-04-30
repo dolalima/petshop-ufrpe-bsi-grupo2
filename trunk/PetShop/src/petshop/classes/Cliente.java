@@ -7,7 +7,7 @@ package petshop.classes;
 public class Cliente{
     private int codigo;
     private String nome;
-    private char sexo;
+    private String sexo;
     private Endereco endereco;
     private long rg;
     private CPF cpf;
@@ -17,7 +17,7 @@ public class Cliente{
     private Animal[] animais;
     private String informacoes;
 
-    public Cliente(String nome, char sexo, Endereco endereco, long rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
+    public Cliente(String nome, String sexo, Endereco endereco, long rg, CPF cpf, String email, String telefone, String celular, Animal[] animais, String informacoes) {
         
         this.nome = nome;
         this.sexo = sexo;
@@ -33,7 +33,7 @@ public class Cliente{
 
     public Cliente() {
         this.nome = "";
-        this.sexo = ' ';
+        this.sexo = " ";
         this.endereco = new Endereco();
         this.rg = 0;
         this.cpf = new CPF("");
@@ -47,7 +47,7 @@ public class Cliente{
     public Cliente(int cod) {
         this.codigo = cod;
         this.nome = "";
-        this.sexo = ' ';
+        this.sexo = " ";
         this.endereco = new Endereco();
         this.rg = 0;
         this.cpf = new CPF("");
@@ -91,14 +91,14 @@ public class Cliente{
     /**
      * @return the sexo
      */
-    public char getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
     /**
      * @param sexo the sexo to set
      */
-    public void setSexo(char sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
