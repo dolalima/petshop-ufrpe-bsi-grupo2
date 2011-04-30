@@ -13,20 +13,22 @@ import petshop.classes.Cliente;
  * @author dola
  */
 public class TesteClienteList {
-    private static Cliente[] c;
+    private static Cliente[] clienteList;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         BancoDeDados.conectar();
-        
-        c = BancoDeDados.consultar(new Cliente());
-        System.out.printf("Resultado da Pesquisa: %d \n",c.length);
+        Cliente cliente = new Cliente();
+        cliente.setNome("lima");
+        clienteList = BancoDeDados.consultar(cliente);
+
+        System.out.printf("Resultado da Pesquisa: %d \n",clienteList.length);
 
 
-        for (int i=0;i<c.length;i++){
-            System.out.println(c[i].getNome());
+        for (int i=0;i<clienteList.length;i++){
+            System.out.println(clienteList[i].getNome());
         }
         
 
