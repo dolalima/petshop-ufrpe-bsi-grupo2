@@ -14,6 +14,7 @@ package petshop.gui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Servico;
@@ -269,9 +270,10 @@ public class JanelaServico extends javax.swing.JDialog {
     private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
 
-        if(resp == JOptionPane.YES_OPTION)
+        if(resp == JOptionPane.YES_OPTION){
             this.dispose();
             reiniciar();
+        }
 }//GEN-LAST:event_cancelar
 
     private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
@@ -385,4 +387,26 @@ public class JanelaServico extends javax.swing.JDialog {
 
         return 0;
     }
+
+    public JTextArea getAreaInformacoes() {
+        return areaInformacoes;
+    }
+
+    public JTextField getCampoCodigo() {
+        return campoCodigo;
+    }
+
+    public JTextField getCampoDuracao() {
+        return campoDuracao;
+    }
+
+    public JTextField getCampoNome() {
+        return campoNome;
+    }
+
+    public JTextField getCampoPreco() {
+        return campoPreco;
+    }
+
+    
 }

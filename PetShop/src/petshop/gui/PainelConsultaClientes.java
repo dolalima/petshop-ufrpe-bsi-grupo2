@@ -18,10 +18,12 @@ public class PainelConsultaClientes extends PainelConsulta {
         this.botaoAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                alterar(3);
+                alterar(1);
                 //alterar((Integer) tabela.getValueAt(0, tabela.getSelectedRow()));
             }
         });
+
+        this.remove(this.botaoExcluir);
     }
 
     public void alterar(int cod){

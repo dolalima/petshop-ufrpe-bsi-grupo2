@@ -1,5 +1,6 @@
 package petshop.classes;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -8,44 +9,35 @@ import java.util.Date;
  */
 public class Servico extends ItemVenda {
 
-	private Date duracao;
-        private String info;
-	
+    private int duracao;
+    private String info;
 
-	/**
-	 * @param codigo
-	 * @param nome
-	 * @param precoVenda
-	 * @param data
-	 */
-	public Servico(long codigo, String nome, double precoVenda, Date data) {
-		super(codigo, nome, precoVenda);
-		this.duracao = data;
-	}
-
-    Servico() {
+    public Servico(long codigo, String nome, double precoVenda, int duracao, String info) {
+        super(codigo, nome, precoVenda);
+        this.duracao = duracao;
+        this.info = info;
+    }
+    
+    public Servico(int cod) {
+        super(cod, "", 0);
 
     }
-	
-	/**
-	 * @return
-	 */
-	public Date getDuracao() {
-		return duracao;
-	}
-	
-	/**
-	 * @param data
-	 */
-	public void setDuracao(Date data) {
-		this.duracao = data;
-	}
-        
-        public void setInfo(String info){
-            this.info = info;
-        }
-        public String getInfo() {
 
-            return info;
-        }
+    public int getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(int duracao) {
+        this.duracao = duracao;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+
 }

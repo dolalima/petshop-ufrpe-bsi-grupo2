@@ -122,6 +122,11 @@ public class Painel extends javax.swing.JPanel {
         add(scrollTabela, gridBagConstraints);
 
         botaoPesquisar.setText("Pesquisar");
+        botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clicarBotaoPesquisar(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
@@ -134,6 +139,10 @@ public class Painel extends javax.swing.JPanel {
     private void comboPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPesquisaItemStateChanged
         // TODO add your handling code here:
 }//GEN-LAST:event_comboPesquisaItemStateChanged
+
+    private void clicarBotaoPesquisar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoPesquisar
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clicarBotaoPesquisar
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

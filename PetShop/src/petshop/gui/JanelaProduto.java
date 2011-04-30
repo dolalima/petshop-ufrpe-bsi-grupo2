@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.BancoDeDados;
@@ -434,4 +435,30 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         return new Produto(codigo, nome, precoCusto, precoVenda, qtdeEstoque, informacoes);
     }
+
+    public JTextArea getAreaInformacoes() {
+        return areaInformacoes;
+    }
+
+    public JTextField getCampoCodigo() {
+        return campoCodigo;
+    }
+
+    public JTextField getCampoNome() {
+        return campoNome;
+    }
+
+    public JTextField getCampoPrecoCusto() {
+        return campoPrecoCusto;
+    }
+
+    public JTextField getCampoPrecoVenda() {
+        return campoPrecoVenda;
+    }
+
+    public JTextField getCampoQtde() {
+        return campoQtde;
+    }
+
+
 }

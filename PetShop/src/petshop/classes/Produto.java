@@ -18,7 +18,13 @@ public class Produto extends ItemVenda {
     }
 
     public Produto() {
-        super();
+        super(0, "", 0);
+        this.informacoes = "";
+    }
+
+    public Produto(int cod) {
+        super(cod, "", 0);
+        this.informacoes = "";
     }
 
     public String getInformacoes() {

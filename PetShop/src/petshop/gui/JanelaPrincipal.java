@@ -11,7 +11,14 @@
 
 package petshop.gui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import petshop.classes.BancoDeDados;
 
 /**
  *
@@ -61,9 +68,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         MenuSistema = new javax.swing.JMenu();
         MenuItemLogout = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        MenuCliente = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(850, 450));
@@ -119,36 +123,27 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         MenuSistema.setText("Sistema");
 
         MenuItemLogout.setText("Logout");
+        MenuItemLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clicarMenuLogout(evt);
+            }
+        });
         MenuSistema.add(MenuItemLogout);
 
         jMenuItem1.setText("Sair");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         MenuSistema.add(jMenuItem1);
 
         MenuPricipal.add(MenuSistema);
-
-        MenuCliente.setText("Cliente");
-
-        jMenuItem2.setText("Cadastrar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        MenuCliente.add(jMenuItem2);
-
-        MenuPricipal.add(MenuCliente);
-
-        jMenu1.setText("Produto");
-        MenuPricipal.add(jMenu1);
 
         setJMenuBar(MenuPricipal);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
-}//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void botaoClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoClientesMouseClicked
         if(!painelSplit.getRightComponent().equals(painelClientes)){
@@ -174,6 +169,44 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botaoVendasMouseClicked
 
+    private void clicarMenuLogout(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clicarMenuLogout
+        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja fazer logout?", "Logout", JOptionPane.YES_NO_OPTION);
+
+        if(resp == JOptionPane.YES_OPTION){
+            JanelaLogin janela = new JanelaLogin();
+
+            //JanelaPrincipal janela = new JanelaPrincipal();
+
+            // Get the size of the screen
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+            // Determine the new location of the window
+            int w = janela.getSize().width;
+            int h = janela.getSize().height;
+            int x = (dim.width-w)/2;
+            int y = (dim.height-h)/2;
+
+            // Move the window
+            janela.setLocation(x, y);
+            janela.setVisible(true);
+
+        }
+    }//GEN-LAST:event_clicarMenuLogout
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja sair do programa?", "Sair", JOptionPane.YES_NO_OPTION);
+
+        if(resp == JOptionPane.YES_OPTION){
+            try {
+                BancoDeDados.connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -186,7 +219,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu MenuCliente;
     private javax.swing.JMenuItem MenuItemLogout;
     private javax.swing.JMenuBar MenuPricipal;
     private javax.swing.JMenu MenuSistema;
@@ -194,9 +226,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton botaoProdutos;
     private javax.swing.JButton botaoServicos;
     private javax.swing.JButton botaoVendas;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSplitPane painelSplit;
     // End of variables declaration//GEN-END:variables
