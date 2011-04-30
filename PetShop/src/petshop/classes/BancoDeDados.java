@@ -54,7 +54,7 @@ public abstract class BancoDeDados {
             Cliente cliente = new Cliente();
             cliente.setCodigo((Integer) resultset.getObject(1));
             cliente.setNome((String) resultset.getObject(2));
-            cliente.setSexo((String)resultset.getObject(3));
+            cliente.setSexo((String) resultset.getObject(3));
             CPF cpf = new CPF((String) resultset.getObject(4));
             cliente.setCpf(cpf);
             cliente.setRg((Integer) resultset.getObject(5));
@@ -99,13 +99,33 @@ public abstract class BancoDeDados {
             produto.setPrecoVenda((Double) resultset.getObject(5));
             produto.setInformacoes((String) resultset.getObject(6));
             return produto;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             Produto produto = new Produto();
             return produto;
 
         }
 
+    }
+
+    private static Servico gerarServicoFromResultset(ResultSet resultset) {
+        try {
+            Servico servico = new Servico();
+            servico.setCodigo((Integer) resultset.getObject(1));
+            servico.setNome((String) resultset.getObject(2));
+            Date tempo = new Date();
+            tempo.setTime((Long) resultset.getObject(3));
+            servico.setDuracao(tempo);
+            servico.setPrecoVenda((Double) resultset.getObject(4));
+            servico.setInfo((String) resultset.getObject(6));
+            return servico;
+        }catch (SQLException e){
+            e.printStackTrace();
+            Servico servico = new Servico();
+            return servico;
+
+
+        }
     }
 
     /**Metodo publico que cadastra um cliente no banco de dados.
@@ -207,14 +227,37 @@ public abstract class BancoDeDados {
         }
     }
 
-    public static Cliente[] consultar(Cliente c) {
+    public static boolean cadastrar(Animal animal) {
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO animal "
+                    + "(nome,sexo,nascimento,especie,raca,info,dono) "
+                    + "VALUES (?,?,?,?,?,?,?)");
+
+            preparedStatement.setString(1, animal.getNome());
+            preparedStatement.setString(2, String.valueOf(animal.getSexo()));
+            preparedStatement.setString(3, String.valueOf(animal.getDataNasc().toString()));
+            preparedStatement.setString(4, animal.getEspecie());
+            preparedStatement.setString(5, animal.getRaca());
+            preparedStatement.setString(6, animal.getInfo());
+            preparedStatement.setInt(7, animal.getDono().getCodigo());
+
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static Cliente[] consultar(Cliente cliente) {
         int contador = 0;
         int nRegistros = 0;
         try {
-            if (!c.getNome().equals("")) {
+            if (!cliente.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE nome LIKE ?");
-                preparedStatement.setString(1, "%" + c.getNome() + "%");
+                preparedStatement.setString(1, "%" + cliente.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             }
 
@@ -246,14 +289,14 @@ public abstract class BancoDeDados {
      * @param Produto
      * @return Produto[]
      **/
-    public static Produto[] consultar(Produto p) {
+    public static Produto[] consultar(Produto protudo) {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (!p.getNome().equals("")) {
+            if (!protudo.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM "
                         + "produtos WHERE nome LIKE ?");
-                preparedStatement.setString(1, "%" + p.getNome() + "%");
+                preparedStatement.setString(1, "%" + protudo.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             }
             while (resultset.next()) {
@@ -262,7 +305,7 @@ public abstract class BancoDeDados {
             Produto[] produtoList = new Produto[nRegistro];
             resultset.beforeFirst();
             while (resultset.next()) {
-                contador++;                
+                contador++;
                 produtoList[contador - 1] = gerarProdutoFromResultset(resultset);
             }
             return produtoList;
@@ -280,14 +323,14 @@ public abstract class BancoDeDados {
      * @param Servico
      * @return Servico[]
      **/
-    public Servico[] consultar(Servico s) {
+    public static Servico[] consultar(Servico servico) {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (!s.getNome().equals("")) {
+            if (!servico.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE nome LIKE ?");
-                preparedStatement.setString(1, "%" + s.getNome() + "%");
+                preparedStatement.setString(1, "%" + servico.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             }
             while (resultset.next()) {
@@ -299,16 +342,8 @@ public abstract class BancoDeDados {
 
             while (resultset.next()) {
                 contador++;
-                Servico servico = new Servico();
-                servico.setCodigo((Integer) resultset.getObject(1));
-                servico.setNome((String) resultset.getObject(2));
-                Date tempo = new Date();
-                tempo.setTime((Long)resultset.getObject(3));
-                servico.setDuracao(tempo);
-                servico.setPrecoVenda((Double) resultset.getObject(4));
-                servico.setInfo((String) resultset.getObject(6));
-
-                servicoList[contador - 1] = servico;
+                
+                servicoList[contador - 1] = gerarServicoFromResultset(resultset);
             }
             return servicoList;
 
@@ -317,6 +352,10 @@ public abstract class BancoDeDados {
             Servico[] servicoList = new Servico[0];
             return servicoList;
         }
+    }
+
+    public static Animal[] consultar(Animal animal) {
+        return new Animal[0];
     }
 
     /**
@@ -426,22 +465,34 @@ public abstract class BancoDeDados {
         }
     }
 
-    /**Metodo privado que executa comandos SQL a partir de outros metodos
-     * no banco de dados e retorna o resultado para a variavel resultset.
-     **/
-    private static void ExecuteSQLCmd(String cmd) {
+    public static boolean alterar(Animal animal) {
         try {
-            int result = BancoDeDados.statement.executeUpdate(cmd);
-            System.out.print(result);
-        } catch (SQLException erro) {
-            System.out.print("Não foi possivel executa consulta.");
+            preparedStatement = connection.prepareStatement("UPDATE INTO animal "
+                    + "(nome,sexo,nascimento,especie,raca,info,dono) "
+                    + "VALUES (?,?,?,?,?,?,?) WHERE codigo=?");
+
+            preparedStatement.setString(1, animal.getNome());
+            preparedStatement.setString(2, String.valueOf(animal.getSexo()));
+            preparedStatement.setString(3, String.valueOf(animal.getDataNasc().toString()));
+            preparedStatement.setString(4, animal.getEspecie());
+            preparedStatement.setString(5, animal.getRaca());
+            preparedStatement.setString(6, animal.getInfo());
+            preparedStatement.setInt(7, animal.getDono().getCodigo());
+
+            preparedStatement.setInt(8, animal.getCodigo());
+
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+
         }
-    }
 
-    public static Animal[] consultar(Animal animal) {
-        return new Animal[0];
     }
-
+    
+    
     public static boolean remover(Animal animal) {
         return false;
     }

@@ -15,6 +15,8 @@ public class Animal {
     private String especie;
     private String raca;
     private String info;
+    private Cliente dono;
+
 
     public Animal(String nome, char sexo, Calendar dataNasc, String especie, String raca, String info) {
         
@@ -84,6 +86,14 @@ public class Animal {
 
     public void setSexo(char sexo) {
         this.sexo = sexo;
+    }
+
+    public Cliente getDono() {
+        return dono;
+    }
+
+    public void setDono(Cliente dono) {
+        this.dono = dono;
     }
 
 
