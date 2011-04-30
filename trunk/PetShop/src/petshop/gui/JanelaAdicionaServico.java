@@ -17,9 +17,11 @@ package petshop.gui;
  */
 public class JanelaAdicionaServico extends JanelaAdiciona {
 
+    JanelaVenda pai;
 
-    /** Creates new form JanelaAnimais */
-    public JanelaAdicionaServico() {
+    /** Creates new form JanelaAdicionaCliente */
+    public JanelaAdicionaServico(JanelaVenda janelaVenda) {
+        pai = janelaVenda;
 
         setTitle("Adicionar Serviço");
         painel.setModelo(new String[] { "Código", "Nome" });
@@ -45,7 +47,7 @@ public class JanelaAdicionaServico extends JanelaAdiciona {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaAdicionaServico().setVisible(true);
+                new JanelaAdicionaServico(null).setVisible(true);
             }
         });
     }

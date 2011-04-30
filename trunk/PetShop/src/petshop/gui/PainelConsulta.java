@@ -6,6 +6,7 @@
 package petshop.gui;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
@@ -18,11 +19,11 @@ public class PainelConsulta extends Painel{
 
     protected JButton botaoNovo;
     protected JButton botaoAlterar;
+    protected JButton botaoExcluir;
     protected JButton botaoInformacoes;
 
     private JTextField campoAcimaDe;
     private JTextField campoAbaixoDe;
-    private java.awt.GridBagConstraints gridBagConstraints;
 
     private JDialog cadastro;
     private int[] itensPreco;
@@ -34,38 +35,36 @@ public class PainelConsulta extends Painel{
 
         botaoNovo = new JButton();
         botaoAlterar = new JButton();
+        botaoExcluir = new JButton();
         botaoInformacoes = new JButton();
 
         botaoNovo.setText("Novo");
         botaoNovo.setFocusCycleRoot(true);
         botaoNovo.setMinimumSize(new java.awt.Dimension(35, 24));
         botaoNovo.setPreferredSize(new java.awt.Dimension(45, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 60;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
         add(botaoNovo, gridBagConstraints);
 
         botaoAlterar.setText("Alterar");
         botaoAlterar.setMinimumSize(new java.awt.Dimension(35, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 60;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(botaoAlterar, gridBagConstraints);
+
+        botaoExcluir.setText("Excluir");
+        botaoExcluir.setMinimumSize(new java.awt.Dimension(35, 24));
+        gridBagConstraints.gridx = 2;
+        add(botaoExcluir, gridBagConstraints);
 
         botaoInformacoes.setText("Informações");
         botaoInformacoes.setMinimumSize(new java.awt.Dimension(35, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 60;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
         add(botaoInformacoes, gridBagConstraints);
 
         campoAcimaDe = new JTextField();
@@ -79,7 +78,6 @@ public class PainelConsulta extends Painel{
         gridBagConstraints.ipadx = 90;
         gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
         add(campoAcimaDe, gridBagConstraints);
-        gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
         gridBagConstraints.gridx = 3;
         add(campoAbaixoDe, gridBagConstraints);
 

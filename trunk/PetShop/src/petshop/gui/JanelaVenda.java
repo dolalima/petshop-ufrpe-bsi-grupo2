@@ -29,9 +29,9 @@ public class JanelaVenda extends javax.swing.JDialog {
     public JanelaVenda() {
         initComponents();
 
-        adicionaServico = new JanelaAdicionaServico();
-        adicionaProduto = new JanelaAdicionaProduto();
-        adicionaCliente = new JanelaAdicionaCliente();
+        adicionaServico = new JanelaAdicionaServico(this);
+        adicionaProduto = new JanelaAdicionaProduto(this);
+        adicionaCliente = new JanelaAdicionaCliente(this);
 
         comboAnimal.setVisible(false);
         this.setLocationRelativeTo(this.getContentPane());

@@ -110,18 +110,15 @@ public abstract class BancoDeDados {
 
     private static Servico gerarServicoFromResultset(ResultSet resultset) {
         try {
-            Servico servico = new Servico();
-            servico.setCodigo((Integer) resultset.getObject(1));
+            Servico servico = new Servico((Integer) resultset.getObject(1));
             servico.setNome((String) resultset.getObject(2));
-            Date tempo = new Date();
-            tempo.setTime((Long) resultset.getObject(3));
-            servico.setDuracao(tempo);
+            servico.setDuracao((Integer) resultset.getObject(3));
             servico.setPrecoVenda((Double) resultset.getObject(4));
             servico.setInfo((String) resultset.getObject(6));
             return servico;
         }catch (SQLException e){
             e.printStackTrace();
-            Servico servico = new Servico();
+            Servico servico = new Servico(0);
             return servico;
 
 
@@ -211,7 +208,7 @@ public abstract class BancoDeDados {
             //Configuração das varieaveis
             preparedStatement.setLong(1, servico.getCodigo());
             preparedStatement.setString(2, servico.getNome());
-            preparedStatement.setInt(3, (int) servico.getDuracao().getTime());
+            preparedStatement.setInt(3, servico.getDuracao());
             preparedStatement.setDouble(4, servico.getPrecoVenda());
             preparedStatement.setString(5, servico.getInfo());
             //Execução de comando SQL
@@ -254,7 +251,12 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistros = 0;
         try {
-            if (!cliente.getNome().equals("")) {
+            if (cliente.getCodigo() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
+                        + "WHERE id_cliente LIKE ?");
+                preparedStatement.setString(1, "%" + cliente.getCodigo() + "%");
+                resultset = preparedStatement.executeQuery();
+            } else if (!cliente.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE nome LIKE ?");
                 preparedStatement.setString(1, "%" + cliente.getNome() + "%");
@@ -289,14 +291,19 @@ public abstract class BancoDeDados {
      * @param Produto
      * @return Produto[]
      **/
-    public static Produto[] consultar(Produto protudo) {
+    public static Produto[] consultar(Produto produto) {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (!protudo.getNome().equals("")) {
+            if (produto.getCodigo() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE codigo LIKE ?");
+                preparedStatement.setString(1, "%" + produto.getCodigo() + "%");
+                resultset = preparedStatement.executeQuery();
+            } else if (!produto.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM "
                         + "produtos WHERE nome LIKE ?");
-                preparedStatement.setString(1, "%" + protudo.getNome() + "%");
+                preparedStatement.setString(1, "%" + produto.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             }
             while (resultset.next()) {
@@ -327,7 +334,12 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (!servico.getNome().equals("")) {
+            if (servico.getCodigo() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                        + "WHERE codigo LIKE ?");
+                preparedStatement.setString(1, "%" + servico.getCodigo() + "%");
+                resultset = preparedStatement.executeQuery();
+            } else if (!servico.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE nome LIKE ?");
                 preparedStatement.setString(1, "%" + servico.getNome() + "%");
@@ -447,7 +459,7 @@ public abstract class BancoDeDados {
                     + "WHERE codigo=?");
             //Configuração das varieaveis
             preparedStatement.setString(1, servico.getNome());
-            preparedStatement.setInt(2, (int) servico.getDuracao().getTime());
+            preparedStatement.setInt(2, servico.getDuracao());
             preparedStatement.setDouble(3, servico.getPrecoVenda());
             preparedStatement.setString(4, servico.getInfo());
             // Codido do servico que ira ser alterado
