@@ -149,7 +149,6 @@ public class JanelaLogin extends javax.swing.JFrame {
     private boolean login(String user, String senha) {
         try {
             String cmd = "SELECT user,senha FROM usuarios WHERE user='" + user + "'";
-            System.out.println(cmd);
             ResultSet dados = BancoDeDados.statement.executeQuery(cmd);
 
             dados.next();
