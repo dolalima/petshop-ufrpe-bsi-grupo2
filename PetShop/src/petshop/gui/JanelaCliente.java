@@ -34,21 +34,29 @@ public class JanelaCliente extends javax.swing.JDialog {
         this.setLocationRelativeTo(this.getContentPane());
 
         KeyListener k = new KeyListener() {
-                    public void keyTyped(KeyEvent e) {
-                        if (!((e.getKeyChar() >= KeyEvent.VK_0 &&
-                               e.getKeyChar() <= KeyEvent.VK_9) ||
-                              (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))) {
-                            e.consume(); } }
-                    public void keyPressed(KeyEvent e) { }
-                    public void keyReleased(KeyEvent e) { } };
-        
+
+            public void keyTyped(KeyEvent e) {
+                if(!((e.getKeyChar() >= KeyEvent.VK_0
+                        && e.getKeyChar() <= KeyEvent.VK_9)
+                        || (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))){
+                    e.consume();
+                }
+            }
+
+            public void keyPressed(KeyEvent e) {
+            }
+
+            public void keyReleased(KeyEvent e) {
+            }
+        };
+
         campoTelefone.addKeyListener(k);
         campoCelular.addKeyListener(k);
         campoCEP.addKeyListener(k);
         campoCPF.addKeyListener(k);
         campoRG.addKeyListener(k);
         campoNumero.addKeyListener(k);
-        
+
         animais = new ArrayList();
 
 
@@ -56,6 +64,10 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         if(this.tipo == TipoJanela.ALTERACAO){
             botaoCadastrar.setText("Alterar");
+        } else if(this.tipo == TipoJanela.INFORMACAO){
+            botaoCadastrar.setVisible(false);
+            botaoCancelar.setVisible(false);
+            botaoAdicionarAnimal.setText("Informação");
         }
     }
 
@@ -565,41 +577,57 @@ public class JanelaCliente extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
                 }
             }
-            
+
         }
     }//GEN-LAST:event_cadastrar
 
     private void eventoDigitarFone(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarFone
         JTextField campo = (JTextField) evt.getComponent();
 
-        if(campo.getText().length() == 13) evt.consume();
-        
+        if(campo.getText().length() == 13){
+            evt.consume();
+        }
+
         if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-            if(campo.getText().length() == 0) campo.setText("(");
-            else if(campo.getText().length() == 3) campo.setText(campo.getText() + ")");
-            else if(campo.getText().length() == 8) campo.setText(campo.getText() + "-");
+            if(campo.getText().length() == 0){
+                campo.setText("(");
+            } else if(campo.getText().length() == 3){
+                campo.setText(campo.getText() + ")");
+            } else if(campo.getText().length() == 8){
+                campo.setText(campo.getText() + "-");
+            }
         }
     }//GEN-LAST:event_eventoDigitarFone
 
     private void eventoDigitarCPF(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarCPF
         JTextField campo = (JTextField) evt.getComponent();
 
-        if(campo.getText().length() == 14) evt.consume();
+        if(campo.getText().length() == 14){
+            evt.consume();
+        }
 
         if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-            if(campo.getText().length() == 3) campo.setText(campo.getText() + ".");
-            else if(campo.getText().length() == 7) campo.setText(campo.getText() + ".");
-            else if(campo.getText().length() == 11) campo.setText(campo.getText() + "-");
+            if(campo.getText().length() == 3){
+                campo.setText(campo.getText() + ".");
+            } else if(campo.getText().length() == 7){
+                campo.setText(campo.getText() + ".");
+            } else if(campo.getText().length() == 11){
+                campo.setText(campo.getText() + "-");
+            }
         }
     }//GEN-LAST:event_eventoDigitarCPF
 
     private void eventoDigitarCEP(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarCEP
         JTextField campo = (JTextField) evt.getComponent();
 
-        if(campo.getText().length() == 9) evt.consume();
+        if(campo.getText().length() == 9){
+            evt.consume();
+        }
 
         if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-            if(campo.getText().length() == 5) campo.setText(campo.getText() + "-");
+            if(campo.getText().length() == 5){
+                campo.setText(campo.getText() + "-");
+            }
         }
     }//GEN-LAST:event_eventoDigitarCEP
 
@@ -608,7 +636,7 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         if(campo.getText().length() >= getTamanhoMaximo(campo)){
             evt.consume();
-        }        
+        }
     }//GEN-LAST:event_campoTamanhoMaximo
 
     private void campoMaiusculas(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiusculas
@@ -620,14 +648,17 @@ public class JanelaCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_campoMaiusculas
 
     private void mudarComboAnimais(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboAnimais
-        if(comboAnimais.getSelectedIndex() > 0)
-            botaoRemoverAnimal.setVisible(true);
-        else
+        if(comboAnimais.getSelectedIndex() > 0){
+            if(this.tipo != TipoJanela.INFORMACAO){
+                botaoRemoverAnimal.setVisible(true);
+            }
+        } else {
             botaoRemoverAnimal.setVisible(false);
+        }
     }//GEN-LAST:event_mudarComboAnimais
 
     private void removerAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removerAnimal
-        animais.remove(comboAnimais.getSelectedIndex()-1);
+        animais.remove(comboAnimais.getSelectedIndex() - 1);
         comboAnimais.removeItemAt(comboAnimais.getSelectedIndex());
 
         if(tipo == TipoJanela.ALTERACAO){
@@ -637,16 +668,16 @@ public class JanelaCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_removerAnimal
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new JanelaCliente(TipoJanela.CADASTRO).setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaInformacoes;
     private javax.swing.JButton botaoAdicionarAnimal;
@@ -672,29 +703,40 @@ public class JanelaCliente extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollInformacoes;
     // End of variables declaration//GEN-END:variables
 
+    private String getEtiqueta(JTextComponent campo) {
 
-
-    private String getEtiqueta(JTextComponent campo){
-
-        if(campo.equals(campoNome)) return "Nome";
-        else if(campo.equals(campoRua)) return "Rua";
-        else if(campo.equals(campoNumero)) return "Número";
-        else if(campo.equals(campoComplemento)) return "Complemento";
-        else if(campo.equals(campoBairro)) return "Bairro";
-        else if(campo.equals(campoCidade)) return "Cidade";
-        else if(campo.equals(campoCEP)) return "CEP";
-        else if(campo.equals(campoRG)) return "RG";
-        else if(campo.equals(campoCPF)) return "CPF";
-        else if(campo.equals(campoEMail)) return "e-Mail";
-        else if(campo.equals(campoTelefone)) return "Telefone";
-        else if(campo.equals(campoCelular)) return "Celular";
-        else if(campo.equals(areaInformacoes)) return "Informações Adicionais";
+        if(campo.equals(campoNome)){
+            return "Nome";
+        } else if(campo.equals(campoRua)){
+            return "Rua";
+        } else if(campo.equals(campoNumero)){
+            return "Número";
+        } else if(campo.equals(campoComplemento)){
+            return "Complemento";
+        } else if(campo.equals(campoBairro)){
+            return "Bairro";
+        } else if(campo.equals(campoCidade)){
+            return "Cidade";
+        } else if(campo.equals(campoCEP)){
+            return "CEP";
+        } else if(campo.equals(campoRG)){
+            return "RG";
+        } else if(campo.equals(campoCPF)){
+            return "CPF";
+        } else if(campo.equals(campoEMail)){
+            return "e-Mail";
+        } else if(campo.equals(campoTelefone)){
+            return "Telefone";
+        } else if(campo.equals(campoCelular)){
+            return "Celular";
+        } else if(campo.equals(areaInformacoes)){
+            return "Informações Adicionais";
+        }
 
         return "";
     }
 
-
-    private void reiniciar(){
+    private void reiniciar() {
 
         campoNome.setText("Nome");
         comboSexo.setSelectedIndex(0);
@@ -710,51 +752,87 @@ public class JanelaCliente extends javax.swing.JDialog {
         campoEMail.setText("e-Mail");
         campoTelefone.setText("Telefone");
         campoCelular.setText("Celular");
-        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Animais"}));
+        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Animais"}));
         areaInformacoes.setText("Informações Adicionais");
 
         botaoRemoverAnimal.setVisible(false);
     }
 
-    public void adicionarAnimal(Animal a){
+    void adicionarAnimal(Animal a) {
         animais.add(a);
 
         comboAnimais.addItem(a.getNome());
     }
 
+    private int getTamanhoMaximo(JTextComponent campo) {
 
-    private int getTamanhoMaximo(JTextComponent campo){
-
-        if(campo.equals(campoNome)) return 80;
-        else if(campo.equals(campoRua)) return 70;
-        else if(campo.equals(campoNumero)) return 4;
-        else if(campo.equals(campoComplemento)) return 30;
-        else if(campo.equals(campoBairro)) return 30;
-        else if(campo.equals(campoCidade)) return 30;
-        else if(campo.equals(campoRG)) return 15;
-        else if(campo.equals(campoEMail)) return 70;
-        else if(campo.equals(areaInformacoes)) return 400;
+        if(campo.equals(campoNome)){
+            return 80;
+        } else if(campo.equals(campoRua)){
+            return 70;
+        } else if(campo.equals(campoNumero)){
+            return 4;
+        } else if(campo.equals(campoComplemento)){
+            return 30;
+        } else if(campo.equals(campoBairro)){
+            return 30;
+        } else if(campo.equals(campoCidade)){
+            return 30;
+        } else if(campo.equals(campoRG)){
+            return 15;
+        } else if(campo.equals(campoEMail)){
+            return 70;
+        } else if(campo.equals(areaInformacoes)){
+            return 400;
+        }
 
         return 0;
     }
 
-
-    private boolean existemDependencias(){
+    private boolean existemDependencias() {
         String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
 
         boolean existeDependencias = false;
 
-        if(campoNome.getText().equals("Nome")){ msg += "- NOME\n"; existeDependencias = true;}
-        if(comboSexo.getSelectedIndex() == 0){ msg += "- SEXO\n"; existeDependencias = true;}
-        if(campoRua.getText().equals("Rua")){ msg += "- RUA\n"; existeDependencias = true;}
-        if(campoNumero.getText().equals("Número")){ msg += "- NÚMERO\n"; existeDependencias = true;}
-        if(campoBairro.getText().equals("Bairro")){ msg += "- BAIRRO\n"; existeDependencias = true;}
-        if(campoCidade.getText().equals("Cidade")){ msg += "- CIDADE\n"; existeDependencias = true;}
-        if(comboUF.getSelectedIndex() == 0){ msg += "- UF\n"; existeDependencias = true;}
-        if(campoRG.getText().equals("RG")){ msg += "- RG\n"; existeDependencias = true;}
-        if(campoCPF.getText().equals("CPF")){ msg += "- CPF\n"; existeDependencias = true;}
+        if(campoNome.getText().equals("Nome")){
+            msg += "- NOME\n";
+            existeDependencias = true;
+        }
+        if(comboSexo.getSelectedIndex() == 0){
+            msg += "- SEXO\n";
+            existeDependencias = true;
+        }
+        if(campoRua.getText().equals("Rua")){
+            msg += "- RUA\n";
+            existeDependencias = true;
+        }
+        if(campoNumero.getText().equals("Número")){
+            msg += "- NÚMERO\n";
+            existeDependencias = true;
+        }
+        if(campoBairro.getText().equals("Bairro")){
+            msg += "- BAIRRO\n";
+            existeDependencias = true;
+        }
+        if(campoCidade.getText().equals("Cidade")){
+            msg += "- CIDADE\n";
+            existeDependencias = true;
+        }
+        if(comboUF.getSelectedIndex() == 0){
+            msg += "- UF\n";
+            existeDependencias = true;
+        }
+        if(campoRG.getText().equals("RG")){
+            msg += "- RG\n";
+            existeDependencias = true;
+        }
+        if(campoCPF.getText().equals("CPF")){
+            msg += "- CPF\n";
+            existeDependencias = true;
+        }
         if(campoTelefone.getText().equals("Telefone") && campoCelular.getText().equals("Celular")){
-            msg += "- TELEFONE OU CELULAR"; existeDependencias = true;
+            msg += "- TELEFONE OU CELULAR";
+            existeDependencias = true;
         }
 
         if(existeDependencias){
@@ -764,7 +842,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         return existeDependencias;
     }
 
-    public Cliente gerarCliente(){
+    public Cliente gerarCliente() {
         String complemento = "";
         String cep = "";
         String email = "";
@@ -772,19 +850,25 @@ public class JanelaCliente extends javax.swing.JDialog {
         String celular = "";
         String informacoes = "";
 
-        if(!campoComplemento.getText().equals(getEtiqueta(campoComplemento)))
+        if(!campoComplemento.getText().equals(getEtiqueta(campoComplemento))){
             complemento = campoComplemento.getText();
-        if(!campoCEP.getText().equals(getEtiqueta(campoCEP)))
+        }
+        if(!campoCEP.getText().equals(getEtiqueta(campoCEP))){
             cep = campoCEP.getText();
-        if(!campoEMail.getText().equals(getEtiqueta(campoEMail)))
+        }
+        if(!campoEMail.getText().equals(getEtiqueta(campoEMail))){
             email = campoEMail.getText();
-        if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone)))
+        }
+        if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone))){
             telefone = campoTelefone.getText();
-        if(!campoCelular.getText().equals(getEtiqueta(campoCelular)))
+        }
+        if(!campoCelular.getText().equals(getEtiqueta(campoCelular))){
             celular = campoCelular.getText();
-        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
+        }
+        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes))){
             informacoes = areaInformacoes.getText();
-        
+        }
+
         //ENDEREÇO
         String rua = campoRua.getText();
         int numero = Integer.valueOf(campoNumero.getText());
@@ -795,18 +879,21 @@ public class JanelaCliente extends javax.swing.JDialog {
         //CLIENTE
         String nome = campoNome.getText();
         String sexo;
-        if(comboSexo.getSelectedIndex() == 1) sexo = "M";
-        else sexo = "F";
+        if(comboSexo.getSelectedIndex() == 1){
+            sexo = "M";
+        } else {
+            sexo = "F";
+        }
         Endereco endereco = new Endereco(rua, numero, complemento, bairro, cidade, uf, cep);
         long rg = Long.valueOf(campoRG.getText());
         CPF cpf = new CPF(campoCPF.getText());
         Animal[] listaAnimais;
-        try{
+        try {
             listaAnimais = (Animal[]) animais.toArray();
-        } catch (ClassCastException e){
+        } catch(ClassCastException e){
             listaAnimais = new Animal[0];
         }
-        
+
         return new Cliente(nome, sexo, endereco, rg, cpf, email,
                 telefone, celular, listaAnimais, informacoes);
     }
@@ -894,6 +981,4 @@ public class JanelaCliente extends javax.swing.JDialog {
     public JScrollPane getScrollInformacoes() {
         return scrollInformacoes;
     }
-
-
 }

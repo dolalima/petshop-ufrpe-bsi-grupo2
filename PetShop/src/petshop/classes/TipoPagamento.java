@@ -4,7 +4,7 @@ package petshop.classes;
  * @author arthur
  *
  */
-public enum Pagamento {
+public enum TipoPagamento {
 	
 	/**
 	 * 

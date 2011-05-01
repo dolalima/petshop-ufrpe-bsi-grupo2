@@ -35,7 +35,6 @@ public class Cliente{
         this.nome = "";
         this.sexo = " ";
         this.endereco = new Endereco();
-        this.rg = 0;
         this.cpf = new CPF("");
         this.email = "";
         this.telefone = "";

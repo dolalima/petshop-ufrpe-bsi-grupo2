@@ -24,7 +24,11 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
         pai = janelaVenda;
 
         setTitle("Adicionar Produto");
-        painel.setModelo(new String[] { "Código", "Nome" });
+
+        String[] modelo = new String[] {"Código", "Nome"};
+        double[] tamanhosColunas = new double[] {30, 70};
+
+        painel.setModelo(modelo, tamanhosColunas);
     }
 
     /** This method is called from within the constructor to

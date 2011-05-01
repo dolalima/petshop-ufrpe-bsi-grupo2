@@ -1,8 +1,14 @@
 package petshop.gui;
 
-import java.awt.GridBagConstraints;
+import javax.swing.table.DefaultTableModel;
+import petshop.classes.BancoDeDados;
+import petshop.classes.Cliente;
+import petshop.classes.Venda;
 
 public class PainelConsultaVendas extends PainelConsulta {
+
+    String[] modelo;
+    double[] tamanhosColunas;
 
     public PainelConsultaVendas(){
         super();
@@ -22,6 +28,44 @@ public class PainelConsultaVendas extends PainelConsulta {
         itensPreco[0] = 2;
         this.setItensPreco(itensPreco);
         
-        setModelo(new String[] {"Código", "Cliente", "Total" });
+        modelo = new String[] {"Código", "Cliente", "Total"};
+        tamanhosColunas = new double[] {15, 55, 30};
+
+        setModelo(modelo, tamanhosColunas);
+
+        this.botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisar();
+            }
+        });
+    }
+
+    private void pesquisar() {
+        Venda v = new Venda();
+
+        if(comboPesquisa.getSelectedIndex() == 0){
+            v.setCodigo(Integer.valueOf(campoPesquisa.getText()));
+        } else if(comboPesquisa.getSelectedIndex() == 1){
+            Cliente c = new Cliente();
+            c.setNome(campoPesquisa.getText());
+            v.setCliente(c);
+        } else if(comboPesquisa.getSelectedIndex() == 2){
+            
+        }
+
+        Venda[] vendas = BancoDeDados.consultar(v);
+        Object[][] dados = new Object[vendas.length][4];
+
+        for(int i = 0; i < vendas.length; i++){
+            dados[i][0] = vendas[i].getCodigo();
+            dados[i][1] = vendas[i].getCliente().getNome();
+            dados[i][2] = vendas[i].total();
+        }
+
+        DefaultTableModel model = (DefaultTableModel) this.tabela.getModel();
+
+        model.setDataVector(dados, modelo);
+        redimensionarColunas();
     }
 }
