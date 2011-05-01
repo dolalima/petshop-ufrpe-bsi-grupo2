@@ -223,7 +223,7 @@ public abstract class BancoDeDados {
     public static boolean cadastrar(Servico servico) {
         try {
             // Pre-comando SQL
-            preparedStatement = connection.prepareStatement("INSERT INTO produtos "
+            preparedStatement = connection.prepareStatement("INSERT INTO servicos "
                     + "(codigo,nome,duracao,preco,info) VALUES (?,?,?,?,?)");
             //Configuração das varieaveis
             preparedStatement.setLong(1, servico.getCodigo());
