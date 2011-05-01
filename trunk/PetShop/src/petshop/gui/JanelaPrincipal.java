@@ -173,6 +173,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja fazer logout?", "Logout", JOptionPane.YES_NO_OPTION);
 
         if(resp == JOptionPane.YES_OPTION){
+            this.dispose();
             JanelaLogin janela = new JanelaLogin();
 
             //JanelaPrincipal janela = new JanelaPrincipal();
