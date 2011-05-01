@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: Abr 25, 2011 as 03:12 PM
+-- Tempo de Geração: Mai 01, 2011 as 12:34 PM
 -- Versão do Servidor: 5.1.49
--- Versão do PHP: 5.3.3-1ubuntu9.3
+-- Versão do PHP: 5.3.3-1ubuntu9.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -22,34 +22,13 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `animal`
---
-
-CREATE TABLE IF NOT EXISTS `animal` (
-  `id_animal` int(11) NOT NULL,
-  `dono` int(11) NOT NULL,
-  `nome` varchar(20) NOT NULL,
-  `tipo` varchar(10) NOT NULL,
-  `raca` varchar(20) NOT NULL,
-  `idade` int(2) NOT NULL,
-  PRIMARY KEY (`id_animal`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `animal`
---
-
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `cliente`
 --
 
 CREATE TABLE IF NOT EXISTS `cliente` (
   `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
-  `sexo` varchar(10) NOT NULL,
+  `sexo` varchar(1) NOT NULL,
   `cpf` varchar(14) NOT NULL,
   `rg` int(11) NOT NULL,
   `rua` varchar(30) NOT NULL,
@@ -71,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `cliente` (
 --
 
 INSERT INTO `cliente` (`id_cliente`, `nome`, `sexo`, `cpf`, `rg`, `rua`, `ncasa`, `bairro`, `cidade`, `complemento`, `uf`, `telefone`, `celular`, `cep`, `info`) VALUES
-(1, 'CARLOS EDUARDO DE SOUZA LIMA', 'Masculino', '876.858.757-57', 7667667, 'JARDIM', 74, 'LIMAMENTO', 'VITORIA', 'Complemento', 'PI', '(76)3673-6376', '(72)7273-6772', '65556-566', 'Informações Adicionais'),
-(2, 'MARIA EDUARDA DE SOUZA LIMA', 'Feminino', '070.058.184-74', 7153203, 'JARDIM BETANIA', 69, 'LIVRAMENTO', 'RECIFE', 'Complemento', 'PE', '(87)2727-2789', '(99)8387-7363', '55602-380', 'Informações Adicionais');
+(1, 'CARLOS EDUARDO DE SOUZA LIMA', 'M', '876.858.757-57', 7667667, 'JARDIM', 74, 'LIMAMENTO', 'VITORIA', 'Complemento', 'PI', '(76)3673-6376', '(72)7273-6772', '65556-566', 'Informações Adicionais'),
+(2, 'MARIA EDUARDA DE SOUZA LIMA', 'F', '070.058.184-74', 7153203, 'JARDIM BETANIA', 69, 'LIVRAMENTO', 'RECIFE', 'Complemento', 'PE', '(87)2727-2789', '(99)8387-7363', '55602-380', 'Informações Adicionais');
 
 -- --------------------------------------------------------
 
