@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
+import petshop.classes.BancoDeDados;
 import petshop.classes.Servico;
 
 /**
@@ -48,7 +49,7 @@ public class JanelaServico extends javax.swing.JDialog {
                     public void keyTyped(KeyEvent e) {
                         if (!((e.getKeyChar() >= KeyEvent.VK_0 &&
                                e.getKeyChar() <= KeyEvent.VK_9) ||
-                               (e.getKeyChar() <= KeyEvent.VK_COMMA) ||
+                               (e.getKeyChar() <= KeyEvent.VK_PERIOD) ||
                               (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))) {
                             e.consume(); } }
                     public void keyPressed(KeyEvent e) { }
@@ -265,6 +266,19 @@ public class JanelaServico extends javax.swing.JDialog {
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         // TODO add your handling code here:
+
+        Servico servico = new Servico();
+        //Carregando dados do servico
+        servico.setCodigo(Integer.valueOf(this.getCampoCodigo().getText()));
+        servico.setNome(this.getCampoNome().getText());
+        servico.setDuracao(Integer.valueOf(this.getCampoDuracao().getText()));
+        servico.setPrecoVenda(Double.valueOf(this.getCampoPreco().getText()));
+        servico.setInfo(this.getAreaInformacoes().getText());
+        if (BancoDeDados.cadastrar(servico)==true){
+            JOptionPane.showConfirmDialog(rootPane,"Serviço cadastrado com sucesso." );
+        } else{
+            JOptionPane.showConfirmDialog(rootPane,"Erro ao casdastra o seriço." );
+        }
 }//GEN-LAST:event_cadastrar
 
     private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
@@ -298,22 +312,22 @@ public class JanelaServico extends javax.swing.JDialog {
 
         if(t.length() == 8) evt.consume();
 
-        //nao deixa ter mais de 1 virgula e coloca 0 automaticamente caso campo
+        //nao deixa ter mais de 1 ponto e coloca 0 automaticamente caso campo
         //seja vazio
-        if(evt.getKeyChar() == KeyEvent.VK_COMMA){
-            if(t.contains(","))
+        if(evt.getKeyChar() == KeyEvent.VK_PERIOD){
+            if(t.contains("."))
                 evt.consume();
             if(t.equals(""))
                 campo.setText("0");
         }
         //Nao deixa decimal ser maior que 2
         if(t.length() > 3)
-            if(t.substring(t.length()-3, t.length()-2).equals(","))
+            if(t.substring(t.length()-3, t.length()-2).equals("."))
                 evt.consume();
         //se tamanho do preco == 5 e nao for backspace e nao tiver outra virgula
         //coloca virgula automaticamente
-        if(t.length() == 5 && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && !t.contains(","))
-            campo.setText(t + ",");
+        if(t.length() == 5 && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && !t.contains("."))
+            campo.setText(t + ".");
     }//GEN-LAST:event_eventoDigitarPreco
 
     /**
@@ -408,5 +422,5 @@ public class JanelaServico extends javax.swing.JDialog {
         return campoPreco;
     }
 
-    
+
 }
