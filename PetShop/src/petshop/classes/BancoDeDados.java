@@ -76,8 +76,9 @@ public abstract class BancoDeDados {
             endereco.setCep(cep);
             cliente.setEndereco(endereco);
             //
-            cliente.setTelefone((String) resultset.getObject(12));
-            cliente.setCelular((String) resultset.getObject(13));
+            cliente.setEmail((String) resultset.getObject(12));
+            cliente.setTelefone((String) resultset.getObject(13));
+            cliente.setCelular((String) resultset.getObject(14));
             cliente.setInformacoes((String) resultset.getObject(15));
             return cliente;
         } catch(SQLException e){
@@ -153,8 +154,8 @@ public abstract class BancoDeDados {
         try {
             // Configuração de pre-comando
             preparedStatement = connection.prepareStatement("INSERT INTO cliente(nome,"
-                    + "sexo,cpf,rg,rua,ncasa,bairro,cidade,complemento,uf,telefone,"
-                    + "celular,cep,info) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "sexo,cpf,rg,rua,ncasa,bairro,cidade,complemento,uf,email,telefone,"
+                    + "celular,cep,info) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             // Entrada de valores
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
@@ -166,10 +167,11 @@ public abstract class BancoDeDados {
             preparedStatement.setString(8, cliente.getEndereco().getCidade());
             preparedStatement.setString(9, cliente.getEndereco().getComplemento());
             preparedStatement.setString(10, cliente.getEndereco().getUf());
-            preparedStatement.setString(11, cliente.getTelefone());
-            preparedStatement.setString(12, cliente.getCelular());
-            preparedStatement.setString(13, cliente.getEndereco().getCep());
-            preparedStatement.setString(14, cliente.getInformacoes());
+            preparedStatement.setString(11, cliente.getEmail());
+            preparedStatement.setString(12, cliente.getTelefone());
+            preparedStatement.setString(13, cliente.getCelular());
+            preparedStatement.setString(14, cliente.getEndereco().getCep());
+            preparedStatement.setString(15, cliente.getInformacoes());
             //Execução de comando
             int cod = preparedStatement.executeUpdate();
 
@@ -267,6 +269,41 @@ public abstract class BancoDeDados {
         }
     }
 
+    public static Animal[] getAnimalFromCliente(Cliente cliente){
+        int contador = 0;
+        int nRegistro = 0;
+
+        try{
+            preparedStatement = connection.prepareStatement("SELECT * FROM animal "
+                    + "WHERE dono=? AND ativo=1");
+            preparedStatement.setInt(1, cliente.getCodigo());
+
+            resultset = preparedStatement.executeQuery();
+
+            while (resultset.next())
+                nRegistro++;
+            resultset.beforeFirst();
+
+            Animal[] animalList = new Animal[nRegistro];
+
+            while (resultset.next()){
+                contador++;
+                animalList[contador-1]=gerarAnimalFromResultset(resultset);
+            }
+            return animalList;
+        } catch(SQLException e){
+            e.printStackTrace();
+            Animal[] animalList = new Animal[0];
+            return animalList;
+
+        }
+    }
+
+    public boolean cadastrarVenda(Cliente cliente,ItemVenda[] carrinho){
+        return false;
+
+    }
+
     public static Cliente[] consultar(Cliente cliente) {
         int contador = 0;
         int nRegistros = 0;
@@ -301,6 +338,44 @@ public abstract class BancoDeDados {
             e.printStackTrace();
             Cliente[] clienteList = new Cliente[0];
             return clienteList;
+        }
+    }
+
+    public static int getClienteCod(Cliente cliente){
+        try{
+            preparedStatement = connection.prepareStatement("SELECT codigo FROM cliente "
+                    + "WHERE cpf=?");
+            preparedStatement.setString(1, cliente.getCpf().getCpf());
+            resultset = preparedStatement.executeQuery();
+
+            resultset.next();
+
+            int codigo = (Integer)resultset.getObject(1);
+            return codigo;
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Cliente não encontrado.");
+            return 0;
+        }
+    }
+    /**
+     * Verifica se já existe o CPF cadastrado no banco de dados
+     **/
+    public static boolean checkCPF(Cliente cliente){
+        try{
+            preparedStatement = connection.prepareStatement("SELECT cpf FROM "
+                    + "cliente WHERE cpf=?");
+            preparedStatement.setString(1, cliente.getCpf().getCpf());
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next())
+                return true;
+            else
+                return false;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -425,9 +500,10 @@ public abstract class BancoDeDados {
     public static boolean alterar(Cliente cliente) {
         try {
             // Preparação de commando SQL para atualização de registros
-            preparedStatement = connection.prepareStatement("UPDATE INTO cliente "
-                    + "(nome,sexo,cpf,rg,rua,ncasa,bairro,cidade,complemento,uf,telefone,celular,cep,info)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) WHERE codigo=?");
+            preparedStatement = connection.prepareStatement("UPDATE cliente SET"
+                    + "nome=?,sexo=?,cpf=?,rg=?,rua=?,ncasa=?,bairro=?,cidade=?"
+                    + ",complemento=?,uf=?,email=?,telefone=?,celular=?,cep=?,info=?) "
+                    + "WHERE codigo=?");
             // introdução das variaveis no comando
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
@@ -439,12 +515,13 @@ public abstract class BancoDeDados {
             preparedStatement.setString(8, cliente.getEndereco().getCidade());
             preparedStatement.setString(9, cliente.getEndereco().getComplemento());
             preparedStatement.setString(10, cliente.getEndereco().getUf());
-            preparedStatement.setString(11, cliente.getTelefone());
-            preparedStatement.setString(12, cliente.getCelular());
-            preparedStatement.setString(13, cliente.getEndereco().getCep());
-            preparedStatement.setString(14, cliente.getInformacoes());
+            preparedStatement.setString(11, cliente.getEmail());
+            preparedStatement.setString(12, cliente.getTelefone());
+            preparedStatement.setString(13, cliente.getCelular());
+            preparedStatement.setString(14, cliente.getEndereco().getCep());
+            preparedStatement.setString(15, cliente.getInformacoes());
             // Codigo do cliente que ira ser alterado
-            preparedStatement.setInt(15, cliente.getCodigo());
+            preparedStatement.setInt(16, cliente.getCodigo());
             //Executa alteraçõe no banco de dados
             preparedStatement.executeUpdate();
 
@@ -466,8 +543,8 @@ public abstract class BancoDeDados {
     public static boolean alterar(Produto produto) {
         try {
             // Configuração de pre-comando
-            preparedStatement = connection.prepareStatement("UPDATE INTO produtos "
-                    + "(nome,qt,preco_custo,preco_venda,info) VALUES (?,?,?,?,?) "
+            preparedStatement = connection.prepareStatement("UPDATE produtos SET "
+                    + "nome=?,qt=?,preco_custo=?,preco_venda=?,info=? "
                     + "WHERE codigo=?");
             //Entrada de valores
             preparedStatement.setString(1, produto.getNome());
@@ -525,9 +602,9 @@ public abstract class BancoDeDados {
 
     public static boolean alterar(Animal animal) {
         try {
-            preparedStatement = connection.prepareStatement("UPDATE INTO animal "
-                    + "(nome,sexo,nascimento,especie,raca,info,dono) "
-                    + "VALUES (?,?,?,?,?,?,?) WHERE codigo=?");
+            preparedStatement = connection.prepareStatement("UPDATE animal SET "
+                    + "nome=?,sexo=?,nascimento=?,especie=?,raca=?,info=?,dono=? "
+                    + "WHERE codigo=?");
 
             preparedStatement.setString(1, animal.getNome());
             preparedStatement.setString(2, String.valueOf(animal.getSexo()));
@@ -550,8 +627,60 @@ public abstract class BancoDeDados {
 
     }
 
+    public static boolean remover(Cliente cliente){
+        try{
+            preparedStatement = connection.prepareStatement("UPDATE cliente SET "
+                    + "ativo=0 WHERE codigo=?");
+            preparedStatement.setInt(1, cliente.getCodigo());
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean remover(Produto produto){
+        try{
+            preparedStatement = connection.prepareStatement("UPDATE produtos SET "
+                    + "ativo=0 WHERE codigo=?");
+            preparedStatement.setLong(1, produto.getCodigo());
+            preparedStatement.executeUpdate();
+
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean remover(Servico servico){
+        try{
+            preparedStatement = connection.prepareStatement("UPDATE servicos SET "
+                    + "ativo=0 WHERE codigo=?");
+            preparedStatement.setLong(1, servico.getCodigo());
+            preparedStatement.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static boolean remover(Animal animal) {
-        return false;
+        try{
+            preparedStatement = connection.prepareStatement("UPDATE animal SET "
+                    + "ativo=0 WHRE codigo=?");
+            preparedStatement.setInt(1, animal.getCodigo());
+
+            preparedStatement.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+
+        }
     }
 
     public static Venda[] consultar(Venda v) {
