@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Date;
 
 /**
  * Classe de selação do sistema com banco de dados, as atividades de cadastrar, pesquisar,
@@ -43,7 +42,7 @@ public abstract class BancoDeDados {
             BancoDeDados.conectStatus = true;
 
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             System.out.println("Não foi possivel conectar ao banco de dados");
         }
     }
@@ -81,7 +80,7 @@ public abstract class BancoDeDados {
             cliente.setCelular((String) resultset.getObject(13));
             cliente.setInformacoes((String) resultset.getObject(15));
             return cliente;
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
 
             Cliente cliente = new Cliente();
@@ -99,7 +98,7 @@ public abstract class BancoDeDados {
             produto.setPrecoVenda((Double) resultset.getObject(5));
             produto.setInformacoes((String) resultset.getObject(6));
             return produto;
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             Produto produto = new Produto();
             return produto;
@@ -114,9 +113,9 @@ public abstract class BancoDeDados {
             servico.setNome((String) resultset.getObject(2));
             servico.setDuracao((Integer) resultset.getObject(3));
             servico.setPrecoVenda((Double) resultset.getObject(4));
-            servico.setInfo((String) resultset.getObject(6));
+            servico.setInfo((String) resultset.getObject(5));
             return servico;
-        }catch (SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
             Servico servico = new Servico(0);
             return servico;
@@ -156,7 +155,7 @@ public abstract class BancoDeDados {
             System.out.println("ID de cliente " + Integer.toString(cod));
             return true;
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erro no cadastro de Cliente");
             return false;
@@ -187,7 +186,7 @@ public abstract class BancoDeDados {
             return true;
 
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erro ao cadastra produto.");
             return false;
@@ -217,7 +216,7 @@ public abstract class BancoDeDados {
             System.out.println("Servico cadastrado com exito.");
             return true;
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erro ao cadastra o serviço.");
             return false;
@@ -241,7 +240,7 @@ public abstract class BancoDeDados {
             preparedStatement.executeUpdate();
 
             return true;
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             return false;
         }
@@ -251,12 +250,12 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistros = 0;
         try {
-            if (cliente.getCodigo() != 0) {
+            if(cliente.getCodigo() != 0){
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE id_cliente LIKE ?");
                 preparedStatement.setString(1, "%" + cliente.getCodigo() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else if (!cliente.getNome().equals("")) {
+            } else if(!cliente.getNome().equals("")){
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE nome LIKE ?");
                 preparedStatement.setString(1, "%" + cliente.getNome() + "%");
@@ -264,12 +263,12 @@ public abstract class BancoDeDados {
             }
 
             resultsetmetadata = resultset.getMetaData();
-            while (resultset.next()) {
+            while(resultset.next()){
                 nRegistros = nRegistros + 1;
             }
             Cliente[] clienteList = new Cliente[nRegistros];
             resultset.beforeFirst();
-            while (resultset.next()) {
+            while(resultset.next()){
                 //Contador de cliente
                 contador = contador + 1;
 
@@ -277,7 +276,7 @@ public abstract class BancoDeDados {
             }
             return clienteList;
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             Cliente[] clienteList = new Cliente[0];
             return clienteList;
@@ -295,28 +294,28 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (produto.getCodigo() != 0) {
+            if(produto.getCodigo() != 0){
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
                         + "WHERE codigo LIKE ?");
                 preparedStatement.setString(1, "%" + produto.getCodigo() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else if (!produto.getNome().equals("")) {
+            } else if(!produto.getNome().equals("")){
                 preparedStatement = connection.prepareStatement("SELECT * FROM "
                         + "produtos WHERE nome LIKE ?");
                 preparedStatement.setString(1, "%" + produto.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             }
-            while (resultset.next()) {
+            while(resultset.next()){
                 nRegistro++;
             }
             Produto[] produtoList = new Produto[nRegistro];
             resultset.beforeFirst();
-            while (resultset.next()) {
+            while(resultset.next()){
                 contador++;
                 produtoList[contador - 1] = gerarProdutoFromResultset(resultset);
             }
             return produtoList;
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             Produto[] produtoList = new Produto[0];
             return produtoList;
@@ -334,32 +333,32 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (servico.getCodigo() != 0) {
+            if(servico.getCodigo() != 0){
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE codigo LIKE ?");
                 preparedStatement.setString(1, "%" + servico.getCodigo() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else if (!servico.getNome().equals("")) {
+            } else if(!servico.getNome().equals("")){
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE nome LIKE ?");
                 preparedStatement.setString(1, "%" + servico.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             }
-            while (resultset.next()) {
+            while(resultset.next()){
                 nRegistro++;
             }
 
             Servico[] servicoList = new Servico[nRegistro];
             resultset.beforeFirst();
 
-            while (resultset.next()) {
+            while(resultset.next()){
                 contador++;
-                
+
                 servicoList[contador - 1] = gerarServicoFromResultset(resultset);
             }
             return servicoList;
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             Servico[] servicoList = new Servico[0];
             return servicoList;
@@ -404,7 +403,7 @@ public abstract class BancoDeDados {
 
             return true;
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             return false;
         }
@@ -438,7 +437,7 @@ public abstract class BancoDeDados {
             return true;
 
             // Tratamento de erro
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erro ao altera produto.");
             return false;
@@ -470,7 +469,7 @@ public abstract class BancoDeDados {
             System.out.println("Servico alterado com exito.");
             return true;
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erro ao altera o serviço.");
             return false;
@@ -496,16 +495,19 @@ public abstract class BancoDeDados {
             preparedStatement.executeUpdate();
 
             return true;
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
             return false;
 
         }
 
     }
-    
-    
+
     public static boolean remover(Animal animal) {
         return false;
+    }
+
+    public static Venda[] consultar(Venda v) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

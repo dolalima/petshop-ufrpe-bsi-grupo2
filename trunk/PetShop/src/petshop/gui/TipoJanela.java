@@ -12,5 +12,6 @@ package petshop.gui;
 public enum TipoJanela {
 
     CADASTRO,
-    ALTERACAO
+    ALTERACAO,
+    INFORMACAO
 }

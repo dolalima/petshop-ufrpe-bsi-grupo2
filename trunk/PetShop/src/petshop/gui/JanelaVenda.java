@@ -374,4 +374,6 @@ public class JanelaVenda extends javax.swing.JDialog {
         dm.getDataVector().removeAllElements();
         setLabelTotal(0.0);
     }
+
+
 }

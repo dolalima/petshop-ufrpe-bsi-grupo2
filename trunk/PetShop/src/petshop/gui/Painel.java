@@ -12,6 +12,7 @@
 package petshop.gui;
 
 import java.awt.Dimension;
+import javax.swing.JTable;
 
 /**
  *
@@ -19,10 +20,11 @@ import java.awt.Dimension;
  */
 public class Painel extends javax.swing.JPanel {
 
+    double[] porcentagemTamanhoColunas;
+
     /** Creates new form panel */
     public Painel() {
         initComponents();
-
     }
 
     /** This metodo nuinnhj is called from within the constructor to
@@ -43,6 +45,11 @@ public class Painel extends javax.swing.JPanel {
         botaoPesquisar = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(450, 290));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                redimensionarColunas(evt);
+            }
+        });
         setLayout(new java.awt.GridBagLayout());
 
         labelPesquisa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -85,26 +92,12 @@ public class Painel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Código", "Title 2", "Title 3", "Title 4"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabela.setColumnSelectionAllowed(true);
-        tabela.setPreferredSize(new java.awt.Dimension(300, 200));
+        ));
+        tabela.setMinimumSize(new java.awt.Dimension(430, 0));
+        tabela.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabela.getTableHeader().setReorderingAllowed(false);
         scrollTabela.setViewportView(tabela);
         tabela.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -144,6 +137,12 @@ public class Painel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_clicarBotaoPesquisar
 
+    private void redimensionarColunas(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_redimensionarColunas
+        if(porcentagemTamanhoColunas != null){
+            redimensionarColunas();
+        }
+    }//GEN-LAST:event_redimensionarColunas
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton botaoPesquisar;
@@ -154,9 +153,27 @@ public class Painel extends javax.swing.JPanel {
     public javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 
-    protected void setModelo(String[] modelo) {
+    protected void setModelo(String[] modelo, double[] porcentagemTamanhoColunas) {
 
         comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(modelo));
-        tabela.setModel(new javax.swing.table.DefaultTableModel( new Object [][] {  }, modelo ));
+        //Override o metodo isCellEditable para nao deixar editar as celulas da tabela.
+        tabela.setModel(new javax.swing.table.DefaultTableModel( new Object [][] {  }, modelo ){
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            } });
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+        this.porcentagemTamanhoColunas = porcentagemTamanhoColunas;
+
+        redimensionarColunas();
+    }
+
+    protected void redimensionarColunas(){
+        int t = (int) (this.getSize().getWidth() - 11);
+
+        for(int i = 0; i < porcentagemTamanhoColunas.length; i++){
+            tabela.getColumnModel().getColumn(i).setPreferredWidth((int) ((porcentagemTamanhoColunas[i] * t) / 100));
+        }
     }
 }

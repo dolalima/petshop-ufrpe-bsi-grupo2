@@ -1,33 +1,34 @@
 package petshop.classes;
 
+import java.util.ArrayList;
+
 /**
  * @author arthur
  *
  */
 public class CarrinhoProdutos {
-	
-	private int qtde;
-	
-	/**
-	 * @param qtde
-	 */
-	public CarrinhoProdutos(int qtde) {
-		
-		this.qtde = qtde;
-	}
 
-	/**
-	 * @return
-	 */
-	public int getQtde() {
-		return qtde;
-	}
+    private ArrayList<Produto> produtos;
+    private ArrayList<Integer> qtde;
 
-	/**
-	 * @param qtde
-	 */
-	public void setQtde(int qtde) {
-		this.qtde = qtde;
-	}
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
 
+    public void setProdutos(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    public ArrayList<Integer> getQtde() {
+        return qtde;
+    }
+
+    public void setQtde(ArrayList<Integer> qtde) {
+        this.qtde = qtde;
+    }
+
+    public void add(Produto p, int qtde){
+        this.produtos.add(p);
+        this.qtde.add(qtde);
+    }
 }

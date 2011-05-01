@@ -23,6 +23,10 @@ public class Servico extends ItemVenda {
 
     }
 
+    public Servico() {
+        super(0, "", 0);
+    }
+
     public int getDuracao() {
         return duracao;
     }

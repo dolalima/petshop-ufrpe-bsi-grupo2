@@ -32,6 +32,10 @@ public class Animal {
         this.nome = nome;
     }
 
+    Animal() {
+        
+    }
+
     public int getCodigo() {
         return codigo;
     }
