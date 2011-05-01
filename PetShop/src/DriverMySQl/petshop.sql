@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: Mai 01, 2011 as 12:34 PM
+-- Tempo de Geração: Mai 01, 2011 as 02:43 PM
 -- Versão do Servidor: 5.1.49
--- Versão do PHP: 5.3.3-1ubuntu9.4
+-- Versão do PHP: 5.3.3-1ubuntu9.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -22,11 +22,35 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `animal`
+--
+
+CREATE TABLE IF NOT EXISTS `animal` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(20) NOT NULL,
+  `sexo` varchar(1) NOT NULL,
+  `nascimento` varchar(10) NOT NULL,
+  `especie` varchar(15) NOT NULL,
+  `raca` varchar(20) NOT NULL,
+  `info` varchar(250) NOT NULL,
+  `dono` int(11) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`codigo`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Extraindo dados da tabela `animal`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `cliente`
 --
 
 CREATE TABLE IF NOT EXISTS `cliente` (
-  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `sexo` varchar(1) NOT NULL,
   `cpf` varchar(14) NOT NULL,
@@ -41,17 +65,18 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `celular` varchar(13) NOT NULL,
   `cep` varchar(9) NOT NULL,
   `info` varchar(200) NOT NULL,
-  PRIMARY KEY (`id_cliente`),
-  UNIQUE KEY `id_cliente` (`id_cliente`)
+  `ativo` tinyint(1) NOT NULL,
+  PRIMARY KEY (`codigo`),
+  UNIQUE KEY `id_cliente` (`codigo`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Extraindo dados da tabela `cliente`
 --
 
-INSERT INTO `cliente` (`id_cliente`, `nome`, `sexo`, `cpf`, `rg`, `rua`, `ncasa`, `bairro`, `cidade`, `complemento`, `uf`, `telefone`, `celular`, `cep`, `info`) VALUES
-(1, 'CARLOS EDUARDO DE SOUZA LIMA', 'M', '876.858.757-57', 7667667, 'JARDIM', 74, 'LIMAMENTO', 'VITORIA', 'Complemento', 'PI', '(76)3673-6376', '(72)7273-6772', '65556-566', 'Informações Adicionais'),
-(2, 'MARIA EDUARDA DE SOUZA LIMA', 'F', '070.058.184-74', 7153203, 'JARDIM BETANIA', 69, 'LIVRAMENTO', 'RECIFE', 'Complemento', 'PE', '(87)2727-2789', '(99)8387-7363', '55602-380', 'Informações Adicionais');
+INSERT INTO `cliente` (`codigo`, `nome`, `sexo`, `cpf`, `rg`, `rua`, `ncasa`, `bairro`, `cidade`, `complemento`, `uf`, `telefone`, `celular`, `cep`, `info`, `ativo`) VALUES
+(1, 'CARLOS EDUARDO DE SOUZA LIMA', 'M', '876.858.757-57', 7667667, 'JARDIM', 74, 'LIMAMENTO', 'VITORIA', 'Complemento', 'PI', '(76)3673-6376', '(72)7273-6772', '65556-566', 'Informações Adicionais', 0),
+(2, 'MARIA EDUARDA DE SOUZA LIMA', 'F', '070.058.184-74', 7153203, 'JARDIM BETANIA', 69, 'LIVRAMENTO', 'RECIFE', 'Complemento', 'PE', '(87)2727-2789', '(99)8387-7363', '55602-380', 'Informações Adicionais', 0);
 
 -- --------------------------------------------------------
 
@@ -83,6 +108,44 @@ INSERT INTO `produtos` (`codigo`, `nome`, `qt`, `preco_custo`, `preco_venda`, `i
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `saidaprodutos`
+--
+
+CREATE TABLE IF NOT EXISTS `saidaprodutos` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `venda` int(11) NOT NULL,
+  `produto` int(11) NOT NULL,
+  `qt` int(11) NOT NULL,
+  `valor` double NOT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Extraindo dados da tabela `saidaprodutos`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `saidaservicos`
+--
+
+CREATE TABLE IF NOT EXISTS `saidaservicos` (
+  `codigo` int(11) NOT NULL,
+  `venda` int(11) NOT NULL,
+  `servico` int(11) NOT NULL,
+  `valor` double NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `saidaservicos`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `servicos`
 --
 
@@ -99,6 +162,8 @@ CREATE TABLE IF NOT EXISTS `servicos` (
 -- Extraindo dados da tabela `servicos`
 --
 
+INSERT INTO `servicos` (`codigo`, `nome`, `duracao`, `preco`, `info`) VALUES
+(5001, 'BANHO POODLE', 30, 20, 'BLABLABLa');
 
 -- --------------------------------------------------------
 
@@ -132,9 +197,7 @@ INSERT INTO `usuarios` (`id_users`, `user`, `senha`, `nome`, `cpf`) VALUES
 CREATE TABLE IF NOT EXISTS `vendas` (
   `id_vendas` int(11) NOT NULL,
   `cliente` int(11) NOT NULL,
-  `produto` int(11) NOT NULL,
-  `quantidade` int(11) NOT NULL,
-  `preco` float NOT NULL,
+  `valor` double NOT NULL,
   `pagamento` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
