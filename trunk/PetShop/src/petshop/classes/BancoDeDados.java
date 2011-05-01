@@ -124,6 +124,27 @@ public abstract class BancoDeDados {
         }
     }
 
+    private static Animal gerarAnimalFromResultset(ResultSet resultset){
+        try{
+            Animal animal = new Animal();
+            animal.setCodigo((Integer)resultset.getObject(1));
+            animal.setNome((String)resultset.getObject(2));
+            animal.setDataNasc(null);
+            animal.setEspecie((String)resultset.getObject(4));
+            animal.setRaca((String)resultset.getObject(5));
+            animal.setInfo((String)resultset.getObject(6));
+            animal.setDono((Integer)resultset.getObject(7));
+
+            return animal;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            Animal animal = new Animal();
+            return animal;
+
+        }
+    }
+
     /**Metodo publico que cadastra um cliente no banco de dados.
      *
      * @param cliente
@@ -235,7 +256,7 @@ public abstract class BancoDeDados {
             preparedStatement.setString(4, animal.getEspecie());
             preparedStatement.setString(5, animal.getRaca());
             preparedStatement.setString(6, animal.getInfo());
-            preparedStatement.setInt(7, animal.getDono().getCodigo());
+            preparedStatement.setInt(7, animal.getDono());
 
             preparedStatement.executeUpdate();
 
@@ -365,7 +386,33 @@ public abstract class BancoDeDados {
         }
     }
 
-    public static Animal[] consultar(Animal animal) {
+    public static Animal[] consultar(Animal a) {
+        int contador = 0;
+        int nRegistro = 0;
+        try{
+            if (!a.getNome().equals("")){
+                preparedStatement = connection.prepareStatement("SELECT * FROM animal"
+                        + " WHERE nome LIKE %"+a.getNome()+"%");
+                resultset = preparedStatement.executeQuery();
+            }
+
+            while (resultset.next())
+                nRegistro++;
+
+            resultset.beforeFirst();
+
+            Animal[] animalList = new Animal[nRegistro];
+
+            while (resultset.next()){
+                contador++;
+                animalList[contador-1]=gerarAnimalFromResultset(resultset);
+
+                
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return new Animal[0];
     }
 
@@ -488,7 +535,7 @@ public abstract class BancoDeDados {
             preparedStatement.setString(4, animal.getEspecie());
             preparedStatement.setString(5, animal.getRaca());
             preparedStatement.setString(6, animal.getInfo());
-            preparedStatement.setInt(7, animal.getDono().getCodigo());
+            preparedStatement.setInt(7, animal.getDono());
 
             preparedStatement.setInt(8, animal.getCodigo());
 
