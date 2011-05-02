@@ -300,9 +300,94 @@ public abstract class BancoDeDados {
         }
     }
 
-    public boolean cadastrarVenda(Venda venda) {
-        return false;
+    public static boolean cadastrar(Venda venda) {
+        int pagamento = 0;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO vendas "
+                    + "(cliente,valor,pagamento,data) VALUES (?,?,?,?)");
+            preparedStatement.setInt(1, venda.getCliente().getCodigo());
+            preparedStatement.setDouble(2, venda.total());
+            if (venda.getTipoPagamento().equals(TipoPagamento.CARTAO)) {
+                pagamento = 1;
+            } else if (venda.getTipoPagamento().equals(TipoPagamento.CHEQUE)) {
+                pagamento = 2;
+            }
 
+            preparedStatement.setInt(3, pagamento);
+
+            preparedStatement.setString(4, "");
+            preparedStatement.executeUpdate();
+
+            venda.setCodigo(getLastVenda());
+
+            if (!registraSaidaProdutos(venda)){
+                drop(venda);
+                return false;
+            }
+            if (!registraSaidaServicos(venda)){
+                drop(venda);
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private static boolean registraSaidaProdutos(Venda venda) {
+        Produto[] produtoList = (Produto[]) venda.getCarrinhoProdutos().getProdutos().toArray();
+        Integer[] qtdeList = (Integer[]) venda.getCarrinhoProdutos().getQtde().toArray();
+        for (int i = 0; i <= produtoList.length; i++) {
+            try {
+                preparedStatement = connection.prepareStatement("INSERT INTO saidaprodutos "
+                        + "(venda,produto,qt,valor) VALUES (?,?,?,?)");
+                preparedStatement.setInt(1, venda.getCodigo());
+                preparedStatement.setLong(2, produtoList[i].getCodigo());
+                preparedStatement.setInt(3, produtoList[i].getQtdeEstoque() - qtdeList[i]);
+                preparedStatement.setDouble(4, produtoList[i].getPrecoVenda());
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean registraSaidaServicos(Venda venda) {
+        Servico[] servicoList = (Servico[]) venda.getCarrinhoServicos().getServicos().toArray();
+        Animal[] animalList = (Animal[]) venda.getCarrinhoServicos().getServicos().toArray();
+        for (int i = 0; i <= servicoList.length; i++) {
+            try {
+                preparedStatement = connection.prepareStatement("INSERT INTO saidaservicos "
+                        + "(venda,servico,animal,valor) VALUES (?,?,?,?)");
+                preparedStatement.setInt(1, venda.getCodigo());
+                preparedStatement.setLong(2, servicoList[i].getCodigo());
+                preparedStatement.setInt(3, animalList[i].getCodigo());
+                preparedStatement.setDouble(4, servicoList[i].getPrecoVenda());
+
+            }catch(SQLException e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static int getLastVenda() {
+        int cod = 0;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT MAX(codigo) from vendas");
+            resultset = preparedStatement.executeQuery();
+            resultset.next();
+            cod = (Integer) resultset.getObject(1);
+            return cod;
+        } catch (SQLException e) {
+            cod = 0;
+            return cod;
+        }
     }
 
     public static Cliente[] consultar(Cliente cliente) {
@@ -699,6 +784,31 @@ public abstract class BancoDeDados {
             e.printStackTrace();
             return false;
 
+        }
+    }
+
+    public static boolean drop(Venda venda){
+        try{
+            preparedStatement = connection.prepareStatement("DELETE FROM saidaservicos "
+                    + "WHERE venda=?");
+            preparedStatement.setInt(1, venda.getCodigo());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement("DELETE FROM saidaprodutos "
+                    + "WHERE venda=?");
+            preparedStatement.setInt(1, venda.getCodigo());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement("DELETE FROM vendas "
+                    + "WHERE codigo=?");
+            preparedStatement.setInt(1, venda.getCodigo());
+            preparedStatement.executeUpdate();
+
+            return true;
+
+        } catch(SQLException e){
+            e.printStackTrace();
+            return false;
         }
     }
 
