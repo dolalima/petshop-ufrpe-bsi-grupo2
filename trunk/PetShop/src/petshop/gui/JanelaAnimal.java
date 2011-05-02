@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
+import petshop.classes.LetraMaiuscula;
 
 /**
  *
@@ -39,8 +40,14 @@ public class JanelaAnimal extends javax.swing.JDialog {
                               (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))) {
                             e.consume(); } }
                     public void keyPressed(KeyEvent e) { }
-                    public void keyReleased(KeyEvent e) { } });
+                    public void keyReleased(KeyEvent e) { }
+        });
+        
+        campoNome.setDocument(new LetraMaiuscula(50));
+        campoRaca.setDocument(new LetraMaiuscula(50));
+        areaInformacoes.setDocument(new LetraMaiuscula(400));
 
+        reiniciar();
     }
 
     /** This method is called from within the constructor to
@@ -68,9 +75,9 @@ public class JanelaAnimal extends javax.swing.JDialog {
         setTitle("Cadastrar Animal");
         setResizable(false);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(470, 270));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        campoNome.setText("Nome");
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -96,7 +103,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         jPanel1.add(campoNome, gridBagConstraints);
 
-        campoRaca.setText("Raça");
         campoRaca.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -121,7 +127,12 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
         jPanel1.add(campoRaca, gridBagConstraints);
 
-        comboEspecie.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Espécie", "Cão", "Gato", "Ave", "Roedor" }));
+        comboEspecie.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ESPÉCIE", "CÃO", "GATO", "AVE", "ROEDOR", "OUTRO" }));
+        comboEspecie.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                mudarComboEspecie(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -146,7 +157,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(botaoCancelar, gridBagConstraints);
 
-        campoDataNasc.setText("Data de Nascimento");
         campoDataNasc.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -163,7 +173,9 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         jPanel1.add(campoDataNasc, gridBagConstraints);
 
@@ -182,7 +194,7 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(botaoCadastrar, gridBagConstraints);
 
-        comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sexo", "Macho", "Fêmea" }));
+        comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEXO", "MACHO", "FÊMEA" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -293,6 +305,10 @@ public class JanelaAnimal extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_campoTamanhoMaximo
 
+    private void mudarComboEspecie(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboEspecie
+        campoRaca.setText(getEtiqueta(campoRaca));
+    }//GEN-LAST:event_mudarComboEspecie
+
     /**
     * @param args the command line arguments
     */
@@ -321,10 +337,14 @@ public class JanelaAnimal extends javax.swing.JDialog {
     
     private String getEtiqueta(JTextComponent campo){
 
-        if(campo.equals(campoNome)) return "Nome";
-        else if(campo.equals(campoDataNasc)) return "Data de Nascimento";
-        else if(campo.equals(campoRaca)) return "Raça";
-        else if(campo.equals(areaInformacoes)) return "Informações Adicionais";
+        if(campo.equals(campoNome)) return "NOME";
+        else if(campo.equals(campoDataNasc)) return "DATA DE NASCIMENTO";
+        else if(campo.equals(campoRaca)){
+            if(comboEspecie.getSelectedItem().equals("OUTRO")) return "QUAL?";
+            else return "RAÇA";
+        } else if(campo.equals(areaInformacoes)) {
+            return "INFORMAÇÕES ADICIONAIS";
+        }
 
         return "";
     }
@@ -332,12 +352,12 @@ public class JanelaAnimal extends javax.swing.JDialog {
 
     private void reiniciar(){
 
-        campoNome.setText("Nome");
+        campoNome.setText(getEtiqueta(campoNome));
         comboSexo.setSelectedIndex(0);
         comboEspecie.setSelectedIndex(0);
-        campoDataNasc.setText("Data de Nascimento");
-        campoRaca.setText("Raça");
-        areaInformacoes.setText("Informações Adicionais");
+        campoDataNasc.setText(getEtiqueta(campoDataNasc));
+        campoRaca.setText(getEtiqueta(campoRaca));
+        areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
 
 
@@ -410,8 +430,8 @@ public class JanelaAnimal extends javax.swing.JDialog {
         char sexo;
         if(comboSexo.getSelectedIndex() == 1) sexo = 'M';
         else sexo = 'F';
-        Calendar cal = new GregorianCalendar(Integer.valueOf(d[0]),
-                Integer.valueOf(d[1]),Integer.valueOf(d[2]));
+        GregorianCalendar cal = new GregorianCalendar(Integer.valueOf(d[2]),
+                Integer.valueOf(d[1]),Integer.valueOf(d[0]));
         String especie = (String) comboEspecie.getSelectedItem();
         String raca = "";
         String info = "";

@@ -1,6 +1,5 @@
 package petshop.classes;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -12,12 +11,12 @@ public class Venda {
     private int codigo;
     private TipoPagamento tipoPagamento;
     private boolean parcelado;
-    private Calendar data;
+    private GregorianCalendar data;
     private Cliente cliente;
     private CarrinhoProdutos carrinhoProdutos;
     private CarrinhoServicos carrinhoServicos;
 
-    public Venda(TipoPagamento tipoPagamento, boolean parcelado, Calendar data,
+    public Venda(TipoPagamento tipoPagamento, boolean parcelado, GregorianCalendar data,
             Cliente cliente, CarrinhoProdutos produtos, CarrinhoServicos servicos) {
         this.tipoPagamento = tipoPagamento;
         this.parcelado = parcelado;
@@ -55,11 +54,11 @@ public class Venda {
         this.codigo = codigo;
     }
 
-    public Calendar getData() {
+    public GregorianCalendar getData() {
         return data;
     }
 
-    public void setData(Calendar data) {
+    public void setData(GregorianCalendar data) {
         this.data = data;
     }
 

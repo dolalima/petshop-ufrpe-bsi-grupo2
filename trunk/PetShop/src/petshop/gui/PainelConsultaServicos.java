@@ -97,7 +97,7 @@ public class PainelConsultaServicos extends PainelConsulta {
 
         if(resp == JOptionPane.YES_OPTION){
             Servico s = new Servico(cod);
-            BancoDeDados.excluir(s);
+            BancoDeDados.remover(s);
         }
     }
 }

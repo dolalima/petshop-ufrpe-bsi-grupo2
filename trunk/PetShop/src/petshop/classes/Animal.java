@@ -1,6 +1,7 @@
 package petshop.classes;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * @author arthur
@@ -11,14 +12,14 @@ public class Animal {
     private int codigo;
     private String nome;
     private char sexo;
-    private Calendar dataNasc;
+    private GregorianCalendar dataNasc;
     private String especie;
     private String raca;
     private String info;
-    private int dono;
+    private int codigoDono;
 
 
-    public Animal(String nome, char sexo, Calendar dataNasc, String especie, String raca, String info) {
+    public Animal(String nome, char sexo, GregorianCalendar dataNasc, String especie, String raca, String info) {
         
         this.nome = nome;
         this.sexo = sexo;
@@ -44,11 +45,11 @@ public class Animal {
         this.codigo = codigo;
     }
 
-    public Calendar getDataNasc() {
+    public GregorianCalendar getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(Calendar dataNasc) {
+    public void setDataNasc(GregorianCalendar dataNasc) {
         this.dataNasc = dataNasc;
     }
 
@@ -92,12 +93,12 @@ public class Animal {
         this.sexo = sexo;
     }
 
-    public int getDono() {
-        return dono;
+    public int getCodigoDono() {
+        return codigoDono;
     }
 
-    public void setDono(int dono) {
-        this.dono = dono;
+    public void setCodigoDono(int dono) {
+        this.codigoDono = dono;
     }
 
 

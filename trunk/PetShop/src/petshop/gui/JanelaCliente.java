@@ -25,7 +25,7 @@ public class JanelaCliente extends javax.swing.JDialog {
     private Cliente cliente;
     private ArrayList<Animal> animais;
     private TipoJanela tipo;
-
+    
     /** Creates new form JanelaCliente */
     public JanelaCliente(TipoJanela tipo) {
         this.tipo = tipo;
@@ -69,6 +69,18 @@ public class JanelaCliente extends javax.swing.JDialog {
             botaoAdicionarAnimal.setText("Informação");
             desabilitarCampos();
         }
+        
+        campoNome.setDocument(new petshop.classes.LetraMaiuscula(80));
+        campoRua.setDocument(new petshop.classes.LetraMaiuscula(70));
+        campoNumero.setDocument(new petshop.classes.LetraMaiuscula(6));
+        campoComplemento.setDocument(new petshop.classes.LetraMaiuscula(30));
+        campoBairro.setDocument(new petshop.classes.LetraMaiuscula(30));
+        campoCidade.setDocument(new petshop.classes.LetraMaiuscula(30));
+        campoRG.setDocument(new petshop.classes.LetraMaiuscula(15));
+        campoEmail.setDocument(new petshop.classes.LetraMaiuscula(70));
+        areaInformacoes.setDocument(new petshop.classes.LetraMaiuscula(400));
+
+        reiniciar();
     }
 
     /** This method is called from within the constructor to
@@ -87,7 +99,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         campoTelefone = new javax.swing.JTextField();
         campoCelular = new javax.swing.JTextField();
         campoRua = new javax.swing.JTextField();
-        campoNumero = new javax.swing.JTextField();
         campoComplemento = new javax.swing.JTextField();
         campoBairro = new javax.swing.JTextField();
         campoCidade = new javax.swing.JTextField();
@@ -95,7 +106,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         campoCEP = new javax.swing.JTextField();
         campoRG = new javax.swing.JTextField();
         campoCPF = new javax.swing.JTextField();
-        campoEMail = new javax.swing.JTextField();
+        campoEmail = new javax.swing.JTextField();
         scrollInformacoes = new javax.swing.JScrollPane();
         areaInformacoes = new javax.swing.JTextArea();
         botaoCancelar = new javax.swing.JButton();
@@ -103,28 +114,20 @@ public class JanelaCliente extends javax.swing.JDialog {
         comboAnimais = new javax.swing.JComboBox();
         botaoAdicionarAnimal = new javax.swing.JButton();
         botaoRemoverAnimal = new javax.swing.JButton();
+        campoNumero = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(390, 365));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        campoNome.setText("Nome");
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoNome.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -134,7 +137,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNome, gridBagConstraints);
 
-        comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sexo", "Masculino", "Feminino" }));
+        comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEXO", "MASCULINO", "FEMININO" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -143,7 +146,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboSexo, gridBagConstraints);
 
-        campoTelefone.setText("Telefone");
         campoTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -166,7 +168,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoTelefone, gridBagConstraints);
 
-        campoCelular.setText("Celular");
         campoCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -188,22 +189,12 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCelular, gridBagConstraints);
 
-        campoRua.setText("Rua");
         campoRua.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoRua.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -214,47 +205,12 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoRua, gridBagConstraints);
 
-        campoNumero.setText("Número");
-        campoNumero.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        campoNumero.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 20;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoNumero, gridBagConstraints);
-
-        campoComplemento.setText("Complemento");
         campoComplemento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoComplemento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -265,22 +221,12 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoComplemento, gridBagConstraints);
 
-        campoBairro.setText("Bairro");
         campoBairro.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoBairro.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -291,22 +237,12 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoBairro, gridBagConstraints);
 
-        campoCidade.setText("Cidade");
         campoCidade.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoCidade.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -326,7 +262,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboUF, gridBagConstraints);
 
-        campoCEP.setText("CEP");
         campoCEP.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -348,18 +283,12 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCEP, gridBagConstraints);
 
-        campoRG.setText("RG");
         campoRG.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoRG.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -371,7 +300,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoRG, gridBagConstraints);
 
-        campoCPF.setText("CPF");
         campoCPF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -394,22 +322,12 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCPF, gridBagConstraints);
 
-        campoEMail.setText("e-Mail");
-        campoEMail.addFocusListener(new java.awt.event.FocusAdapter() {
+        campoEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoEMail.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -418,7 +336,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoEMail, gridBagConstraints);
+        jPanel1.add(campoEmail, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
         areaInformacoes.setLineWrap(true);
@@ -430,15 +348,6 @@ public class JanelaCliente extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        areaInformacoes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculas(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -481,7 +390,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(botaoCadastrar, gridBagConstraints);
 
-        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Animais" }));
+        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ANIMAIS" }));
         comboAnimais.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 mudarComboAnimais(evt);
@@ -520,6 +429,21 @@ public class JanelaCliente extends javax.swing.JDialog {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 5);
         jPanel1.add(botaoRemoverAnimal, gridBagConstraints);
+
+        campoNumero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tirarEtiqueta(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                colocarEtiqueta(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(campoNumero, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -563,18 +487,27 @@ public class JanelaCliente extends javax.swing.JDialog {
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         if(!existemDependencias()){
             cliente = gerarCliente();
+            
 
             if(tipo == TipoJanela.CADASTRO){
                 if(BancoDeDados.cadastrar(cliente)){
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Cliente cadastrado com sucesso!");
-                    this.dispose();
+                    if(cadastrarAnimais()){
+                        JOptionPane.showMessageDialog(this.getContentPane(), "Cliente cadastrado com sucesso!");
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
                 }
             } else {
                 if(BancoDeDados.alterar(cliente)){
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Cliente alterado com sucesso!");
-                    this.dispose();
+                    if(alterarAnimais() && cadastrarAnimais()){
+                        JOptionPane.showMessageDialog(this.getContentPane(), "Cliente alterado com sucesso!");
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
                 }
@@ -633,22 +566,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_eventoDigitarCEP
 
-    private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().length() >= getTamanhoMaximo(campo)){
-            evt.consume();
-        }
-    }//GEN-LAST:event_campoTamanhoMaximo
-
-    private void campoMaiusculas(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiusculas
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(Character.isLowerCase(evt.getKeyChar())){
-            campo.setText(campo.getText().toUpperCase());
-        }
-    }//GEN-LAST:event_campoMaiusculas
-
     private void mudarComboAnimais(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboAnimais
         if(comboAnimais.getSelectedIndex() > 0){
             if(this.tipo != TipoJanela.INFORMACAO){
@@ -692,7 +609,7 @@ public class JanelaCliente extends javax.swing.JDialog {
     private javax.swing.JTextField campoCelular;
     private javax.swing.JTextField campoCidade;
     private javax.swing.JTextField campoComplemento;
-    private javax.swing.JTextField campoEMail;
+    private javax.swing.JTextField campoEmail;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoNumero;
     private javax.swing.JTextField campoRG;
@@ -708,54 +625,55 @@ public class JanelaCliente extends javax.swing.JDialog {
     private String getEtiqueta(JTextComponent campo) {
 
         if(campo.equals(campoNome)){
-            return "Nome";
+            return "NOME";
         } else if(campo.equals(campoRua)){
-            return "Rua";
+            return "RUA";
         } else if(campo.equals(campoNumero)){
-            return "Número";
+            return "NÚMERO";
         } else if(campo.equals(campoComplemento)){
-            return "Complemento";
+            return "COMPLEMENTO";
         } else if(campo.equals(campoBairro)){
-            return "Bairro";
+            return "BAIRRO";
         } else if(campo.equals(campoCidade)){
-            return "Cidade";
+            return "CIDADE";
         } else if(campo.equals(campoCEP)){
             return "CEP";
         } else if(campo.equals(campoRG)){
             return "RG";
         } else if(campo.equals(campoCPF)){
             return "CPF";
-        } else if(campo.equals(campoEMail)){
-            return "e-Mail";
+        } else if(campo.equals(campoEmail)){
+            return "E-MAIL";
         } else if(campo.equals(campoTelefone)){
-            return "Telefone";
+            return "TELEFONE";
         } else if(campo.equals(campoCelular)){
-            return "Celular";
+            return "CELULAR";
         } else if(campo.equals(areaInformacoes)){
-            return "Informações Adicionais";
+            return "INFORMAÇÕES ADICIONAIS";
         }
 
-        return "";
+        return "NÚMERO";
     }
 
     private void reiniciar() {
 
-        campoNome.setText("Nome");
+        campoNome.setText(getEtiqueta(campoNome));
+        campoRua.setText(getEtiqueta(campoRua));
+        campoNumero.setText(getEtiqueta(campoNumero));
+        campoComplemento.setText(getEtiqueta(campoComplemento));
+        campoBairro.setText(getEtiqueta(campoBairro));
+        campoCidade.setText(getEtiqueta(campoCidade));
+        campoCEP.setText(getEtiqueta(campoCEP));
+        campoCPF.setText(getEtiqueta(campoCPF));
+        campoRG.setText(getEtiqueta(campoRG));
+        campoTelefone.setText(getEtiqueta(campoTelefone));
+        campoCelular.setText(getEtiqueta(campoCelular));
+        campoEmail.setText(getEtiqueta(campoEmail));
+        areaInformacoes.setText(getEtiqueta(areaInformacoes));
+
         comboSexo.setSelectedIndex(0);
-        campoRua.setText("Rua");
-        campoNumero.setText("Número");
-        campoComplemento.setText("Complemento");
-        campoBairro.setText("Bairro");
-        campoCidade.setText("Cidade");
         comboUF.setSelectedIndex(0);
-        campoCEP.setText("CEP");
-        campoRG.setText("RG");
-        campoCPF.setText("CPF");
-        campoEMail.setText("e-Mail");
-        campoTelefone.setText("Telefone");
-        campoCelular.setText("Celular");
-        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Animais"}));
-        areaInformacoes.setText("Informações Adicionais");
+        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"ANIMAIS"}));
 
         botaoRemoverAnimal.setVisible(false);
     }
@@ -764,31 +682,6 @@ public class JanelaCliente extends javax.swing.JDialog {
         animais.add(a);
 
         comboAnimais.addItem(a.getNome());
-    }
-
-    private int getTamanhoMaximo(JTextComponent campo) {
-
-        if(campo.equals(campoNome)){
-            return 80;
-        } else if(campo.equals(campoRua)){
-            return 70;
-        } else if(campo.equals(campoNumero)){
-            return 4;
-        } else if(campo.equals(campoComplemento)){
-            return 30;
-        } else if(campo.equals(campoBairro)){
-            return 30;
-        } else if(campo.equals(campoCidade)){
-            return 30;
-        } else if(campo.equals(campoRG)){
-            return 15;
-        } else if(campo.equals(campoEMail)){
-            return 70;
-        } else if(campo.equals(areaInformacoes)){
-            return 400;
-        }
-
-        return 0;
     }
 
     private boolean existemDependencias() {
@@ -858,8 +751,8 @@ public class JanelaCliente extends javax.swing.JDialog {
         if(!campoCEP.getText().equals(getEtiqueta(campoCEP))){
             cep = campoCEP.getText();
         }
-        if(!campoEMail.getText().equals(getEtiqueta(campoEMail))){
-            email = campoEMail.getText();
+        if(!campoEmail.getText().equals(getEtiqueta(campoEmail))){
+            email = campoEmail.getText();
         }
         if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone))){
             telefone = campoTelefone.getText();
@@ -895,9 +788,14 @@ public class JanelaCliente extends javax.swing.JDialog {
         } catch(ClassCastException e){
             listaAnimais = new Animal[0];
         }
-
-        return new Cliente(nome, sexo, endereco, rg, cpf, email,
+        
+        Cliente c = new Cliente(nome, sexo, endereco, rg, cpf, email,
                 telefone, celular, listaAnimais, informacoes);
+        if(tipo == TipoJanela.ALTERACAO){
+            c.setCodigo(cliente.getCodigo());
+        }
+        
+        return c;
     }
 
     private void desabilitarCampos(){
@@ -912,7 +810,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         campoCEP.setEditable(false);
         campoRG.setEditable(false);
         campoCPF.setEditable(false);
-        campoEMail.setEditable(false);
+        campoEmail.setEditable(false);
         campoTelefone.setEditable(false);
         campoCelular.setEditable(false);
         areaInformacoes.setEditable(false);
@@ -963,7 +861,7 @@ public class JanelaCliente extends javax.swing.JDialog {
     }
 
     public JTextField getCampoEMail() {
-        return campoEMail;
+        return campoEmail;
     }
 
     public JTextField getCampoNome() {
@@ -1000,5 +898,37 @@ public class JanelaCliente extends javax.swing.JDialog {
 
     public JScrollPane getScrollInformacoes() {
         return scrollInformacoes;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
+    private boolean cadastrarAnimais(){
+        boolean cadastrouAnimais = true;
+
+        for(int i = 0; i < animais.size(); i++){
+            animais.get(i).setCodigoDono(BancoDeDados.getClienteCod(cliente));
+            if(animais.get(i).getCodigo() == 0)
+                cadastrouAnimais = cadastrouAnimais && BancoDeDados.cadastrar(animais.get(i));
+        }
+
+        return cadastrouAnimais;
+    }
+
+    private boolean alterarAnimais(){
+        boolean alterouAnimais = true;
+
+        for(int i = 0; i < animais.size(); i++){
+            animais.get(i).setCodigoDono(BancoDeDados.getClienteCod(cliente));
+            if(animais.get(i).getCodigo() != 0)
+                alterouAnimais = alterouAnimais && BancoDeDados.alterar(animais.get(i));
+        }
+
+        return alterouAnimais;
     }
 }

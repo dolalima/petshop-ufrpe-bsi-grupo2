@@ -59,7 +59,7 @@ public class PainelConsultaVendas extends PainelConsulta {
             }
         }
 
-        Venda[] vendas = BancoDeDados.consultar(v);
+        /*Venda[] vendas = BancoDeDados.consultar(v);
 
         Object[][] dados = new Object[vendas.length][4];
 
@@ -76,7 +76,7 @@ public class PainelConsultaVendas extends PainelConsulta {
 
         if(vendas.length == 0){
             JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
-        }
+        }*/
     }
 
     void alterar(int integer) {
@@ -85,7 +85,7 @@ public class PainelConsultaVendas extends PainelConsulta {
 
     private void preencher(JanelaVenda janela, int cod) {
 
-        Venda[] venda = BancoDeDados.consultar(new Venda(cod));
+        /*Venda[] venda = BancoDeDados.consultar(new Venda(cod));
         Venda v = venda[0];
 
         if(v.getCodigo() != 0) {
@@ -98,7 +98,7 @@ public class PainelConsultaVendas extends PainelConsulta {
             janela.getComboAnimais().addItem(a[i].getNome());
         }
         janela.setCarrinhoProdutos(v.getCarrinhoProdutos());
-        janela.setCarrinhoServicos(v.getCarrinhoServicos());
+        janela.setCarrinhoServicos(v.getCarrinhoServicos());*/
     }
 
     @Override

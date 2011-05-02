@@ -43,6 +43,13 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pesquisar();
             } });
+            
+        this.botaoOK.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Number valor = (Number) painel.tabela.getValueAt(painel.tabela.getSelectedRow(), 0);
+                ok(valor.intValue());
+            } });
     }
 
     /** This method is called from within the constructor to
@@ -106,5 +113,12 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
         if(clientes.length == 0){
             JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
         }
+    }
+    
+
+    private void ok(int cod) {
+        pai.adicionar(BancoDeDados.consultar(new Cliente(cod))[0]);
+
+        this.dispose();
     }
 }
