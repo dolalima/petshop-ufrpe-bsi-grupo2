@@ -8,6 +8,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.BancoDeDados;
+import petshop.classes.LetraMaiuscula;
 import petshop.classes.Produto;
 
 /**
@@ -57,6 +58,13 @@ public class JanelaProduto extends javax.swing.JDialog {
             botaoCancelar.setVisible(false);
             desabilitarCampos();
         }
+
+        campoCodigo.setDocument(new LetraMaiuscula(9));
+        campoNome.setDocument(new LetraMaiuscula(80));
+        campoQtde.setDocument(new LetraMaiuscula(7));
+        areaInformacoes.setDocument(new LetraMaiuscula(400));
+
+        reiniciar();
     }
 
     /** This method is called from within the constructor to
@@ -82,27 +90,18 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Produto");
-        setMinimumSize(new java.awt.Dimension(380, 200));
+        setMinimumSize(new java.awt.Dimension(400, 260));
         setResizable(false);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(450, 260));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        campoNome.setText("Nome");
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoNome.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiuscula(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -115,19 +114,12 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNome, gridBagConstraints);
 
-        campoQtde.setText("Qtde Estoque");
         campoQtde.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoQtde.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoMaiuscula(evt);
-                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -137,7 +129,6 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoQtde, gridBagConstraints);
 
-        campoPrecoCusto.setText("Preço de Custo");
         campoPrecoCusto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -162,22 +153,12 @@ public class JanelaProduto extends javax.swing.JDialog {
         areaInformacoes.setColumns(20);
         areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
-        areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        areaInformacoes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiuscula(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -220,7 +201,6 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(botaoCancelar, gridBagConstraints);
 
-        campoPrecoVenda.setText("Preço de Venda");
         campoPrecoVenda.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -242,22 +222,12 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoPrecoVenda, gridBagConstraints);
 
-        campoCodigo.setText("Código");
         campoCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoMaiuscula(evt);
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -302,11 +272,20 @@ public class JanelaProduto extends javax.swing.JDialog {
         if(!existemDependencias()){
             produto = gerarProduto();
 
-            if(BancoDeDados.cadastrar(produto)){
-                JOptionPane.showMessageDialog(this.getContentPane(), "Produto cadastrado com sucesso!");
-                this.dispose();
+            if(tipo == TipoJanela.CADASTRO){
+                if(BancoDeDados.cadastrar(produto)){
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Produto cadastrado com sucesso!");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar produto!");
+                }
             } else {
-                JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar produto!");
+                if(BancoDeDados.alterar(produto)){
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Produto alterado com sucesso!");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar produto!");
+                }
             }
         }
     }//GEN-LAST:event_cadastrar
@@ -335,24 +314,6 @@ public class JanelaProduto extends javax.swing.JDialog {
             campo.setText(t + ".");
     }//GEN-LAST:event_eventoDigitarPreco
 
-    private void campoMaiuscula(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiuscula
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(Character.isLowerCase(evt.getKeyChar())){
-            campo.setText(campo.getText().toUpperCase());
-        }
-    }//GEN-LAST:event_campoMaiuscula
-
-    private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        System.out.println(evt.getKeyChar());
-
-        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && (campo.getText().length() >= getTamanhoMaximo(campo) || evt.getKeyChar() == KeyEvent.VK_PASTE))
-            evt.consume();
-        
-    }//GEN-LAST:event_campoTamanhoMaximo
-
     /**
     * @param args the command line arguments
     */
@@ -380,12 +341,12 @@ public class JanelaProduto extends javax.swing.JDialog {
     //Retorna a etiqueta certa pra cada campo
     private String getEtiqueta(JTextComponent campo){
 
-        if(campo.equals(campoNome)) return "Nome";
-        else if(campo.equals(campoPrecoCusto)) return "Preço de Custo";
-        else if(campo.equals(campoCodigo)) return "Código";
-        else if(campo.equals(campoPrecoVenda)) return "Preço de Venda";
-        else if(campo.equals(campoQtde)) return "Qtde Estoque";
-        else if(campo.equals(areaInformacoes)) return "Informações Adicionais";
+        if(campo.equals(campoNome)) return "NOME";
+        else if(campo.equals(campoPrecoCusto)) return "PREÇO DE CUSTO";
+        else if(campo.equals(campoCodigo)) return "CÓDIGO";
+        else if(campo.equals(campoPrecoVenda)) return "PREÇO DE VENDA";
+        else if(campo.equals(campoQtde)) return "QTDE ESTOQUE";
+        else if(campo.equals(areaInformacoes)) return "INFORMAÇÕES ADICIONAIS";
 
         return "";
     }
@@ -393,12 +354,12 @@ public class JanelaProduto extends javax.swing.JDialog {
     //Volta todos os campos pras etiquetas padrões.
     private void reiniciar(){
 
-        campoCodigo.setText("Código");
-        campoNome.setText("Nome");
-        campoPrecoCusto.setText("Preço de Custo");
-        campoPrecoVenda.setText("Preço de Venda");
-        campoQtde.setText("Qtde");
-        areaInformacoes.setText("Informações Adicionais");
+        campoCodigo.setText(getEtiqueta(campoCodigo));
+        campoNome.setText(getEtiqueta(campoNome));
+        campoPrecoCusto.setText(getEtiqueta(campoPrecoCusto));
+        campoPrecoVenda.setText(getEtiqueta(campoPrecoVenda));
+        campoQtde.setText(getEtiqueta(campoQtde));
+        areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
 
     private boolean existemDependencias(){
@@ -417,17 +378,6 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         return existeDependencias;
     }
-
-    private int getTamanhoMaximo(JTextComponent campo){
-
-        if(campo.equals(campoNome)) return 80;
-        else if(campo.equals(campoQtde)) return 5;
-        else if(campo.equals(campoCodigo)) return 9;
-        else if(campo.equals(areaInformacoes)) return 400;
-
-        return 0;
-    }
-
 
     private Produto gerarProduto(){
 

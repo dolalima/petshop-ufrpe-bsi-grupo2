@@ -18,8 +18,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
-import petshop.classes.CarrinhoProdutos;
-import petshop.classes.CarrinhoServicos;
+import petshop.classes.Animal;
+import petshop.classes.Cliente;
+import petshop.classes.Produto;
+import petshop.classes.Servico;
+import petshop.classes.Venda;
 
 /**
  *
@@ -27,13 +30,18 @@ import petshop.classes.CarrinhoServicos;
  */
 public class JanelaVenda extends javax.swing.JDialog {
 
-    JanelaAdicionaProduto adicionaProduto;
-    JanelaAdicionaServico adicionaServico;
-    JanelaAdicionaCliente adicionaCliente;
+    private JanelaAdicionaProduto adicionaProduto;
+    private JanelaAdicionaServico adicionaServico;
+    private JanelaAdicionaCliente adicionaCliente;
     private TipoJanela tipo;
 
-    private CarrinhoProdutos carrinhoProdutos;
-    private CarrinhoServicos carrinhoServicos;
+    private Venda venda;
+    private Cliente cliente;
+
+    private JTable tabelaProdutos;
+    private JTable tabelaServicos;
+    
+    private double[] porcentagemTamanhoColunas;
 
     /** Creates new form JanelaVenda */
     public JanelaVenda(TipoJanela tipo) {
@@ -52,6 +60,24 @@ public class JanelaVenda extends javax.swing.JDialog {
             botaoCancelar.setVisible(false);
             desabilitarCampos();
         }
+
+        scrollItens.setPreferredSize(new java.awt.Dimension(480, 200));
+
+        tabelaProdutos = new JTable();
+        tabelaServicos = new JTable();
+
+        setModelo(tabelaProdutos,
+            new String [] { "Código", "Nome", "Qtde", "Preço" },
+            new double[] {15, 50, 15, 20});
+
+        setModelo(tabelaServicos,
+            new String [] { "Código", "Nome", "Animal", "Preço" },
+            new double[] {15, 40, 25, 20});
+        
+        tabelaProdutos.setMaximumSize(new java.awt.Dimension(300, 100));
+        scrollItens.setViewportView(tabelaProdutos);
+
+        reiniciar();
     }
 
     /** This method is called from within the constructor to
@@ -72,7 +98,6 @@ public class JanelaVenda extends javax.swing.JDialog {
         botaoPesquisaItem = new javax.swing.JButton();
         botaoAdd = new javax.swing.JButton();
         scrollItens = new javax.swing.JScrollPane();
-        tabelaItens = new javax.swing.JTable();
         botaoRemover = new javax.swing.JButton();
         labelTotal = new javax.swing.JLabel();
         botaoCancelar = new javax.swing.JButton();
@@ -112,7 +137,7 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(labelCliente, gridBagConstraints);
 
-        comboTipoCarrinho.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Produto", "Serviço" }));
+        comboTipoCarrinho.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PRODUTO", "SERVIÇO" }));
         comboTipoCarrinho.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboTipoCarrinhoItemStateChanged(evt);
@@ -127,7 +152,12 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboTipoCarrinho, gridBagConstraints);
 
-        campoCodigo.setText("Código");
+        campoCodigo.setMinimumSize(new java.awt.Dimension(60, 24));
+        campoCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mudarCampo(evt);
+            }
+        });
         campoCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -136,17 +166,21 @@ public class JanelaVenda extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
+        campoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                digitarCampo(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 15;
+        gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         jPanel1.add(campoCodigo, gridBagConstraints);
 
         botaoPesquisaItem.setText("P");
-        botaoPesquisaItem.setMinimumSize(new java.awt.Dimension(24, 24));
-        botaoPesquisaItem.setPreferredSize(new java.awt.Dimension(24, 24));
+        botaoPesquisaItem.setPreferredSize(new java.awt.Dimension(26, 26));
         botaoPesquisaItem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 botaoPesquisaItemMouseClicked(evt);
@@ -155,7 +189,7 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel1.add(botaoPesquisaItem, gridBagConstraints);
@@ -171,21 +205,6 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(botaoAdd, gridBagConstraints);
 
         scrollItens.setPreferredSize(new java.awt.Dimension(480, 200));
-
-        tabelaItens.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tabelaItens.setMaximumSize(new java.awt.Dimension(300, 100));
-        scrollItens.setViewportView(tabelaItens);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -250,12 +269,22 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(comboAnimais, gridBagConstraints);
 
         campoQtde.setText("Qtde");
+        campoQtde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mudarCampo(evt);
+            }
+        });
         campoQtde.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
+            }
+        });
+        campoQtde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                digitarCampo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -279,9 +308,15 @@ public class JanelaVenda extends javax.swing.JDialog {
     private void comboTipoCarrinhoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoCarrinhoItemStateChanged
         if(comboTipoCarrinho.getSelectedIndex() == 0){
             comboAnimais.setVisible(false);
+            campoQtde.setVisible(true);
+            scrollItens.setViewportView(tabelaProdutos);
         } else {
             comboAnimais.setVisible(true);
+            campoQtde.setVisible(false);
+            scrollItens.setViewportView(tabelaServicos);
         }
+
+        digitarCampo(null);
     }//GEN-LAST:event_comboTipoCarrinhoItemStateChanged
 
     private void botaoPesquisaItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisaItemMouseClicked
@@ -289,6 +324,7 @@ public class JanelaVenda extends javax.swing.JDialog {
 
         if(comboTipoCarrinho.getSelectedIndex() == 0) adiciona = adicionaProduto;
         else adiciona = adicionaServico;
+        
 
         adiciona.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         adiciona.setModal(true);
@@ -332,8 +368,38 @@ public class JanelaVenda extends javax.swing.JDialog {
 
         if(resp == JOptionPane.YES_OPTION)
             this.dispose();
-            limparCampos();
+            reiniciar();
     }//GEN-LAST:event_cancelar
+
+    private void mudarCampo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mudarCampo
+        if(!campoQtde.getText().equals(getEtiqueta(campoQtde)) ||
+                !campoCodigo.getText().equals(getEtiqueta(campoCodigo))){
+            botaoAdd.setEnabled(true);
+        } else {
+            botaoAdd.setEnabled(false);
+        }
+    }//GEN-LAST:event_mudarCampo
+
+    private void digitarCampo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_digitarCampo
+        if(this.comboTipoCarrinho.getSelectedItem().equals("PRODUTO")){
+            if((campoQtde.getText().equals(getEtiqueta(campoQtde)) ||
+                    campoQtde.getText().equals("")) ||
+                    ((campoCodigo.getText().equals(getEtiqueta(campoCodigo)) ||
+                    campoCodigo.getText().equals("")))){
+                botaoAdd.setEnabled(false);
+            } else {
+                botaoAdd.setEnabled(true);
+            }
+        } else {
+            if((comboAnimais.getSelectedIndex() == 0) ||
+                    ((campoCodigo.getText().equals(getEtiqueta(campoCodigo)) ||
+                    campoCodigo.getText().equals("")))){
+                botaoAdd.setEnabled(false);
+            } else {
+                botaoAdd.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_digitarCampo
 
     /**
     * @param args the command line arguments
@@ -361,7 +427,6 @@ public class JanelaVenda extends javax.swing.JDialog {
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelTotal;
     private javax.swing.JScrollPane scrollItens;
-    private javax.swing.JTable tabelaItens;
     // End of variables declaration//GEN-END:variables
     
     /**
@@ -369,29 +434,30 @@ public class JanelaVenda extends javax.swing.JDialog {
      * @param valor O valor do total de compras
      */
     public void setTotal(double valor){
-
         labelTotal.setText("Total " + valor);        
     }
     
     private String getEtiqueta(JTextComponent campo){
 
-        if(campo.equals(campoCodigo)) return "Código";
-        else if(campo.equals(campoQtde)) return "Qtde";
+        if(campo.equals(campoCodigo)) return "CÓDIGO";
+        else if(campo.equals(campoQtde)) return "QTDE";
 
         return "";
     }
 
-    private void limparCampos(){
+    private void reiniciar(){
 
         labelCliente.setText("CLIENTE");
         comboTipoCarrinho.setSelectedIndex(0);
-        campoCodigo.setText("Código");
-        campoQtde.setText("Qtde");
+        campoCodigo.setText(getEtiqueta(campoCodigo));
+        campoQtde.setText(getEtiqueta(campoQtde));
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[]{"Animal"}));
-        DefaultTableModel dm = (DefaultTableModel)tabelaItens.getModel();
+                new String[]{"ANIMAL"}));
+        DefaultTableModel dm = (DefaultTableModel)tabelaProdutos.getModel();
         dm.getDataVector().removeAllElements();
         setTotal(0.0);
+        botaoAdd.setEnabled(false);
+        botaoRemover.setEnabled(false);
     }
 
     public JLabel getLabelCliente() {
@@ -414,25 +480,15 @@ public class JanelaVenda extends javax.swing.JDialog {
         return comboTipoCarrinho;
     }
 
-    public JTable getTabelaItens() {
-        return tabelaItens;
+    public Venda getVenda() {
+        return venda;
     }
 
-    public CarrinhoProdutos getCarrinhoProdutos() {
-        return carrinhoProdutos;
+    public void setVenda(Venda venda) {
+        this.venda = venda;
     }
 
-    public void setCarrinhoProdutos(CarrinhoProdutos carrinhoProdutos) {
-        this.carrinhoProdutos = carrinhoProdutos;
-    }
 
-    public CarrinhoServicos getCarrinhoServicos() {
-        return carrinhoServicos;
-    }
-
-    public void setCarrinhoServicos(CarrinhoServicos carrinhoServicos) {
-        this.carrinhoServicos = carrinhoServicos;
-    }
 
     private void desabilitarCampos() {
         this.botaoPesquisarCliente.setEnabled(false);
@@ -444,5 +500,46 @@ public class JanelaVenda extends javax.swing.JDialog {
         campoQtde.setEnabled(false);
     }
 
+    private void setModelo(JTable tabela, String[] modelo, double[] porcentagemTamanhoColunas) {
 
+        //Override o metodo isCellEditable para nao deixar editar as celulas da tabela.
+        tabela.setModel(new javax.swing.table.DefaultTableModel( new Object [][] {  }, modelo ){
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            } });
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        this.porcentagemTamanhoColunas = porcentagemTamanhoColunas;
+
+        redimensionarColunas(tabela);
+    }
+
+    private void redimensionarColunas(JTable tabela){
+        int t = (int) (this.getSize().getWidth() - 22);
+
+        for(int i = 0; i < porcentagemTamanhoColunas.length; i++){
+            tabela.getColumnModel().getColumn(i).setPreferredWidth((int) ((porcentagemTamanhoColunas[i] * t) / 100));
+        }
+    }
+
+    public void adicionar(Cliente c){
+        this.cliente = c;
+        labelCliente.setText(c.getNome());
+        for(int i = 0; i < c.getAnimais().length; i++){
+            comboAnimais.addItem(c.getAnimais()[i].getNome());
+        }
+    }
+
+    public void adicionar(Produto p, int qtde){
+        venda.getCarrinhoProdutos().add(p, qtde);
+        DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
+        modelo.addRow(new Object[]{p.getCodigo(),p.getNome(), qtde, p.getPrecoVenda()});
+    }
+
+    public void adicionar(Servico s, Animal a){
+        venda.getCarrinhoServicos().add(s, a);
+        DefaultTableModel modelo = (DefaultTableModel) tabelaServicos.getModel();
+        modelo.addRow(new Object[]{s.getCodigo(),s.getNome(), a.getNome(), s.getPrecoVenda()});
+    }
 }

@@ -84,6 +84,7 @@ public class PainelConsultaClientes extends PainelConsulta {
         Cliente[] cliente = BancoDeDados.consultar(new Cliente(cod));
         Cliente c = cliente[0];
 
+        janela.setCliente(c);
         janela.getCampoNome().setText(c.getNome());
         if(c.getSexo().equals("M")) janela.getComboSexo().setSelectedIndex(1);
         else janela.getComboSexo().setSelectedIndex(2);

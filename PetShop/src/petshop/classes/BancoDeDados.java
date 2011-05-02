@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Classe de selação do sistema com banco de dados, as atividades de cadastrar, pesquisar,
@@ -64,7 +66,7 @@ public abstract class BancoDeDados {
             String cidade = (String) resultset.getObject(9);
             String complemento = (String) resultset.getObject(10);
             String uf = (String) resultset.getObject(11);
-            String cep = (String) resultset.getObject(14);
+            String cep = (String) resultset.getObject(15);
             //
             Endereco endereco = new Endereco();
             endereco.setRua(rua);
@@ -79,7 +81,7 @@ public abstract class BancoDeDados {
             cliente.setEmail((String) resultset.getObject(12));
             cliente.setTelefone((String) resultset.getObject(13));
             cliente.setCelular((String) resultset.getObject(14));
-            cliente.setInformacoes((String) resultset.getObject(15));
+            cliente.setInformacoes((String) resultset.getObject(16));
             return cliente;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,11 +132,12 @@ public abstract class BancoDeDados {
             Animal animal = new Animal();
             animal.setCodigo((Integer) resultset.getObject(1));
             animal.setNome((String) resultset.getObject(2));
+            animal.setSexo(((String)resultset.getObject(3)).charAt(0));
             animal.setDataNasc(null);
             animal.setEspecie((String) resultset.getObject(4));
             animal.setRaca((String) resultset.getObject(5));
-            animal.setInfo((String) resultset.getObject(6));
-            animal.setDono((Integer) resultset.getObject(7));
+            animal.setInfo((String) resultset.getObject(7));
+            animal.setCodigoDono((Integer) resultset.getObject(8));
 
             return animal;
 
@@ -254,11 +257,22 @@ public abstract class BancoDeDados {
 
             preparedStatement.setString(1, animal.getNome());
             preparedStatement.setString(2, String.valueOf(animal.getSexo()));
-            preparedStatement.setString(3, String.valueOf(animal.getDataNasc().toString()));
+
+            int dia = animal.getDataNasc().get(Calendar.DATE);
+            String d;
+            if(dia < 10) d = "0" + dia;
+            else d = dia + "";
+            int mes = animal.getDataNasc().get(Calendar.MONTH);
+            String m;
+            if(mes < 10) m = "0" + mes;
+            else m = mes + "";
+            int a = animal.getDataNasc().get(Calendar.YEAR);
+            
+            preparedStatement.setString(3, d + "/" + m + "/" + a);
             preparedStatement.setString(4, animal.getEspecie());
             preparedStatement.setString(5, animal.getRaca());
             preparedStatement.setString(6, animal.getInfo());
-            preparedStatement.setInt(7, animal.getDono());
+            preparedStatement.setInt(7, animal.getCodigoDono());
 
             preparedStatement.executeUpdate();
 
@@ -397,7 +411,7 @@ public abstract class BancoDeDados {
             if (cliente.getCodigo() != 0) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE codigo LIKE ? AND ativo=1");
-                preparedStatement.setString(1, String.valueOf(cliente.getCodigo()));
+                preparedStatement.setString(1, "%" + cliente.getCodigo() + "%");
                 resultset = preparedStatement.executeQuery();
             } else if (!cliente.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
@@ -430,8 +444,9 @@ public abstract class BancoDeDados {
             while (resultset.next()) {
                 //Contador de cliente
                 contador = contador + 1;
-
-                clienteList[contador - 1] = gerarClienteFromResultset(resultset);
+                Cliente c = gerarClienteFromResultset(resultset);
+                c.setAnimais(getAnimais(c));
+                clienteList[contador - 1] = c;
             }
             return clienteList;
 
@@ -604,9 +619,9 @@ public abstract class BancoDeDados {
     public static boolean alterar(Cliente cliente) {
         try {
             // Preparação de commando SQL para atualização de registros
-            preparedStatement = connection.prepareStatement("UPDATE cliente SET"
+            preparedStatement = connection.prepareStatement("UPDATE cliente SET "
                     + "nome=?,sexo=?,cpf=?,rg=?,rua=?,ncasa=?,bairro=?,cidade=?"
-                    + ",complemento=?,uf=?,email=?,telefone=?,celular=?,cep=?,info=?) "
+                    + ",complemento=?,uf=?,email=?,telefone=?,celular=?,cep=?,info=? "
                     + "WHERE codigo=?");
             // introdução das variaveis no comando
             preparedStatement.setString(1, cliente.getNome());
@@ -716,7 +731,7 @@ public abstract class BancoDeDados {
             preparedStatement.setString(4, animal.getEspecie());
             preparedStatement.setString(5, animal.getRaca());
             preparedStatement.setString(6, animal.getInfo());
-            preparedStatement.setInt(7, animal.getDono());
+            preparedStatement.setInt(7, animal.getCodigoDono());
 
             preparedStatement.setInt(8, animal.getCodigo());
 

@@ -102,7 +102,7 @@ public class PainelConsultaProdutos extends PainelConsulta {
 
         if(resp == JOptionPane.YES_OPTION){
             Produto p = new Produto(cod);
-            BancoDeDados.excluir(p);
+            BancoDeDados.remover(p);
         }
     }
 }

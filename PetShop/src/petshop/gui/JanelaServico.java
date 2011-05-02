@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.BancoDeDados;
+import petshop.classes.LetraMaiuscula;
 import petshop.classes.Servico;
 
 /**
@@ -66,6 +67,13 @@ public class JanelaServico extends javax.swing.JDialog {
             botaoCancelar.setVisible(false);
             desabilitarCampos();
         }
+
+        campoCodigo.setDocument(new LetraMaiuscula(9));
+        campoNome.setDocument(new LetraMaiuscula(80));
+        campoDuracao.setDocument(new LetraMaiuscula(14));
+        areaInformacoes.setDocument(new LetraMaiuscula(400));
+
+        reiniciar();
     }
 
     /** This method is called from within the constructor to
@@ -92,24 +100,15 @@ public class JanelaServico extends javax.swing.JDialog {
         setTitle("Cadastrar Serviço");
         setResizable(false);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(360, 220));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        campoNome.setText("Nome");
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoNome.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -122,18 +121,12 @@ public class JanelaServico extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNome, gridBagConstraints);
 
-        campoDuracao.setText("Duração (min)");
         campoDuracao.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoDuracao.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -146,22 +139,12 @@ public class JanelaServico extends javax.swing.JDialog {
         areaInformacoes.setColumns(20);
         areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
-        areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        areaInformacoes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-                campoMaiusculo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -204,7 +187,6 @@ public class JanelaServico extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(botaoCancelar, gridBagConstraints);
 
-        campoPreco.setText("Preço");
         campoPreco.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
@@ -226,21 +208,12 @@ public class JanelaServico extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoPreco, gridBagConstraints);
 
-        campoCodigo.setText("Código");
         campoCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -261,6 +234,7 @@ public class JanelaServico extends javax.swing.JDialog {
 
         if(campo.getText().equals(getEtiqueta(campo))){
             if(tipo != TipoJanela.INFORMACAO){
+                if(campo.equals(campoDuracao)) campoDuracao.setDocument(new LetraMaiuscula(3));
                 campo.setText("");
             }
         }
@@ -270,6 +244,7 @@ public class JanelaServico extends javax.swing.JDialog {
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals("")){
+            if(campo.equals(campoDuracao)) campoDuracao.setDocument(new LetraMaiuscula(14));
             campo.setText(getEtiqueta(campo));
         }
 }//GEN-LAST:event_colocarEtiqueta
@@ -299,22 +274,6 @@ public class JanelaServico extends javax.swing.JDialog {
             reiniciar();
         }
 }//GEN-LAST:event_cancelar
-
-    private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().length() >= getTamanhoMaximo(campo)){
-            evt.consume();
-        }
-    }//GEN-LAST:event_campoTamanhoMaximo
-
-    private void campoMaiusculo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiusculo
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(Character.isLowerCase(evt.getKeyChar())){
-            campo.setText(campo.getText().toUpperCase());
-        }
-    }//GEN-LAST:event_campoMaiusculo
 
     private void eventoDigitarPreco(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarPreco
         JTextField campo = (JTextField) evt.getComponent();
@@ -364,14 +323,14 @@ public class JanelaServico extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
-        //Retorna a etiqueta certa pra cada campo
+    //Retorna a etiqueta certa pra cada campo
     private String getEtiqueta(JTextComponent campo){
 
-        if(campo.equals(campoNome)) return "Nome";
-        else if(campo.equals(campoCodigo)) return "Código";
-        else if(campo.equals(campoPreco)) return "Preço";
-        else if(campo.equals(campoDuracao)) return "Duração (min)";
-        else if(campo.equals(areaInformacoes)) return "Informações Adicionais";
+        if(campo.equals(campoNome)) return "NOME";
+        else if(campo.equals(campoCodigo)) return "CÓDIGO";
+        else if(campo.equals(campoPreco)) return "PREÇO";
+        else if(campo.equals(campoDuracao)) return "DURAÇÃO (MIN)";
+        else if(campo.equals(areaInformacoes)) return "INFORMAÇÕES ADICIONAIS";
 
         return "";
     }
@@ -379,11 +338,11 @@ public class JanelaServico extends javax.swing.JDialog {
     //Volta todos os campos pras etiquetas padrões.
     private void reiniciar(){
 
-        campoCodigo.setText("Código");
-        campoNome.setText("Nome");
-        campoPreco.setText("Preço");
-        campoDuracao.setText("Duração (min)");
-        areaInformacoes.setText("Informações Adicionais");
+        campoCodigo.setText(getEtiqueta(campoCodigo));
+        campoNome.setText(getEtiqueta(campoNome));
+        campoPreco.setText(getEtiqueta(campoPreco));
+        campoDuracao.setText(getEtiqueta(campoDuracao));
+        areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
 
     private boolean existemDependencias(){
@@ -400,16 +359,6 @@ public class JanelaServico extends javax.swing.JDialog {
         }
 
         return existeDependencias;
-    }
-
-    private int getTamanhoMaximo(JTextComponent campo){
-
-        if(campo.equals(campoNome)) return 80;
-        else if(campo.equals(campoDuracao)) return 3;
-        else if(campo.equals(campoCodigo)) return 9;
-        else if(campo.equals(areaInformacoes)) return 400;
-
-        return 0;
     }
 
     public JTextArea getAreaInformacoes() {
