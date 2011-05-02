@@ -11,6 +11,11 @@
 
 package petshop.gui;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import petshop.classes.BancoDeDados;
+import petshop.classes.Produto;
+
 /**
  *
  * @author arthur
@@ -29,6 +34,12 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
         double[] tamanhosColunas = new double[] {30, 70};
 
         painel.setModelo(modelo, tamanhosColunas);
+        
+        this.painel.botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisar();
+            } });
     }
 
     /** This method is called from within the constructor to
@@ -57,4 +68,30 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    private void pesquisar() {
+        Produto p = new Produto();
+
+        if(painel.comboPesquisa.getSelectedIndex() == 0){
+            p.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
+        } else if(painel.comboPesquisa.getSelectedIndex() == 1){
+            p.setNome(painel.campoPesquisa.getText());
+        }
+
+        Produto[] produtos = BancoDeDados.consultar(p);
+        Object[][] dados = new Object[produtos.length][4];
+
+        for(int i = 0; i < produtos.length; i++){
+            dados[i][0] = produtos[i].getCodigo();
+            dados[i][1] = produtos[i].getNome();
+        }
+
+        DefaultTableModel model = (DefaultTableModel) this.painel.tabela.getModel();
+
+        model.setDataVector(dados, painel.modelo);
+        painel.redimensionarColunas();
+
+        if(produtos.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+        }
+    }
 }

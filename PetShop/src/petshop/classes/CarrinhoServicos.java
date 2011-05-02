@@ -9,17 +9,12 @@ import java.util.ArrayList;
 public class CarrinhoServicos {
 
     private ArrayList<Servico> servicos;
-    private Animal animal;
+    private ArrayList<Animal> animais;
 
     /**
-     * @param animal
+     * @param animais
      */
-    public CarrinhoServicos(Animal animal) {
-        this.animal = animal;
-    }
-
-    CarrinhoServicos() {
-        this.animal = new Animal();
+    public CarrinhoServicos() {
     }
 
     public ArrayList<Servico> getServicos() {
@@ -34,14 +29,31 @@ public class CarrinhoServicos {
     /**
      * @return
      */
-    public Animal getAnimal() {
-        return animal;
+    public ArrayList<Animal> getAnimal() {
+        return animais;
     }
 
     /**
-     * @param animal
+     * @param animais
      */
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
+    public void setAnimal(ArrayList<Animal> animal) {
+        this.animais = animal;
+    }
+
+    public void add(Servico s, Animal a){
+        servicos.add(s);
+        animais.add(a);
+    }
+    
+    public void remove(Servico s, Animal a){
+        for(int i = 0; i < servicos.size(); i++){
+            if(servicos.get(i).getCodigo() == s.getCodigo()){
+                if(animais.get(i).getCodigo() == a.getCodigo()){
+                    servicos.remove(i);
+                    animais.remove(i);
+                }
+            }
+        }
+        
     }
 }

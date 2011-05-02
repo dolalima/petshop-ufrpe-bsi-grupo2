@@ -35,6 +35,10 @@ public class Venda {
         this.carrinhoServicos = new CarrinhoServicos();
     }
 
+    public Venda(int cod) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -67,19 +71,19 @@ public class Venda {
         this.parcelado = parcelado;
     }
 
-    public CarrinhoProdutos getProdutos() {
+    public CarrinhoProdutos getCarrinhoProdutos() {
         return carrinhoProdutos;
     }
 
-    public void setProdutos(CarrinhoProdutos produtos) {
+    public void setCarrinhoProdutos(CarrinhoProdutos produtos) {
         this.carrinhoProdutos = produtos;
     }
 
-    public CarrinhoServicos getServicos() {
+    public CarrinhoServicos getCarrinhoServicos() {
         return carrinhoServicos;
     }
 
-    public void setServicos(CarrinhoServicos servicos) {
+    public void setCarrinhoServicos(CarrinhoServicos servicos) {
         this.carrinhoServicos = servicos;
     }
 

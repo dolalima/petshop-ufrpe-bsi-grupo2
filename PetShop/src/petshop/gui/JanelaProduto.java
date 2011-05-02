@@ -49,6 +49,14 @@ public class JanelaProduto extends javax.swing.JDialog {
         campoCodigo.addKeyListener(k1);
         campoPrecoCusto.addKeyListener(k2);
         campoPrecoVenda.addKeyListener(k2);
+
+        if(this.tipo == TipoJanela.ALTERACAO){
+            botaoCadastrar.setText("Alterar");
+        } else if(this.tipo == TipoJanela.INFORMACAO){
+            botaoCadastrar.setVisible(false);
+            botaoCancelar.setVisible(false);
+            desabilitarCampos();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -74,6 +82,7 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Produto");
+        setMinimumSize(new java.awt.Dimension(380, 200));
         setResizable(false);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -267,7 +276,9 @@ public class JanelaProduto extends javax.swing.JDialog {
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
+            if(tipo != TipoJanela.INFORMACAO){
+                campo.setText("");
+            }
         }
 }//GEN-LAST:event_tirarEtiqueta
 
@@ -411,7 +422,7 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         if(campo.equals(campoNome)) return 80;
         else if(campo.equals(campoQtde)) return 5;
-        else if(campo.equals(campoCodigo)) return 11;
+        else if(campo.equals(campoCodigo)) return 9;
         else if(campo.equals(areaInformacoes)) return 400;
 
         return 0;
@@ -458,6 +469,15 @@ public class JanelaProduto extends javax.swing.JDialog {
 
     public JTextField getCampoQtde() {
         return campoQtde;
+    }
+
+    private void desabilitarCampos() {
+        campoCodigo.setEditable(false);
+        campoNome.setEditable(false);
+        campoQtde.setEditable(false);
+        campoPrecoCusto.setEditable(false);
+        campoPrecoVenda.setEditable(false);
+        areaInformacoes.setEditable(false);
     }
 
 

@@ -20,10 +20,12 @@ import petshop.classes.Animal;
  */
 public class JanelaAnimal extends javax.swing.JDialog {
 
+    TipoJanela tipo;
     JanelaCliente janelaCliente;
 
     /** Creates new form JanelaAnimal */
-    public JanelaAnimal(JanelaCliente janelaCliente) {
+    public JanelaAnimal(JanelaCliente janelaCliente, TipoJanela tipo) {
+        this.tipo = tipo;
         initComponents();
 
         this.janelaCliente = janelaCliente;
@@ -230,7 +232,9 @@ public class JanelaAnimal extends javax.swing.JDialog {
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
+            if(tipo != TipoJanela.INFORMACAO){
+                campo.setText("");
+            }
         }
 }//GEN-LAST:event_tirarEtiqueta
 
@@ -295,7 +299,7 @@ public class JanelaAnimal extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaAnimal(null).setVisible(true);
+                new JanelaAnimal(null, TipoJanela.CADASTRO).setVisible(true);
             }
         });
     }

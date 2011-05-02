@@ -1,5 +1,6 @@
 package petshop.gui;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
@@ -7,8 +8,6 @@ import petshop.classes.Cliente;
 
 public class PainelConsultaClientes extends PainelConsulta {
     
-    String[] modelo;
-    double[] tamanhosColunas;
     
     public PainelConsultaClientes(){
         super();
@@ -19,29 +18,68 @@ public class PainelConsultaClientes extends PainelConsulta {
         this.setItensPreco(itensPreco);
         
         modelo = new String[]{"Código", "Nome", "CPF", "RG"};
-
-        tamanhosColunas = new double[]{15, 50, 20, 15};
         
-        setModelo(modelo, tamanhosColunas);
-
-        this.botaoAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                alterar(1);
-                //alterar((Integer) tabela.getValueAt(0, tabela.getSelectedRow()));
-            } });
-
-        this.botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pesquisar();
-            } });
+        setModelo(modelo, new double[]{15, 50, 20, 15});
 
         this.remove(this.botaoExcluir);
     }
 
-    public void alterar(int cod){
+    protected void alterar(int cod){
         JanelaCliente janela = new JanelaCliente(TipoJanela.ALTERACAO);
+
+        preencher(janela, cod);
+
+        janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        janela.setModal(true);
+        janela.setVisible(true);
+    }
+
+    protected void informacoes(int cod) {
+        JanelaCliente janela = new JanelaCliente(TipoJanela.INFORMACAO);
+
+        preencher(janela, cod);
+
+        janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        janela.setModal(true);
+        janela.setVisible(true);
+    }
+    
+    protected void pesquisar(){
+        Cliente c = new Cliente();
+
+        if(!campoPesquisa.getText().equals("")){
+            if(comboPesquisa.getSelectedIndex() == 0){
+                c.setCodigo(Integer.valueOf(campoPesquisa.getText()));
+            } else if(comboPesquisa.getSelectedIndex() == 1){
+                c.setNome(campoPesquisa.getText());
+            } else if(comboPesquisa.getSelectedIndex() == 2){
+                c.setCpf(new CPF(campoPesquisa.getText()));
+            } else if(comboPesquisa.getSelectedIndex() == 3){
+                c.setRg(Integer.valueOf(campoPesquisa.getText()));
+            }
+        }
+        
+        Cliente[] clientes = BancoDeDados.consultar(c);
+        Object[][] dados = new Object[clientes.length][4];
+        
+        for(int i = 0; i < clientes.length; i++){
+            dados[i][0] = clientes[i].getCodigo();
+            dados[i][1] = clientes[i].getNome();
+            dados[i][2] = clientes[i].getCpf().getCpf();
+            dados[i][3] = clientes[i].getRg();
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) this.tabela.getModel();
+        
+        model.setDataVector(dados, modelo);
+        redimensionarColunas();
+
+        if(clientes.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+        }
+    }
+
+    private void preencher(JanelaCliente janela, int cod){
 
         Cliente[] cliente = BancoDeDados.consultar(new Cliente(cod));
         Cliente c = cliente[0];
@@ -71,38 +109,10 @@ public class PainelConsultaClientes extends PainelConsulta {
         }
         if(!c.getInformacoes().equals(""))
             janela.getAreaInformacoes().setText(c.getInformacoes());
-
-        janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        janela.setModal(true);
-        janela.setVisible(true);
     }
-    
-    private void pesquisar(){
-        Cliente c = new Cliente();
-        
-        if(comboPesquisa.getSelectedIndex() == 0){
-            c.setCodigo(Integer.valueOf(campoPesquisa.getText()));
-        } else if(comboPesquisa.getSelectedIndex() == 1){
-            c.setNome(campoPesquisa.getText());
-        } else if(comboPesquisa.getSelectedIndex() == 2){
-            c.setCpf(new CPF(campoPesquisa.getText()));
-        } else if(comboPesquisa.getSelectedIndex() == 3){
-            c.setRg(Integer.valueOf(campoPesquisa.getText()));
-        }
-        
-        Cliente[] clientes = BancoDeDados.consultar(c);
-        Object[][] dados = new Object[clientes.length][4];
-        
-        for(int i = 0; i < clientes.length; i++){
-            dados[i][0] = clientes[i].getCodigo();
-            dados[i][1] = clientes[i].getNome();
-            dados[i][2] = clientes[i].getCpf().getCpf();
-            dados[i][3] = clientes[i].getRg();
-        }
-        
-        DefaultTableModel model = (DefaultTableModel) this.tabela.getModel();
-        
-        model.setDataVector(dados, modelo);
-        redimensionarColunas();
+
+    @Override
+    void excluir(int integer) {
+        throw new UnsupportedOperationException("Cliente não pode ser excluído");
     }
 }

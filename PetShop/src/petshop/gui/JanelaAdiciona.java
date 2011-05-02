@@ -13,6 +13,9 @@ package petshop.gui;
 
 import java.awt.Dimension;
 import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -52,6 +55,19 @@ public class JanelaAdiciona extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
         painel.add(botaoOK, gridBagConstraints);
         this.setLocationRelativeTo(this.getContentPane());
+
+        ListSelectionModel cellSelectionModel = painel.tabela.getSelectionModel();
+        cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if(painel.tabela.getSelectedRow() != -1){
+                    botaoOK.setEnabled(true);
+                } else {
+                    botaoOK.setEnabled(false);
+                }
+            }
+        });
     }
 
     /** This method is called from within the constructor to
