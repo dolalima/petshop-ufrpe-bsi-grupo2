@@ -19,7 +19,9 @@ import javax.swing.JTable;
  * @author arthur
  */
 public class Painel extends javax.swing.JPanel {
-
+    
+    String[] modelo;
+    double[] tamanhosColunas;
     double[] porcentagemTamanhoColunas;
 
     /** Creates new form panel */
@@ -64,11 +66,6 @@ public class Painel extends javax.swing.JPanel {
         comboPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboPesquisa.setMaximumSize(new java.awt.Dimension(66, 24));
         comboPesquisa.setMinimumSize(new Dimension(66,24));
-        comboPesquisa.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                comboPesquisaItemStateChanged(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -115,11 +112,6 @@ public class Painel extends javax.swing.JPanel {
         add(scrollTabela, gridBagConstraints);
 
         botaoPesquisar.setText("Pesquisar");
-        botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                clicarBotaoPesquisar(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
@@ -128,14 +120,6 @@ public class Painel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(botaoPesquisar, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void comboPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPesquisaItemStateChanged
-        // TODO add your handling code here:
-}//GEN-LAST:event_comboPesquisaItemStateChanged
-
-    private void clicarBotaoPesquisar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoPesquisar
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clicarBotaoPesquisar
 
     private void redimensionarColunas(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_redimensionarColunas
         if(porcentagemTamanhoColunas != null){
@@ -163,7 +147,8 @@ public class Painel extends javax.swing.JPanel {
                 return false;
             } });
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
+
+        this.modelo = modelo;
         this.porcentagemTamanhoColunas = porcentagemTamanhoColunas;
 
         redimensionarColunas();

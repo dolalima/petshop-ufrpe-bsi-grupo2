@@ -11,6 +11,12 @@
 
 package petshop.gui;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import petshop.classes.BancoDeDados;
+import petshop.classes.CPF;
+import petshop.classes.Cliente;
+
 /**
  *
  * @author arthur
@@ -30,7 +36,13 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
         String[] modelo = new String[] {"Código", "Nome", "CPF", "RG"};
         double[] tamanhosColunas = new double[] {12, 50, 22, 16};
         
-        painel.setModelo(modelo, tamanhosColunas);        
+        painel.setModelo(modelo, tamanhosColunas);
+
+        this.painel.botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisar();
+            } });
     }
 
     /** This method is called from within the constructor to
@@ -62,4 +74,37 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    private void pesquisar(){
+        Cliente c = new Cliente();
+
+        if(painel.comboPesquisa.getSelectedIndex() == 0){
+            c.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
+        } else if(painel.comboPesquisa.getSelectedIndex() == 1){
+            c.setNome(painel.campoPesquisa.getText());
+        } else if(painel.comboPesquisa.getSelectedIndex() == 2){
+            c.setCpf(new CPF(painel.campoPesquisa.getText()));
+        } else if(painel.comboPesquisa.getSelectedIndex() == 3){
+            c.setRg(Integer.valueOf(painel.campoPesquisa.getText()));
+        }
+
+        Cliente[] clientes = BancoDeDados.consultar(c);
+        Object[][] dados = new Object[clientes.length][4];
+
+        for(int i = 0; i < clientes.length; i++){
+            dados[i][0] = clientes[i].getCodigo();
+            dados[i][1] = clientes[i].getNome();
+            dados[i][2] = clientes[i].getCpf().getCpf();
+            dados[i][3] = clientes[i].getRg();
+        }
+
+        DefaultTableModel model = (DefaultTableModel) this.painel.tabela.getModel();
+
+        model.setDataVector(dados, painel.modelo);
+
+        painel.redimensionarColunas();
+
+        if(clientes.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+        }
+    }
 }

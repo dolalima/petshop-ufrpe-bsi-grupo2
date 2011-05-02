@@ -59,7 +59,6 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         animais = new ArrayList();
 
-
         reiniciar();
 
         if(this.tipo == TipoJanela.ALTERACAO){
@@ -68,6 +67,7 @@ public class JanelaCliente extends javax.swing.JDialog {
             botaoCadastrar.setVisible(false);
             botaoCancelar.setVisible(false);
             botaoAdicionarAnimal.setText("Informação");
+            desabilitarCampos();
         }
     }
 
@@ -530,7 +530,9 @@ public class JanelaCliente extends javax.swing.JDialog {
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
+            if(tipo != TipoJanela.INFORMACAO){                
+                campo.setText("");
+            }
         }
 }//GEN-LAST:event_tirarEtiqueta
 
@@ -552,7 +554,7 @@ public class JanelaCliente extends javax.swing.JDialog {
 }//GEN-LAST:event_cancelar
 
     private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
-        JanelaAnimal animal = new JanelaAnimal(this);
+        JanelaAnimal animal = new JanelaAnimal(this, TipoJanela.CADASTRO);
 
         animal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         animal.setVisible(true);
@@ -896,6 +898,24 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         return new Cliente(nome, sexo, endereco, rg, cpf, email,
                 telefone, celular, listaAnimais, informacoes);
+    }
+
+    private void desabilitarCampos(){
+        campoNome.setEditable(false);
+        comboSexo.setEnabled(false);
+        campoRua.setEditable(false);
+        campoNumero.setEditable(false);
+        campoComplemento.setEditable(false);
+        campoBairro.setEditable(false);
+        campoCidade.setEditable(false);
+        comboUF.setEnabled(false);
+        campoCEP.setEditable(false);
+        campoRG.setEditable(false);
+        campoCPF.setEditable(false);
+        campoEMail.setEditable(false);
+        campoTelefone.setEditable(false);
+        campoCelular.setEditable(false);
+        areaInformacoes.setEditable(false);
     }
 
     public JTextArea getAreaInformacoes() {

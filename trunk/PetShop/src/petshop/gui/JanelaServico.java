@@ -58,6 +58,14 @@ public class JanelaServico extends javax.swing.JDialog {
         campoDuracao.addKeyListener(k1);
         campoCodigo.addKeyListener(k1);
         campoPreco.addKeyListener(k2);
+
+        if(this.tipo == TipoJanela.ALTERACAO){
+            botaoCadastrar.setText("Alterar");
+        } else if(this.tipo == TipoJanela.INFORMACAO){
+            botaoCadastrar.setVisible(false);
+            botaoCancelar.setVisible(false);
+            desabilitarCampos();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -252,7 +260,9 @@ public class JanelaServico extends javax.swing.JDialog {
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals(getEtiqueta(campo))){
-            campo.setText("");
+            if(tipo != TipoJanela.INFORMACAO){
+                campo.setText("");
+            }
         }
 }//GEN-LAST:event_tirarEtiqueta
 
@@ -267,7 +277,7 @@ public class JanelaServico extends javax.swing.JDialog {
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         // TODO add your handling code here:
 
-        Servico servico = new Servico();
+        servico = new Servico();
         //Carregando dados do servico
         servico.setCodigo(Integer.valueOf(this.getCampoCodigo().getText()));
         servico.setNome(this.getCampoNome().getText());
@@ -396,7 +406,7 @@ public class JanelaServico extends javax.swing.JDialog {
 
         if(campo.equals(campoNome)) return 80;
         else if(campo.equals(campoDuracao)) return 3;
-        else if(campo.equals(campoCodigo)) return 11;
+        else if(campo.equals(campoCodigo)) return 9;
         else if(campo.equals(areaInformacoes)) return 400;
 
         return 0;
@@ -422,5 +432,11 @@ public class JanelaServico extends javax.swing.JDialog {
         return campoPreco;
     }
 
-
+    private void desabilitarCampos() {
+        campoCodigo.setEditable(false);
+        campoNome.setEditable(false);
+        campoDuracao.setEditable(false);
+        campoPreco.setEditable(false);
+        areaInformacoes.setEditable(false);
+    }
 }
