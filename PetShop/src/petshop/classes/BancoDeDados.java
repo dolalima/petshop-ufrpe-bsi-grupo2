@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -333,10 +334,11 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistro = 0;
         ResultSet resultset;
+
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM animal "
                     + "WHERE dono=? AND ativo=1");
-            preparedStatement.setInt(1, cliente.getCodigo());
+            preparedStatement.setLong(1, cliente.getCodigo());
 
             resultset = preparedStatement.executeQuery();
 
@@ -393,18 +395,27 @@ public abstract class BancoDeDados {
         int pagamento = 0;
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO vendas "
-                    + "(cliente,valor,pagamento,data) VALUES (?,?,?,?)");
-            preparedStatement.setInt(1, venda.getCliente().getCodigo());
+                    + "(cliente,valor,pagamento,data,parcelado) VALUES (?,?,?,?,?)");
+            preparedStatement.setLong(1, venda.getCliente().getCodigo());
             preparedStatement.setDouble(2, venda.total());
             if (venda.getTipoPagamento().equals(TipoPagamento.CARTAO)) {
                 pagamento = 1;
             } else if (venda.getTipoPagamento().equals(TipoPagamento.CHEQUE)) {
                 pagamento = 2;
             }
-
             preparedStatement.setInt(3, pagamento);
-
-            preparedStatement.setString(4, "");
+            int dia = venda.getData().get(Calendar.DATE);
+            String d;
+            if(dia < 10) d = "0" + dia;
+            else d = dia + "";
+            int mes = venda.getData().get(Calendar.MONTH);
+            String m;
+            if(mes < 10) m = "0" + mes;
+            else m = mes + "";
+            int a = venda.getData().get(Calendar.YEAR);
+            
+            preparedStatement.setString(4, d + "/" + m + "/" + a);
+            preparedStatement.setBoolean(5, venda.isParcelado());
             preparedStatement.executeUpdate();
 
             venda.setCodigo(getLastVenda());
@@ -431,17 +442,19 @@ public abstract class BancoDeDados {
      * @return Boolean
      **/
     private static boolean registraSaidaProdutos(Venda venda) {
-        Produto[] produtoList = (Produto[]) venda.getCarrinhoProdutos().getProdutos().toArray();
-        Integer[] qtdeList = (Integer[]) venda.getCarrinhoProdutos().getQtde().toArray();
-        for (int i = 0; i <= produtoList.length; i++) {
+        ArrayList<Produto> produtoList = venda.getCarrinhoProdutos().getProdutos();
+        ArrayList<Integer> qtdeList = venda.getCarrinhoProdutos().getQtde();
+        for (int i = 0; i < produtoList.size(); i++) {
             try {
                 preparedStatement = connection.prepareStatement("INSERT INTO saidaprodutos "
                         + "(venda,produto,qt,valor) VALUES (?,?,?,?)");
-                preparedStatement.setInt(1, venda.getCodigo());
-                preparedStatement.setLong(2, produtoList[i].getCodigo());
-                preparedStatement.setInt(3, produtoList[i].getQtdeEstoque() - qtdeList[i]);
-                preparedStatement.setDouble(4, produtoList[i].getPrecoVenda());
+                preparedStatement.setLong(1, venda.getCodigo());
+                preparedStatement.setLong(2, produtoList.get(i).getCodigo());
+                preparedStatement.setInt(3, qtdeList.get(i));
+                preparedStatement.setDouble(4, produtoList.get(i).getPrecoVenda());
+                preparedStatement.executeUpdate();
 
+                
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -458,16 +471,17 @@ public abstract class BancoDeDados {
      * @return Boolean
      */
     private static boolean registraSaidaServicos(Venda venda) {
-        Servico[] servicoList = (Servico[]) venda.getCarrinhoServicos().getServicos().toArray();
-        Animal[] animalList = (Animal[]) venda.getCarrinhoServicos().getServicos().toArray();
-        for (int i = 0; i <= servicoList.length; i++) {
+        ArrayList<Servico> servicoList = venda.getCarrinhoServicos().getServicos();
+        ArrayList<Animal> animalList = venda.getCarrinhoServicos().getAnimal();
+        for (int i = 0; i < servicoList.size(); i++) {
             try {
                 preparedStatement = connection.prepareStatement("INSERT INTO saidaservicos "
                         + "(venda,servico,animal,valor) VALUES (?,?,?,?)");
-                preparedStatement.setInt(1, venda.getCodigo());
-                preparedStatement.setLong(2, servicoList[i].getCodigo());
-                preparedStatement.setInt(3, animalList[i].getCodigo());
-                preparedStatement.setDouble(4, servicoList[i].getPrecoVenda());
+                preparedStatement.setLong(1, venda.getCodigo());
+                preparedStatement.setLong(2, servicoList.get(i).getCodigo());
+                preparedStatement.setInt(3, animalList.get(i).getCodigo());
+                preparedStatement.setDouble(4, servicoList.get(i).getPrecoVenda());
+                preparedStatement.executeUpdate();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -793,7 +807,13 @@ public abstract class BancoDeDados {
                         + "produtos WHERE nome LIKE ? and ativo=1");
                 preparedStatement.setString(1, "%" + produto.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
+            } else {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE ativo=1");
+                resultset = preparedStatement.executeQuery();
+
             }
+
             while (resultset.next()) {
                 nRegistro++;
             }
@@ -920,7 +940,7 @@ public abstract class BancoDeDados {
             preparedStatement.setString(14, cliente.getEndereco().getCep());
             preparedStatement.setString(15, cliente.getInformacoes());
             // Codigo do cliente que ira ser alterado
-            preparedStatement.setInt(16, cliente.getCodigo());
+            preparedStatement.setLong(16, cliente.getCodigo());
             //Executa alteraçõe no banco de dados
             preparedStatement.executeUpdate();
 
@@ -1043,7 +1063,7 @@ public abstract class BancoDeDados {
         try {
             preparedStatement = connection.prepareStatement("UPDATE cliente SET "
                     + "ativo=0 WHERE codigo=?");
-            preparedStatement.setInt(1, cliente.getCodigo());
+            preparedStatement.setLong(1, cliente.getCodigo());
             preparedStatement.executeUpdate();
 
             return true;
@@ -1123,17 +1143,17 @@ public abstract class BancoDeDados {
         try {
             preparedStatement = connection.prepareStatement("DELETE FROM saidaservicos "
                     + "WHERE venda=?");
-            preparedStatement.setInt(1, venda.getCodigo());
+            preparedStatement.setLong(1, venda.getCodigo());
             preparedStatement.executeUpdate();
 
             preparedStatement = connection.prepareStatement("DELETE FROM saidaprodutos "
                     + "WHERE venda=?");
-            preparedStatement.setInt(1, venda.getCodigo());
+            preparedStatement.setLong(1, venda.getCodigo());
             preparedStatement.executeUpdate();
 
             preparedStatement = connection.prepareStatement("DELETE FROM vendas "
                     + "WHERE codigo=?");
-            preparedStatement.setInt(1, venda.getCodigo());
+            preparedStatement.setLong(1, venda.getCodigo());
             preparedStatement.executeUpdate();
 
             return true;
