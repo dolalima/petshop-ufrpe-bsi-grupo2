@@ -97,15 +97,13 @@ public class Venda {
     public double total(){
         double total = 0;
 
-        Produto[] produtos = (Produto[]) carrinhoProdutos.getProdutos().toArray();
-        Servico[] servicos = (Servico[]) carrinhoServicos.getServicos().toArray();
 
-        for(int i = 0; i < produtos.length; i++){
-            total += produtos[i].getPrecoVenda();
+        for(int i = 0; i < carrinhoProdutos.getProdutos().size(); i++){
+            total += carrinhoProdutos.getProdutos().get(i).getPrecoVenda();
         }
 
-        for(int i = 0; i < servicos.length; i++){
-            total += servicos[i].getPrecoVenda();
+        for(int i = 0; i < carrinhoServicos.getServicos().size(); i++){
+            total += carrinhoServicos.getServicos().get(i).getPrecoVenda();
         }
 
         return total;

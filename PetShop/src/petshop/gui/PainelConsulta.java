@@ -6,12 +6,14 @@ package petshop.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.event.FocusEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -23,8 +25,8 @@ public abstract class PainelConsulta extends Painel {
     protected JButton botaoAlterar;
     protected JButton botaoExcluir;
     protected JButton botaoInformacoes;
-    private JTextField campoAcimaDe;
-    private JTextField campoAbaixoDe;
+    private JTextField campoMin;
+    private JTextField campoMax;
     private JDialog cadastro;
     private int[] itensPreco;
 
@@ -69,8 +71,31 @@ public abstract class PainelConsulta extends Painel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(botaoInformacoes, gridBagConstraints);
 
-        campoAcimaDe = new JTextField();
-        campoAbaixoDe = new JTextField();
+        campoMin = new JTextField();
+        campoMin.setText(getEtiqueta(campoMin));
+        campoMin.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tirarEtiqueta(evt);
+            }
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                colocarEtiqueta(evt);
+            }
+        });
+
+        campoMax = new JTextField();
+        campoMax.setText(getEtiqueta(campoMax));
+        campoMax.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tirarEtiqueta(evt);
+            }
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                colocarEtiqueta(evt);
+            }
+        });
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -79,9 +104,9 @@ public abstract class PainelConsulta extends Painel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 90;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(campoAcimaDe, gridBagConstraints);
+        add(campoMin, gridBagConstraints);
         gridBagConstraints.gridx = 3;
-        add(campoAbaixoDe, gridBagConstraints);
+        add(campoMax, gridBagConstraints);
 
 
         comboPesquisa.setMaximumSize(new Dimension(66, 24));
@@ -107,8 +132,8 @@ public abstract class PainelConsulta extends Painel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if(botaoAlterar.isEnabled()){
-                    Number valor = (Number) tabela.getValueAt(tabela.getSelectedRow(), 0);
-                    alterar(valor.intValue());
+                    int codigo = (Integer) tabela.getValueAt(tabela.getSelectedRow(), 0);
+                    alterar(codigo);
                 }
             }
         });
@@ -126,8 +151,8 @@ public abstract class PainelConsulta extends Painel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if(botaoExcluir.isEnabled()){
-                    Number valor = (Number) tabela.getValueAt(tabela.getSelectedRow(), 0);
-                    excluir(valor.intValue());
+                    int codigo = (Integer) tabela.getValueAt(tabela.getSelectedRow(), 0);
+                    excluir(codigo);
                 }
             }
         });
@@ -137,8 +162,8 @@ public abstract class PainelConsulta extends Painel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if(botaoInformacoes.isEnabled()){
-                    Number valor = (Number) tabela.getValueAt(tabela.getSelectedRow(), 0);
-                    informacoes(valor.intValue());
+                    int codigo = (Integer) tabela.getValueAt(tabela.getSelectedRow(), 0);
+                    informacoes(codigo);
                 }
             }
         });
@@ -185,24 +210,40 @@ public abstract class PainelConsulta extends Painel {
 
         if(trocarParaPreco){
             campoPesquisa.setVisible(false);
-            campoAcimaDe.setVisible(true);
-            campoAbaixoDe.setVisible(true);
+            campoMin.setVisible(true);
+            campoMax.setVisible(true);
         } else {
             campoPesquisa.setVisible(true);
-            campoAcimaDe.setVisible(false);
-            campoAbaixoDe.setVisible(false);
+            campoMin.setVisible(false);
+            campoMax.setVisible(false);
         }
 
         this.updateUI();
     }
 
-    abstract void alterar(int integer);
+    private void tirarEtiqueta(FocusEvent evt) {
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().equals(getEtiqueta(campo))){
+            campo.setText("");
+        }
+}
+
+    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {
+        JTextComponent campo = (JTextComponent) evt.getComponent();
+
+        if(campo.getText().equals("")){
+            campo.setText(getEtiqueta(campo));
+        }
+    }
+
+    abstract void alterar(int codigo);
 
     abstract void pesquisar();
 
-    abstract void informacoes(int integer);
+    abstract void informacoes(int codigo);
 
-    abstract void excluir(int integer);
+    abstract void excluir(int codigo);
 
     /**
      * Retorna o a janela de cadastro que foi setada.
@@ -234,5 +275,12 @@ public abstract class PainelConsulta extends Painel {
      */
     public void setItensPreco(int[] itensPreco) {
         this.itensPreco = itensPreco;
+    }
+
+    private String getEtiqueta(JTextComponent campo) {
+        if(campo.equals(campoMin)) return "MIN";
+        else if(campo.equals(campoMax)) return "MAX";
+
+        return "";
     }
 }

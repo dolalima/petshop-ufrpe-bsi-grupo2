@@ -67,10 +67,12 @@ public class JanelaAdicionaServico extends JanelaAdiciona {
     private void pesquisar() {
         Servico s = new Servico();
 
-        if(painel.comboPesquisa.getSelectedIndex() == 0){
-            s.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
-        } else if(painel.comboPesquisa.getSelectedIndex() == 1){
-            s.setNome(painel.campoPesquisa.getText());
+        if(!painel.campoPesquisa.getText().equals("")){
+            if(painel.comboPesquisa.getSelectedIndex() == 0){
+                s.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
+            } else if(painel.comboPesquisa.getSelectedIndex() == 1){
+                s.setNome(painel.campoPesquisa.getText());
+            }
         }
 
         Servico[] servicos = BancoDeDados.consultar(s);

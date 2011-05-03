@@ -42,14 +42,18 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pesquisar();
-            } });
+            }
+        });
             
         this.botaoOK.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Number valor = (Number) painel.tabela.getValueAt(painel.tabela.getSelectedRow(), 0);
-                ok(valor.intValue());
-            } });
+                if(botaoOK.isEnabled()){
+                    Number valor = (Number) painel.tabela.getValueAt(painel.tabela.getSelectedRow(), 0);
+                    ok(valor.intValue());
+                }
+            }
+        });
     }
 
     /** This method is called from within the constructor to
@@ -84,14 +88,16 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
     private void pesquisar(){
         Cliente c = new Cliente();
 
-        if(painel.comboPesquisa.getSelectedIndex() == 0){
-            c.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
-        } else if(painel.comboPesquisa.getSelectedIndex() == 1){
-            c.setNome(painel.campoPesquisa.getText());
-        } else if(painel.comboPesquisa.getSelectedIndex() == 2){
-            c.setCpf(new CPF(painel.campoPesquisa.getText()));
-        } else if(painel.comboPesquisa.getSelectedIndex() == 3){
-            c.setRg(Integer.valueOf(painel.campoPesquisa.getText()));
+        if(!painel.campoPesquisa.getText().equals("")){
+            if(painel.comboPesquisa.getSelectedIndex() == 0){
+                c.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
+            } else if(painel.comboPesquisa.getSelectedIndex() == 1){
+                c.setNome(painel.campoPesquisa.getText());
+            } else if(painel.comboPesquisa.getSelectedIndex() == 2){
+                c.setCpf(new CPF(painel.campoPesquisa.getText()));
+            } else if(painel.comboPesquisa.getSelectedIndex() == 3){
+                c.setRg(Integer.valueOf(painel.campoPesquisa.getText()));
+            }
         }
 
         Cliente[] clientes = BancoDeDados.consultar(c);

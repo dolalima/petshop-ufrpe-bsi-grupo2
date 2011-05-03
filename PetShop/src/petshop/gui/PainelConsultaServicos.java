@@ -27,6 +27,7 @@ public class PainelConsultaServicos extends PainelConsulta {
 
         preencher(janela, cod);
 
+        janela.getCampoCodigo().setEnabled(false);
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
         janela.setVisible(true);

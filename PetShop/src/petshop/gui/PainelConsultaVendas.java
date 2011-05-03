@@ -15,21 +15,14 @@ public class PainelConsultaVendas extends PainelConsulta {
 
         this.remove(this.botaoAlterar);
         this.remove(this.botaoExcluir);
-        /*GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 60;
-        gridBagConstraints.insets = new java.awt.Insets(5,5,5,5);
-        add(botaoExcluir, gridBagConstraints);*/
         this.setCadastro(new JanelaVenda(TipoJanela.CADASTRO));
 
         int [] itensPreco = new int[1];
-        itensPreco[0] = 2;
+        itensPreco[0] = 3;
         this.setItensPreco(itensPreco);
         
-        modelo = new String[] {"Código", "Cliente", "Total"};
-        tamanhosColunas = new double[] {15, 55, 30};
+        modelo = new String[] {"Código", "Cliente", "CPF", "Total"};
+        tamanhosColunas = new double[] {15, 45, 23, 17};
 
         setModelo(modelo, tamanhosColunas);
     }

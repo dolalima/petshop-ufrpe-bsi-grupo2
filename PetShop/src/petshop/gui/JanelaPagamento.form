@@ -63,7 +63,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="botaoConcluido">
+        <Component class="javax.swing.JButton" name="botaoConcluir">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
@@ -78,7 +78,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="botaoCancelar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Concluido"/>
+            <Property name="text" type="java.lang.String" value="Concluir"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="concluir"/>

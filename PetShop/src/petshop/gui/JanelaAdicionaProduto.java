@@ -39,7 +39,18 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pesquisar();
-            } });
+            } 
+        });
+            
+        this.botaoOK.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if(botaoOK.isEnabled()){
+                    Number valor = (Number) painel.tabela.getValueAt(painel.tabela.getSelectedRow(), 0);
+                    ok(valor.intValue());
+                }
+            } 
+        });
     }
 
     /** This method is called from within the constructor to
@@ -71,10 +82,12 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
     private void pesquisar() {
         Produto p = new Produto();
 
-        if(painel.comboPesquisa.getSelectedIndex() == 0){
-            p.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
-        } else if(painel.comboPesquisa.getSelectedIndex() == 1){
-            p.setNome(painel.campoPesquisa.getText());
+        if(!painel.campoPesquisa.getText().equals("")){
+            if(painel.comboPesquisa.getSelectedIndex() == 0){
+                p.setCodigo(Integer.valueOf(painel.campoPesquisa.getText()));
+            } else if(painel.comboPesquisa.getSelectedIndex() == 1){
+                p.setNome(painel.campoPesquisa.getText());
+            }
         }
 
         Produto[] produtos = BancoDeDados.consultar(p);
@@ -93,5 +106,11 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
         if(produtos.length == 0){
             JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
         }
+    }
+    
+    private void ok(int cod) {
+        pai.getCampoCodigo().setText(cod + "");
+
+        this.dispose();
     }
 }

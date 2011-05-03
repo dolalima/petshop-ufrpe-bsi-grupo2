@@ -66,7 +66,7 @@ public class JanelaAnimal extends javax.swing.JDialog {
         comboEspecie = new javax.swing.JComboBox();
         botaoCancelar = new javax.swing.JButton();
         campoDataNasc = new javax.swing.JTextField();
-        botaoCadastrar = new javax.swing.JButton();
+        botaoAdicionar = new javax.swing.JButton();
         comboSexo = new javax.swing.JComboBox();
         scrollInformacoes = new javax.swing.JScrollPane();
         areaInformacoes = new javax.swing.JTextArea();
@@ -86,14 +86,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
                 colocarEtiqueta(evt);
             }
         });
-        campoNome.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoMaiusculas(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -109,14 +101,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        campoRaca.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoMaiusculas(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -179,8 +163,8 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         jPanel1.add(campoDataNasc, gridBagConstraints);
 
-        botaoCadastrar.setText("Cadastrar");
-        botaoCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
+        botaoAdicionar.setText("Adicionar");
+        botaoAdicionar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cadastrar(evt);
             }
@@ -192,7 +176,7 @@ public class JanelaAnimal extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 30;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(botaoCadastrar, gridBagConstraints);
+        jPanel1.add(botaoAdicionar, gridBagConstraints);
 
         comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEXO", "MACHO", "FÊMEA" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -206,21 +190,12 @@ public class JanelaAnimal extends javax.swing.JDialog {
         areaInformacoes.setColumns(20);
         areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
-        areaInformacoes.setText("Informações Adicionais");
         areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 colocarEtiqueta(evt);
-            }
-        });
-        areaInformacoes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                campoTamanhoMaximo(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoMaiusculas(evt);
             }
         });
         scrollInformacoes.setViewportView(areaInformacoes);
@@ -272,8 +247,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
             Animal animal = gerarAnimal();
 
             janelaCliente.adicionarAnimal(animal);
-
-            JOptionPane.showMessageDialog(this.getContentPane(), "Animal cadastrado com sucesso!");
             this.dispose();
         }
     }//GEN-LAST:event_cadastrar
@@ -288,22 +261,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
             else if(campo.getText().length() == 5) campo.setText(campo.getText() + "/");
         }
     }//GEN-LAST:event_eventoDigitarData
-
-    private void campoMaiusculas(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMaiusculas
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(Character.isLowerCase(evt.getKeyChar())){
-            campo.setText(campo.getText().toUpperCase());
-        }
-    }//GEN-LAST:event_campoMaiusculas
-
-    private void campoTamanhoMaximo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoTamanhoMaximo
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().length() >= getTamanhoMaximo(campo)){
-            evt.consume();
-        }
-    }//GEN-LAST:event_campoTamanhoMaximo
 
     private void mudarComboEspecie(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboEspecie
         campoRaca.setText(getEtiqueta(campoRaca));
@@ -322,7 +279,7 @@ public class JanelaAnimal extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaInformacoes;
-    private javax.swing.JButton botaoCadastrar;
+    private javax.swing.JButton botaoAdicionar;
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JTextField campoDataNasc;
     private javax.swing.JTextField campoNome;
@@ -360,15 +317,6 @@ public class JanelaAnimal extends javax.swing.JDialog {
         areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
 
-
-    private int getTamanhoMaximo(JTextComponent campo) {
-        if(campo.equals(campoNome)) return 50;
-        else if(campo.equals(campoRaca)) return 50;
-        else if(campo.equals(areaInformacoes)) return 400;
-        
-        return 0;
-    }
-
     private boolean existemDependencias(){
         String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
 
@@ -379,9 +327,10 @@ public class JanelaAnimal extends javax.swing.JDialog {
                 return true;
         }
 
-        if(campoNome.getText().equals("Nome")){ msg += "- NOME\n"; existeDependencias = true;}
+        if(campoNome.getText().equals(getEtiqueta(campoNome))){ msg += "- NOME\n"; existeDependencias = true;}
         if(comboSexo.getSelectedIndex() == 0){ msg += "- SEXO\n"; existeDependencias = true;}
-        if(comboEspecie.getSelectedIndex() == 0){ msg += "- ESPECIE\n"; existeDependencias = true;}
+        if(comboEspecie.getSelectedIndex() == 0){ msg += "- ESPÉCIE\n"; existeDependencias = true;}
+        if(campoRaca.getText().equals("QUAL?")){ msg += "- ESPÉCIE ESPECÍFICA\n"; existeDependencias = true;}
 
         if(existeDependencias) JOptionPane.showMessageDialog(this.getContentPane(), msg);
         

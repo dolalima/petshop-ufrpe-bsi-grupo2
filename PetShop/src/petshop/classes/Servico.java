@@ -12,7 +12,7 @@ public class Servico extends ItemVenda {
     private int duracao;
     private String info;
 
-    public Servico(long codigo, String nome, double precoVenda, int duracao, String info) {
+    public Servico(int codigo, String nome, double precoVenda, int duracao, String info) {
         super(codigo, nome, precoVenda);
         this.duracao = duracao;
         this.info = info;
