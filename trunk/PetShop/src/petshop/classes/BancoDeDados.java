@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Classe de selação do sistema com banco de dados, as atividades de cadastrar, pesquisar,
@@ -133,9 +134,15 @@ public abstract class BancoDeDados {
             animal.setCodigo((Integer) resultset.getObject(1));
             animal.setNome((String) resultset.getObject(2));
             animal.setSexo(((String)resultset.getObject(3)).charAt(0));
-            animal.setDataNasc(null);
-            animal.setEspecie((String) resultset.getObject(4));
-            animal.setRaca((String) resultset.getObject(5));
+
+            String[] date = String.valueOf(resultset.getObject(4)).split("/");
+
+            GregorianCalendar data = new GregorianCalendar();
+            data.set(Integer.valueOf(date[2]), Integer.valueOf(date[1]), Integer.valueOf(date[0]));
+
+            animal.setDataNasc(data);
+            animal.setEspecie((String) resultset.getObject(5));
+            animal.setRaca((String) resultset.getObject(6));
             animal.setInfo((String) resultset.getObject(7));
             animal.setCodigoDono((Integer) resultset.getObject(8));
 
