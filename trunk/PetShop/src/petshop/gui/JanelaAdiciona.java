@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -98,7 +99,11 @@ public class JanelaAdiciona extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-
-
-    
+    protected void reiniciar(){
+        botaoOK.setEnabled(false);
+        DefaultTableModel dm = (DefaultTableModel) painel.tabela.getModel();
+        dm.getDataVector().removeAllElements();
+        painel.campoPesquisa.setText("");
+        painel.comboPesquisa.setSelectedIndex(0);
+    }
 }

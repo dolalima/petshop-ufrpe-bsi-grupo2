@@ -110,6 +110,7 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
     
     private void ok(int cod) {
         pai.getCampoCodigo().setText(cod + "");
+        reiniciar();
 
         this.dispose();
     }

@@ -52,14 +52,15 @@ public class PainelConsultaVendas extends PainelConsulta {
             }
         }
 
-        /*Venda[] vendas = BancoDeDados.consultar(v);
+        Venda[] vendas = BancoDeDados.consultar(v);
 
         Object[][] dados = new Object[vendas.length][4];
 
         for(int i = 0; i < vendas.length; i++){
             dados[i][0] = vendas[i].getCodigo();
             dados[i][1] = vendas[i].getCliente().getNome();
-            dados[i][2] = vendas[i].total();
+            dados[i][2] = vendas[i].getCliente().getCpf().getCpf();
+            dados[i][3] = vendas[i].total();
         }
 
         DefaultTableModel model = (DefaultTableModel) this.tabela.getModel();
@@ -69,7 +70,7 @@ public class PainelConsultaVendas extends PainelConsulta {
 
         if(vendas.length == 0){
             JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
-        }*/
+        }
     }
 
     void alterar(int integer) {
@@ -78,20 +79,38 @@ public class PainelConsultaVendas extends PainelConsulta {
 
     private void preencher(JanelaVenda janela, int cod) {
 
-        /*Venda[] venda = BancoDeDados.consultar(new Venda(cod));
+        Venda[] venda = BancoDeDados.consultar(new Venda(cod));
         Venda v = venda[0];
 
-        if(v.getCodigo() != 0) {
-            janela.getCampoCodigo().setText(String.valueOf(v.getCodigo()));
-        }
         janela.getLabelCliente().setText(v.getCliente().getNome());
         janela.setTotal(v.total());
-        Animal[] a = BancoDeDados.getAnimais(v.getCliente().getCodigo());
+        Animal[] a = BancoDeDados.getAnimais(v.getCliente());
         for(int i = 0; i < a.length; i++){
             janela.getComboAnimais().addItem(a[i].getNome());
         }
-        janela.setCarrinhoProdutos(v.getCarrinhoProdutos());
-        janela.setCarrinhoServicos(v.getCarrinhoServicos());*/
+
+        janela.getVenda().setCarrinhoProdutos(v.getCarrinhoProdutos());
+        janela.getVenda().setCarrinhoServicos(v.getCarrinhoServicos());
+
+        DefaultTableModel modeloServicos = (DefaultTableModel) janela.getTabelaServicos().getModel();
+        DefaultTableModel modeloProdutos = (DefaultTableModel) janela.getTabelaProdutos().getModel();
+
+        for(int i = 0; i < janela.getVenda().getCarrinhoProdutos().getProdutos().size(); i++){
+            Object[] dados = new Object[4];
+            dados[0] = janela.getVenda().getCarrinhoProdutos().getProdutos().get(i).getCodigo();
+            dados[1] = janela.getVenda().getCarrinhoProdutos().getProdutos().get(i).getNome();
+            dados[2] = janela.getVenda().getCarrinhoProdutos().getQtde().get(i);
+            dados[3] = janela.getVenda().getCarrinhoProdutos().getProdutos().get(i).getPrecoVenda();
+            modeloProdutos.addRow(dados);
+        }
+        for(int i = 0; i < janela.getVenda().getCarrinhoServicos().getServicos().size(); i++){
+            Object[] dados = new Object[4];
+            dados[0] = janela.getVenda().getCarrinhoServicos().getServicos().get(i).getCodigo();
+            dados[1] = janela.getVenda().getCarrinhoServicos().getServicos().get(i).getNome();
+            dados[2] = janela.getVenda().getCarrinhoServicos().getAnimal().get(i).getNome();
+            dados[3] = janela.getVenda().getCarrinhoServicos().getServicos().get(i).getPrecoVenda();
+            modeloServicos.addRow(dados);
+        }
     }
 
     @Override

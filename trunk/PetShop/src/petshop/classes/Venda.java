@@ -35,7 +35,12 @@ public class Venda {
     }
 
     public Venda(int cod) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        this.codigo = cod;
+        this.tipoPagamento = TipoPagamento.DINHEIRO;
+        this.data = new GregorianCalendar();
+        this.cliente = new Cliente();
+        this.carrinhoProdutos = new CarrinhoProdutos();
+        this.carrinhoServicos = new CarrinhoServicos();
     }
 
     public Cliente getCliente() {
@@ -97,9 +102,9 @@ public class Venda {
     public double total(){
         double total = 0;
 
-
         for(int i = 0; i < carrinhoProdutos.getProdutos().size(); i++){
-            total += carrinhoProdutos.getProdutos().get(i).getPrecoVenda();
+            int qtde = carrinhoProdutos.getQtde().get(i);
+            total += carrinhoProdutos.getProdutos().get(i).getPrecoVenda() * qtde;
         }
 
         for(int i = 0; i < carrinhoServicos.getServicos().size(); i++){
