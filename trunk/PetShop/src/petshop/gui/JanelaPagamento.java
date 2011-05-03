@@ -11,14 +11,21 @@
 
 package petshop.gui;
 
+import javax.swing.JOptionPane;
+import petshop.classes.BancoDeDados;
+import petshop.classes.TipoPagamento;
+
 /**
  *
  * @author arthur
  */
 public class JanelaPagamento extends javax.swing.JDialog {
 
+    JanelaVenda venda;
+
     /** Creates new form JanelaPagamento */
-    public JanelaPagamento() {
+    public JanelaPagamento(JanelaVenda venda) {
+        this.venda = venda;
         initComponents();
         
         checkParcelado.setEnabled(false);
@@ -38,7 +45,7 @@ public class JanelaPagamento extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         comboTipoPag = new javax.swing.JComboBox();
         checkParcelado = new javax.swing.JCheckBox();
-        botaoConcluido = new javax.swing.JButton();
+        botaoConcluir = new javax.swing.JButton();
         botaoCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -69,8 +76,8 @@ public class JanelaPagamento extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         jPanel1.add(checkParcelado, gridBagConstraints);
 
-        botaoConcluido.setText("Cancelar");
-        botaoConcluido.addMouseListener(new java.awt.event.MouseAdapter() {
+        botaoConcluir.setText("Cancelar");
+        botaoConcluir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cancelar(evt);
             }
@@ -81,9 +88,9 @@ public class JanelaPagamento extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(botaoConcluido, gridBagConstraints);
+        jPanel1.add(botaoConcluir, gridBagConstraints);
 
-        botaoCancelar.setText("Concluido");
+        botaoCancelar.setText("Concluir");
         botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 concluir(evt);
@@ -116,7 +123,13 @@ public class JanelaPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelar
 
     private void concluir(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_concluir
-        // TODO add your handling code here:
+        if(BancoDeDados.cadastrar(venda.gerarVenda(getTipoPagamento(), checkParcelado.isSelected()))){
+            JOptionPane.showMessageDialog(this, "Venda efetuada com sucesso");
+            venda.dispose();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Falha ao efetuar venda");
+        }
     }//GEN-LAST:event_concluir
 
     /**
@@ -125,17 +138,26 @@ public class JanelaPagamento extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaPagamento().setVisible(true);
+                new JanelaPagamento(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
-    private javax.swing.JButton botaoConcluido;
+    private javax.swing.JButton botaoConcluir;
     private javax.swing.JCheckBox checkParcelado;
     private javax.swing.JComboBox comboTipoPag;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
+    private TipoPagamento getTipoPagamento(){
+        if(this.comboTipoPag.getSelectedIndex() == 0){
+            return TipoPagamento.DINHEIRO;
+        } else if(this.comboTipoPag.getSelectedIndex() == 0){
+            return TipoPagamento.CHEQUE;
+        } else {
+            return TipoPagamento.CARTAO;
+        }
+    }
 }

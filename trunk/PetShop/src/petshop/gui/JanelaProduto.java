@@ -381,11 +381,11 @@ public class JanelaProduto extends javax.swing.JDialog {
 
     private Produto gerarProduto(){
 
-        long codigo = new Random().nextLong();
+        int codigo = new Random().nextInt();
         String informacoes = "";
 
         if(!campoCodigo.getText().equals(getEtiqueta(campoCodigo)))
-                codigo = Long.valueOf(campoCodigo.getText());
+                codigo = Integer.valueOf(campoCodigo.getText());
         if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
                 informacoes = areaInformacoes.getText();
 

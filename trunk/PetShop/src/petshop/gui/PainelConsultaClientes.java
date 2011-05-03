@@ -113,7 +113,7 @@ public class PainelConsultaClientes extends PainelConsulta {
     }
 
     @Override
-    void excluir(int integer) {
+    void excluir(int cod) {
         throw new UnsupportedOperationException("Cliente não pode ser excluído");
     }
 }

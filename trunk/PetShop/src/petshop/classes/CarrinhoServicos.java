@@ -15,6 +15,8 @@ public class CarrinhoServicos {
      * @param animais
      */
     public CarrinhoServicos() {
+        servicos = new ArrayList();
+        animais = new ArrayList();
     }
 
     public ArrayList<Servico> getServicos() {
@@ -24,7 +26,6 @@ public class CarrinhoServicos {
     public void setServicos(ArrayList<Servico> servicos) {
         this.servicos = servicos;
     }
-
     
     /**
      * @return
@@ -45,15 +46,12 @@ public class CarrinhoServicos {
         animais.add(a);
     }
     
-    public void remove(Servico s, Animal a){
+    public void remove(int codigo){
         for(int i = 0; i < servicos.size(); i++){
-            if(servicos.get(i).getCodigo() == s.getCodigo()){
-                if(animais.get(i).getCodigo() == a.getCodigo()){
-                    servicos.remove(i);
-                    animais.remove(i);
-                }
+            if(servicos.get(i).getCodigo() == codigo){
+                servicos.remove(i);
+                animais.remove(i);
             }
         }
-        
     }
 }

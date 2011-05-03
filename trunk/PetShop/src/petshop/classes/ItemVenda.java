@@ -6,7 +6,7 @@ package petshop.classes;
  */
 public class ItemVenda {
 
-    private long codigo;
+    private int codigo;
     private String nome;
     private double precoVenda;
 
@@ -15,7 +15,7 @@ public class ItemVenda {
      * @param nome
      * @param precoVenda
      */
-    public ItemVenda(long codigo, String nome, double precoVenda) {
+    public ItemVenda(int codigo, String nome, double precoVenda) {
         super();
         this.codigo = codigo;
         this.nome = nome;
@@ -28,7 +28,7 @@ public class ItemVenda {
     /**
      * @return
      */
-    public long getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 

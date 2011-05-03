@@ -11,17 +11,30 @@
 
 package petshop.gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
+import petshop.classes.BancoDeDados;
 import petshop.classes.Cliente;
+import petshop.classes.LetraMaiuscula;
 import petshop.classes.Produto;
 import petshop.classes.Servico;
+import petshop.classes.TipoPagamento;
 import petshop.classes.Venda;
 
 /**
@@ -34,6 +47,8 @@ public class JanelaVenda extends javax.swing.JDialog {
     private JanelaAdicionaServico adicionaServico;
     private JanelaAdicionaCliente adicionaCliente;
     private TipoJanela tipo;
+    private DecimalFormat formatoDecimal;
+    private double total;
 
     private Venda venda;
     private Cliente cliente;
@@ -55,6 +70,33 @@ public class JanelaVenda extends javax.swing.JDialog {
         comboAnimais.setVisible(false);
         this.setLocationRelativeTo(this.getContentPane());
 
+        total = 0.0;
+        formatoDecimal = new DecimalFormat("0.00");
+
+        venda = new Venda();
+
+        KeyListener k = new KeyListener() {
+
+            public void keyTyped(KeyEvent e) {
+                if(!((e.getKeyChar() >= KeyEvent.VK_0
+                        && e.getKeyChar() <= KeyEvent.VK_9)
+                        || (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))){
+                    e.consume();
+                }
+            }
+
+            public void keyPressed(KeyEvent e) {
+            }
+
+            public void keyReleased(KeyEvent e) {
+            }
+        };
+
+        campoCodigo.addKeyListener(k);
+        campoQtde.addKeyListener(k);
+        campoCodigo.setDocument(new LetraMaiuscula(9));
+        campoQtde.setDocument(new LetraMaiuscula(4));
+
         if(this.tipo == TipoJanela.INFORMACAO){
             botaoPagar.setVisible(false);
             botaoCancelar.setVisible(false);
@@ -75,9 +117,26 @@ public class JanelaVenda extends javax.swing.JDialog {
             new double[] {15, 40, 25, 20});
         
         tabelaProdutos.setMaximumSize(new java.awt.Dimension(300, 100));
+        tabelaServicos.setMaximumSize(new java.awt.Dimension(300, 100));
         scrollItens.setViewportView(tabelaProdutos);
 
-        reiniciar();
+        ListSelectionModel modeloSelecaoProdutos = tabelaProdutos.getSelectionModel();
+        ListSelectionModel modeloSelecaoServicos = tabelaServicos.getSelectionModel();
+        modeloSelecaoProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        modeloSelecaoServicos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        modeloSelecaoProdutos.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                verificarBotaoRemover(tabelaProdutos);
+            }
+        });
+        modeloSelecaoServicos.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                verificarBotaoRemover(tabelaServicos);
+            }
+        });
+
+        reiniciar(true);
     }
 
     /** This method is called from within the constructor to
@@ -152,7 +211,8 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboTipoCarrinho, gridBagConstraints);
 
-        campoCodigo.setMinimumSize(new java.awt.Dimension(60, 24));
+        campoCodigo.setMinimumSize(new java.awt.Dimension(90, 24));
+        campoCodigo.setPreferredSize(new java.awt.Dimension(90, 24));
         campoCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mudarCampo(evt);
@@ -175,7 +235,6 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         jPanel1.add(campoCodigo, gridBagConstraints);
 
@@ -195,6 +254,11 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(botaoPesquisaItem, gridBagConstraints);
 
         botaoAdd.setText("Adicionar");
+        botaoAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clicarBotaoAdicionar(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
@@ -213,6 +277,11 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(scrollItens, gridBagConstraints);
 
         botaoRemover.setText("Remover");
+        botaoRemover.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clicarRemover(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -261,10 +330,16 @@ public class JanelaVenda extends javax.swing.JDialog {
         jPanel1.add(botaoPagar, gridBagConstraints);
 
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Animal" }));
+        comboAnimais.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                mudarComboAnimal(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 70;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 30;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(comboAnimais, gridBagConstraints);
 
@@ -310,25 +385,30 @@ public class JanelaVenda extends javax.swing.JDialog {
             comboAnimais.setVisible(false);
             campoQtde.setVisible(true);
             scrollItens.setViewportView(tabelaProdutos);
+            verificarBotaoRemover(tabelaProdutos);
         } else {
             comboAnimais.setVisible(true);
             campoQtde.setVisible(false);
             scrollItens.setViewportView(tabelaServicos);
+            verificarBotaoRemover(tabelaServicos);
         }
 
+        campoCodigo.setText(getEtiqueta(campoCodigo));
         digitarCampo(null);
     }//GEN-LAST:event_comboTipoCarrinhoItemStateChanged
 
     private void botaoPesquisaItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisaItemMouseClicked
-        JanelaAdiciona adiciona;
+        if(botaoPesquisaItem.isEnabled()){
+            JanelaAdiciona adiciona;
 
-        if(comboTipoCarrinho.getSelectedIndex() == 0) adiciona = adicionaProduto;
-        else adiciona = adicionaServico;
-        
+            if(comboTipoCarrinho.getSelectedIndex() == 0) adiciona = adicionaProduto;
+            else adiciona = adicionaServico;
 
-        adiciona.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        adiciona.setModal(true);
-        adiciona.setVisible(true);
+
+            adiciona.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+            adiciona.setModal(true);
+            adiciona.setVisible(true);
+        }
     }//GEN-LAST:event_botaoPesquisaItemMouseClicked
 
     private void botaoPesquisarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoPesquisarClienteMouseClicked
@@ -356,19 +436,22 @@ public class JanelaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_colocarEtiqueta
 
     private void pagar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pagar
-        JanelaPagamento cadastro = new JanelaPagamento();
+        if(botaoPagar.isEnabled()){
+            JanelaPagamento cadastro = new JanelaPagamento(this);
 
-        cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        cadastro.setModal(true);
-        cadastro.setVisible(true);
+            cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+            cadastro.setModal(true);
+            cadastro.setVisible(true);
+        }
     }//GEN-LAST:event_pagar
 
     private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
 
-        if(resp == JOptionPane.YES_OPTION)
+        if(resp == JOptionPane.YES_OPTION){
             this.dispose();
-            reiniciar();
+            reiniciar(true);
+        }
     }//GEN-LAST:event_cancelar
 
     private void mudarCampo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mudarCampo
@@ -400,6 +483,129 @@ public class JanelaVenda extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_digitarCampo
+
+    private void clicarBotaoAdicionar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoAdicionar
+        if(botaoAdd.isEnabled()){
+            if(this.comboTipoCarrinho.getSelectedItem().equals("PRODUTO")){
+                Produto produto;                
+                try{
+                    produto = BancoDeDados.consultar(new Produto(Integer.valueOf(campoCodigo.getText())))[0];
+                } catch (ArrayIndexOutOfBoundsException e){
+                    JOptionPane.showMessageDialog(this, "Este produto não existe!");
+                    return;
+                }
+                
+                int qtde = Integer.valueOf(campoQtde.getText());
+
+                if(produto.getQtdeEstoque() < qtde){
+                    JOptionPane.showMessageDialog(this, "A quantidade é maior que o estoque deste produto!");
+                    return;
+                }
+                
+                Object[] dados = new Object[4];
+                dados[0] = produto.getCodigo();
+                dados[1] = produto.getNome();
+                dados[2] = qtde;
+                dados[3] = formatoDecimal.format(produto.getPrecoVenda());
+
+                setTotal((produto.getPrecoVenda() * qtde) + total);
+
+                DefaultTableModel model = (DefaultTableModel) this.tabelaProdutos.getModel();
+
+                boolean existeProduto = false;
+                for(int i = 0; i < model.getRowCount(); i++){
+                    int codigo = (Integer) model.getValueAt(i, 0);
+                    if(codigo == produto.getCodigo()){
+                        int q = (Integer) model.getValueAt(i, 2);
+                        if(produto.getQtdeEstoque() < q + qtde){
+                            JOptionPane.showMessageDialog(this, "A quantidade é maior que o estoque deste produto!");
+                            return;
+                        }
+                        model.setValueAt(q + qtde, i, 2);
+                        existeProduto = true;
+                    }
+                }
+
+                if(!existeProduto){
+                    model.addRow(dados);
+                    redimensionarColunas(tabelaServicos);
+                }
+                
+                venda.getCarrinhoProdutos().add(produto, qtde);
+            } else {
+                Servico servico;
+                try{
+                    servico = BancoDeDados.consultar(new Servico(Integer.valueOf(campoCodigo.getText())))[0];
+                } catch (ArrayIndexOutOfBoundsException e){
+                    JOptionPane.showMessageDialog(this, "Este serviço não existe!");
+                    return;
+                }
+
+                Object[] dados = new Object[4];
+                dados[0] = servico.getCodigo();
+                dados[1] = servico.getNome();
+                dados[2] = cliente.getAnimais()[comboAnimais.getSelectedIndex()].getNome();
+                dados[3] = formatoDecimal.format(servico.getPrecoVenda());
+
+                setTotal(servico.getPrecoVenda() + total);
+
+                DefaultTableModel model = (DefaultTableModel) this.tabelaServicos.getModel();
+
+
+                boolean existeServico = false;
+                for(int i = 0; i < model.getRowCount(); i++){
+                    int codigo = (Integer) model.getValueAt(i, 0);
+                    if(codigo == servico.getCodigo()){
+                        String animal = (String) model.getValueAt(i, 2);
+                        if(animal.equals(comboAnimais.getSelectedItem())){
+                            JOptionPane.showMessageDialog(this, "Este servico já foi adicionado!");
+                            existeServico = true;
+                        }
+                    }
+                }
+
+                if(!existeServico){
+                    model.addRow(dados);
+                    redimensionarColunas(tabelaServicos);
+                }
+
+                venda.getCarrinhoServicos().add(servico, cliente.getAnimais()[comboAnimais.getSelectedIndex()]);
+            }
+            botaoAdd.setEnabled(false);
+            campoCodigo.setText(getEtiqueta(campoCodigo));
+            campoQtde.setText(getEtiqueta(campoQtde));
+            comboAnimais.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_clicarBotaoAdicionar
+
+    private void mudarComboAnimal(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboAnimal
+        if(comboAnimais.getSelectedIndex() > 0) {
+            if(campoCodigo.getText().equals(getEtiqueta(campoCodigo))) botaoAdd.setEnabled(false);
+            else botaoAdd.setEnabled(true);
+        } else {
+            botaoAdd.setEnabled(false);
+        }
+    }//GEN-LAST:event_mudarComboAnimal
+
+    private void clicarRemover(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarRemover
+        if(botaoRemover.isEnabled()){
+            JTable tabela;
+            if(comboTipoCarrinho.getSelectedItem().equals("PRODUTO")) tabela = tabelaProdutos;
+            else tabela = tabelaServicos;
+
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+
+            String preco = (String) tabela.getValueAt(tabela.getSelectedRow(), 3);
+            setTotal(total - Double.valueOf(preco));
+
+            int codigo = (Integer) tabela.getValueAt(tabela.getSelectedRow(), 0);
+
+            if(tabela.equals(tabelaProdutos)) venda.getCarrinhoProdutos().remove(codigo);
+            else venda.getCarrinhoServicos().remove(codigo);
+
+            model.removeRow(tabela.getSelectedRow());
+        }
+    }//GEN-LAST:event_clicarRemover
 
     /**
     * @param args the command line arguments
@@ -434,7 +640,8 @@ public class JanelaVenda extends javax.swing.JDialog {
      * @param valor O valor do total de compras
      */
     public void setTotal(double valor){
-        labelTotal.setText("Total " + valor);        
+        total = valor;
+        labelTotal.setText("Total: R$ " + formatoDecimal.format(valor));
     }
     
     private String getEtiqueta(JTextComponent campo){
@@ -445,7 +652,7 @@ public class JanelaVenda extends javax.swing.JDialog {
         return "";
     }
 
-    private void reiniciar(){
+    private void reiniciar(boolean desabilitarCampos){
 
         labelCliente.setText("CLIENTE");
         comboTipoCarrinho.setSelectedIndex(0);
@@ -458,6 +665,18 @@ public class JanelaVenda extends javax.swing.JDialog {
         setTotal(0.0);
         botaoAdd.setEnabled(false);
         botaoRemover.setEnabled(false);
+
+        if(desabilitarCampos){
+            comboTipoCarrinho.setEnabled(false);
+            campoCodigo.setEnabled(false);
+            botaoPesquisaItem.setEnabled(false);
+            campoQtde.setEnabled(false);
+            tabelaProdutos.setEnabled(false);
+            botaoPagar.setEnabled(false);
+        }
+
+        tabelaProdutos.updateUI();
+        tabelaServicos.updateUI();
     }
 
     public JLabel getLabelCliente() {
@@ -516,7 +735,7 @@ public class JanelaVenda extends javax.swing.JDialog {
     }
 
     private void redimensionarColunas(JTable tabela){
-        int t = (int) (this.getSize().getWidth() - 22);
+        double t = (this.getSize().getWidth()) - 25;
 
         for(int i = 0; i < porcentagemTamanhoColunas.length; i++){
             tabela.getColumnModel().getColumn(i).setPreferredWidth((int) ((porcentagemTamanhoColunas[i] * t) / 100));
@@ -524,11 +743,23 @@ public class JanelaVenda extends javax.swing.JDialog {
     }
 
     public void adicionar(Cliente c){
-        this.cliente = c;
+        //se ja foi adicionado cliente anteriormente...
+        if(cliente != null){
+            reiniciar(false);
+        } else {
+            comboTipoCarrinho.setEnabled(true);
+            campoCodigo.setEnabled(true);
+            botaoPesquisaItem.setEnabled(true);
+            campoQtde.setEnabled(true);
+            tabelaProdutos.setEnabled(true);
+            botaoPagar.setEnabled(true);
+        }
+
         labelCliente.setText(c.getNome());
         for(int i = 0; i < c.getAnimais().length; i++){
             comboAnimais.addItem(c.getAnimais()[i].getNome());
         }
+        this.cliente = c;
     }
 
     public void adicionar(Produto p, int qtde){
@@ -541,5 +772,29 @@ public class JanelaVenda extends javax.swing.JDialog {
         venda.getCarrinhoServicos().add(s, a);
         DefaultTableModel modelo = (DefaultTableModel) tabelaServicos.getModel();
         modelo.addRow(new Object[]{s.getCodigo(),s.getNome(), a.getNome(), s.getPrecoVenda()});
+    }
+
+    public void verificarBotaoRemover(JTable tabela){
+        if(tabela.getSelectedRow() != -1) botaoRemover.setEnabled(true);
+        else botaoRemover.setEnabled(false);
+    }
+    
+    protected Venda gerarVenda(TipoPagamento tipo, boolean isParcelado){
+        
+        venda.setTipoPagamento(tipo);
+        venda.setCliente(cliente);
+        String[] data = getDateTime().split("/");
+        GregorianCalendar hoje = new GregorianCalendar(Integer.valueOf(data[2]),
+                Integer.valueOf(data[1]), Integer.valueOf(data[0]));
+        venda.setData(hoje);
+        venda.setParcelado(isParcelado);
+
+        return venda;
+    }
+
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }
