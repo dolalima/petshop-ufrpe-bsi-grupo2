@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -183,6 +182,8 @@ public abstract class BancoDeDados {
      * @param cliente
      **/
     public static boolean cadastrar(Cliente cliente) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             // Configuração de pre-comando
             preparedStatement = connection.prepareStatement("INSERT INTO cliente(nome,"
@@ -223,7 +224,8 @@ public abstract class BancoDeDados {
      * @param produto
      */
     public static boolean cadastrar(Produto produto) {
-
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             // Configuração de pre-comando
             preparedStatement = connection.prepareStatement("INSERT INTO produtos "
@@ -255,6 +257,8 @@ public abstract class BancoDeDados {
      * @param servico
      **/
     public static boolean cadastrar(Servico servico) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             // Pre-comando SQL
             preparedStatement = connection.prepareStatement("INSERT INTO servicos "
@@ -285,6 +289,8 @@ public abstract class BancoDeDados {
      * @return Boolean
      **/
     public static boolean cadastrar(Animal animal) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO animal "
                     + "(nome,sexo,nascimento,especie,raca,info,dono) "
@@ -333,8 +339,8 @@ public abstract class BancoDeDados {
     public static Animal[] getAnimais(Cliente cliente) {
         int contador = 0;
         int nRegistro = 0;
+        PreparedStatement preparedStatement;
         ResultSet resultset;
-
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM animal "
                     + "WHERE dono=? AND ativo=1");
@@ -393,6 +399,8 @@ public abstract class BancoDeDados {
      **/
     public static boolean cadastrar(Venda venda) {
         int pagamento = 0;
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO vendas "
                     + "(cliente,valor,pagamento,data,parcelado) VALUES (?,?,?,?,?)");
@@ -442,6 +450,7 @@ public abstract class BancoDeDados {
      * @return Boolean
      **/
     private static boolean registraSaidaProdutos(Venda venda) {
+        PreparedStatement preparedStatement;
         ArrayList<Produto> produtoList = venda.getCarrinhoProdutos().getProdutos();
         ArrayList<Integer> qtdeList = venda.getCarrinhoProdutos().getQtde();
         for (int i = 0; i < produtoList.size(); i++) {
@@ -471,6 +480,7 @@ public abstract class BancoDeDados {
      * @return Boolean
      */
     private static boolean registraSaidaServicos(Venda venda) {
+        PreparedStatement preparedStatement;
         ArrayList<Servico> servicoList = venda.getCarrinhoServicos().getServicos();
         ArrayList<Animal> animalList = venda.getCarrinhoServicos().getAnimal();
         for (int i = 0; i < servicoList.size(); i++) {
@@ -497,6 +507,8 @@ public abstract class BancoDeDados {
      * @return Integer
      **/
     private static int getLastVenda() {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         int cod = 0;
         try {
             preparedStatement = connection.prepareStatement("SELECT MAX(codigo) from vendas");
@@ -567,6 +579,8 @@ public abstract class BancoDeDados {
      * @return Cliente[]
      **/
     public static Cliente[] consultar(Cliente cliente) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         int contador = 0;
         int nRegistros = 0;
         try {
@@ -727,6 +741,8 @@ public abstract class BancoDeDados {
      * @return Boolean
      **/
     public static boolean checkCPF(Cliente cliente) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("SELECT cpf FROM "
                     + "cliente WHERE cpf=?");
@@ -749,6 +765,8 @@ public abstract class BancoDeDados {
      * Metedo para verifica e o codigo do produto já esta cadastrado
      **/
     public static boolean checkCodProduto(int cod) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("SELECT codigo FROM produtos "
                     + "WHERE codigo = ?");
@@ -768,6 +786,8 @@ public abstract class BancoDeDados {
     }
 
     public static boolean checkCodServico(int cod) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                     + "WHERE codigo=?");
@@ -794,6 +814,8 @@ public abstract class BancoDeDados {
      * @return Produto[]
      **/
     public static Produto[] consultar(Produto produto) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         int contador = 0;
         int nRegistro = 0;
         try {
@@ -838,6 +860,8 @@ public abstract class BancoDeDados {
      * @return Servico[]
      **/
     public static Servico[] consultar(Servico servico) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         int contador = 0;
         int nRegistro = 0;
         try {
@@ -850,6 +874,10 @@ public abstract class BancoDeDados {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE nome LIKE ? AND ativo=1");
                 preparedStatement.setString(1, "%" + servico.getNome() + "%");
+                resultset = preparedStatement.executeQuery();
+            } else{
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                        + "WHERE ativo=1");
                 resultset = preparedStatement.executeQuery();
             }
             while (resultset.next()) {
@@ -1172,7 +1200,7 @@ public abstract class BancoDeDados {
         try {
             if (venda.getCodigo() != 0) {
                 preparedStatement = connection.prepareStatement(""
-                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
                         + "WHERE codigo=?");
@@ -1180,7 +1208,7 @@ public abstract class BancoDeDados {
                 resultset = preparedStatement.executeQuery();
             } else if (!venda.getCliente().getNome().equals("")) {
                 preparedStatement = connection.prepareStatement(""
-                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
                         + "WHERE nome like ?");
@@ -1188,7 +1216,7 @@ public abstract class BancoDeDados {
                 resultset = preparedStatement.executeQuery();
             } else if (!venda.getCliente().getCpf().getCpf().equals("")) {
                 preparedStatement = connection.prepareStatement(""
-                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
                         + "WHERE cpf like ?");
@@ -1196,7 +1224,7 @@ public abstract class BancoDeDados {
                 resultset = preparedStatement.executeQuery();
             }else{
                 preparedStatement = connection.prepareStatement(""
-                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento");
                 resultset = preparedStatement.executeQuery();
