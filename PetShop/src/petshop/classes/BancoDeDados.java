@@ -25,7 +25,7 @@ public abstract class BancoDeDados {
     public static Connection connection = null;
     /**Varivel de execução de comandos SQL no banco de dados**/
     public static Statement statement = null;
-    //**varivel de comando sql pre configurados**//
+    /**varivel de comando sql pre configurados**/
     public static PreparedStatement preparedStatement = null;
     /**Variavel que recebe o resultado das pesquisas do banco de dados**/
     public static ResultSet resultset = null;
@@ -50,6 +50,11 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo que gera um cliente a partir de uma linha da consulta do banco de dados.
+     *
+     * @param ResultSet
+     **/
     private static Cliente gerarClienteFromResultset(ResultSet resultset) {
 
         try {
@@ -92,6 +97,11 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo que gera um produto a partir de uma linha da consulta do banco de dados.
+     *
+     * @param ResultSet
+     **/
     private static Produto gerarProdutoFromResultset(ResultSet resultset) {
         try {
             Produto produto = new Produto();
@@ -111,6 +121,11 @@ public abstract class BancoDeDados {
 
     }
 
+    /**
+     * Metodo que gera um serviço a partir de uma linha da consulta do banco de dados.
+     *
+     * @param ResultSet
+     **/
     private static Servico gerarServicoFromResultset(ResultSet resultset) {
         try {
             Servico servico = new Servico((Integer) resultset.getObject(1));
@@ -128,12 +143,17 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo que gera um animal a partir de uma linha da consulta do banco de dados.
+     *
+     * @param ResultSet
+     **/
     private static Animal gerarAnimalFromResultset(ResultSet resultset) {
         try {
             Animal animal = new Animal();
             animal.setCodigo((Integer) resultset.getObject(1));
             animal.setNome((String) resultset.getObject(2));
-            animal.setSexo(((String)resultset.getObject(3)).charAt(0));
+            animal.setSexo(((String) resultset.getObject(3)).charAt(0));
 
             String[] date = String.valueOf(resultset.getObject(4)).split("/");
 
@@ -156,10 +176,11 @@ public abstract class BancoDeDados {
         }
     }
 
-    /**Metodo publico que cadastra um cliente no banco de dados.
+    /**
+     * Metodo publico que cadastra um cliente no banco de dados.
      *
      * @param cliente
-     */
+     **/
     public static boolean cadastrar(Cliente cliente) {
         try {
             // Configuração de pre-comando
@@ -196,7 +217,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Metodo publico que cadastra um pruduto no banco de dados.
+     * Metodo publico que cadastra um produto no banco de dados.
      *
      * @param produto
      */
@@ -256,6 +277,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo publico para cadastra um animal no banco de dados.
+     *
+     * @param Animal
+     * @return Boolean
+     **/
     public static boolean cadastrar(Animal animal) {
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO animal "
@@ -267,14 +294,20 @@ public abstract class BancoDeDados {
 
             int dia = animal.getDataNasc().get(Calendar.DATE);
             String d;
-            if(dia < 10) d = "0" + dia;
-            else d = dia + "";
+            if (dia < 10) {
+                d = "0" + dia;
+            } else {
+                d = dia + "";
+            }
             int mes = animal.getDataNasc().get(Calendar.MONTH);
             String m;
-            if(mes < 10) m = "0" + mes;
-            else m = mes + "";
+            if (mes < 10) {
+                m = "0" + mes;
+            } else {
+                m = mes + "";
+            }
             int a = animal.getDataNasc().get(Calendar.YEAR);
-            
+
             preparedStatement.setString(3, d + "/" + m + "/" + a);
             preparedStatement.setString(4, animal.getEspecie());
             preparedStatement.setString(5, animal.getRaca());
@@ -290,10 +323,16 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo publico que retorna a lista de aniamis do cliente
+     *
+     * @param Cliente
+     * @return Animal[]
+     **/
     public static Animal[] getAnimais(Cliente cliente) {
         int contador = 0;
         int nRegistro = 0;
-
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM animal "
                     + "WHERE dono=? AND ativo=1");
@@ -321,6 +360,35 @@ public abstract class BancoDeDados {
         }
     }
 
+    private static Animal getAnimal(int cod) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM animal"
+                    + " WHERE codigo=?");
+            preparedStatement.setInt(1, cod);
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return gerarAnimalFromResultset(resultset);
+            } else {
+                Animal animal = new Animal();
+                return animal;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Animal animal = new Animal();
+            return animal;
+        }
+
+    }
+
+    /**
+     * Metodo para cadastra uma venda no banco de dados
+     *
+     * @param Venda
+     * @return boolean
+     **/
     public static boolean cadastrar(Venda venda) {
         int pagamento = 0;
         try {
@@ -341,11 +409,11 @@ public abstract class BancoDeDados {
 
             venda.setCodigo(getLastVenda());
 
-            if (!registraSaidaProdutos(venda)){
+            if (!registraSaidaProdutos(venda)) {
                 drop(venda);
                 return false;
             }
-            if (!registraSaidaServicos(venda)){
+            if (!registraSaidaServicos(venda)) {
                 drop(venda);
                 return false;
             }
@@ -356,6 +424,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo privado para registra o produtos da venda no banco de dados.
+     *
+     * @param Venda
+     * @return Boolean
+     **/
     private static boolean registraSaidaProdutos(Venda venda) {
         Produto[] produtoList = (Produto[]) venda.getCarrinhoProdutos().getProdutos().toArray();
         Integer[] qtdeList = (Integer[]) venda.getCarrinhoProdutos().getQtde().toArray();
@@ -377,6 +451,12 @@ public abstract class BancoDeDados {
         return true;
     }
 
+    /**
+     * Metodo privado para registra os serviços dad venda no banco de dados.
+     *
+     * @param Venda
+     * @return Boolean
+     */
     private static boolean registraSaidaServicos(Venda venda) {
         Servico[] servicoList = (Servico[]) venda.getCarrinhoServicos().getServicos().toArray();
         Animal[] animalList = (Animal[]) venda.getCarrinhoServicos().getServicos().toArray();
@@ -389,7 +469,7 @@ public abstract class BancoDeDados {
                 preparedStatement.setInt(3, animalList[i].getCodigo());
                 preparedStatement.setDouble(4, servicoList[i].getPrecoVenda());
 
-            }catch(SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
             }
@@ -397,6 +477,11 @@ public abstract class BancoDeDados {
         return true;
     }
 
+    /**
+     * Metodo privado que pega o codigo na ultima venda.
+     *
+     * @return Integer
+     **/
     private static int getLastVenda() {
         int cod = 0;
         try {
@@ -411,6 +496,62 @@ public abstract class BancoDeDados {
         }
     }
 
+    private static CarrinhoProdutos getCarrinhoProdutos(Venda venda) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement(""
+                    + "SELECT * FROM saidaprodutos WHERE venda=?");
+            preparedStatement.setInt(1, venda.getCodigo());
+            resultset = preparedStatement.executeQuery();
+
+            CarrinhoProdutos carrinho = new CarrinhoProdutos();
+            while (resultset.next()) {
+                Produto produto = getProduto((Integer) resultset.getObject(3));
+                produto.setPrecoVenda((Double) resultset.getObject(5));
+                carrinho.add(produto, (Integer) resultset.getObject(4));
+            }
+            return carrinho;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CarrinhoProdutos carrinho = new CarrinhoProdutos();
+            return carrinho;
+        }
+
+    }
+
+    private static CarrinhoServicos getCarrinhoServicos(Venda venda) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement(""
+                    + "SELECT * FROM saidaservicos WHERE venda=?");
+            preparedStatement.setInt(1, venda.getCodigo());
+            resultset = preparedStatement.executeQuery();
+            CarrinhoServicos carrinho = new CarrinhoServicos();
+
+            while (resultset.next()){
+                Servico servico = getServico((Integer)resultset.getObject(3));
+                servico.setPrecoVenda((Double)resultset.getObject(5));
+                carrinho.add(servico, getAnimal((Integer)resultset.getObject(4)));
+            }
+            return carrinho;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CarrinhoServicos carrinho = new CarrinhoServicos();
+            return carrinho;
+        }
+
+    }
+
+    /**
+     * Medoto publico para consultar os clientes do banco de dados.
+     *
+     * @param Cliente
+     * @return Cliente[]
+     **/
     public static Cliente[] consultar(Cliente cliente) {
         int contador = 0;
         int nRegistros = 0;
@@ -438,7 +579,6 @@ public abstract class BancoDeDados {
             } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE ativo=1");
-                preparedStatement.setString(1, String.valueOf(cliente.getRg()) + "%");
                 resultset = preparedStatement.executeQuery();
 
             }
@@ -447,13 +587,15 @@ public abstract class BancoDeDados {
                 nRegistros = nRegistros + 1;
             }
             Cliente[] clienteList = new Cliente[nRegistros];
+
             resultset.beforeFirst();
             while (resultset.next()) {
                 //Contador de cliente
-                contador = contador + 1;
+                contador++;
                 Cliente c = gerarClienteFromResultset(resultset);
                 c.setAnimais(getAnimais(c));
                 clienteList[contador - 1] = c;
+
             }
             return clienteList;
 
@@ -464,17 +606,29 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo para pega o codigo de uma cliente
+     *
+     * @param Cliente
+     * @return Integer
+     **/
     public static int getClienteCod(Cliente cliente) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("SELECT codigo FROM cliente "
                     + "WHERE cpf=?");
             preparedStatement.setString(1, cliente.getCpf().getCpf());
             resultset = preparedStatement.executeQuery();
 
-            resultset.next();
+            if (resultset.next()) {
+                int codigo = (Integer) resultset.getObject(1);
+                return codigo;
+            } else {
+                return 0;
+            }
 
-            int codigo = (Integer) resultset.getObject(1);
-            return codigo;
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Cliente não encontrado.");
@@ -482,8 +636,81 @@ public abstract class BancoDeDados {
         }
     }
 
+    public static Cliente getCliente(int cod) {
+        PreparedStatement preparesStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
+                    + "WHERE codigo=?");
+            preparedStatement.setInt(1, cod);
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return gerarClienteFromResultset(resultset);
+            } else {
+                Cliente cliente = new Cliente();
+                return cliente;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Cliente cliente = new Cliente();
+            return cliente;
+        }
+    }
+
+    private static Produto getProduto(int cod) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                    + "WHERE codigo= ?");
+            preparedStatement.setInt(1, cod);
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return gerarProdutoFromResultset(resultset);
+            } else {
+                Produto produto = new Produto();
+                return produto;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Produto produto = new Produto();
+            return produto;
+        }
+    }
+
+    private static Servico getServico(int cod) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                    + "WHERE codigo=?");
+            preparedStatement.setInt(1, cod);
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return gerarServicoFromResultset(resultset);
+            } else {
+                Servico servico = new Servico();
+                return servico;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Servico servico = new Servico();
+            return servico;
+        }
+
+    }
+
     /**
      * Verifica se já existe o CPF cadastrado no banco de dados
+     *
+     * @param Cliente
+     * @return Boolean
      **/
     public static boolean checkCPF(Cliente cliente) {
         try {
@@ -498,6 +725,47 @@ public abstract class BancoDeDados {
                 return false;
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Metedo para verifica e o codigo do produto já esta cadastrado
+     **/
+    public static boolean checkCodProduto(int cod) {
+        try {
+            preparedStatement = connection.prepareStatement("SELECT codigo FROM produtos "
+                    + "WHERE codigo = ?");
+            preparedStatement.setInt(1, cod);
+
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean checkCodServico(int cod) {
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                    + "WHERE codigo=?");
+            preparedStatement.setInt(1, cod);
+
+            resultset = preparedStatement.executeQuery();
+
+            if (resultset.next()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -544,8 +812,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Medoto que realiza uma consulta de servicos no banco de dados a partir
-     * de um servico com algumas informações.
+     * Medoto que realiza uma consulta de servicos no banco de dados.
      *
      * @param Servico
      * @return Servico[]
@@ -586,6 +853,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Medoto que realiza uma consulta de animals no banco de dados.
+     *
+     * @param Animal
+     * @return Animal[]
+     **/
     public static Animal[] consultar(Animal a) {
         int contador = 0;
         int nRegistro = 0;
@@ -699,6 +972,7 @@ public abstract class BancoDeDados {
      * Metodo para altera dados de um serviço no banco de dados.
      *
      * @param Servico
+     * @param boolean
      **/
     public static boolean alterar(Servico servico) {
         try {
@@ -726,6 +1000,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo para altera dados de um animal no banco de dados.
+     *
+     * @param Animal
+     * @param boolean
+     **/
     public static boolean alterar(Animal animal) {
         try {
             preparedStatement = connection.prepareStatement("UPDATE animal SET "
@@ -753,6 +1033,12 @@ public abstract class BancoDeDados {
 
     }
 
+    /**
+     * Metodo para desativa um cliente do banco de dados.
+     *
+     * @param Cliente
+     * @return boolean
+     **/
     public static boolean remover(Cliente cliente) {
         try {
             preparedStatement = connection.prepareStatement("UPDATE cliente SET "
@@ -767,6 +1053,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo para desativa um produto do banco de dados.
+     *
+     * @param Produto
+     * @return booblean
+     **/
     public static boolean remover(Produto produto) {
         try {
             preparedStatement = connection.prepareStatement("UPDATE produtos SET "
@@ -781,6 +1073,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo para desativa um servico do banco de dados
+     *
+     * @param Servico
+     * @return boolean
+     **/
     public static boolean remover(Servico servico) {
         try {
             preparedStatement = connection.prepareStatement("UPDATE servicos SET "
@@ -794,6 +1092,12 @@ public abstract class BancoDeDados {
         }
     }
 
+    /**
+     * Metodo para desativa um animal do banco de dados.
+     *
+     * @param Animal
+     * @return booblean
+     **/
     public static boolean remover(Animal animal) {
         try {
             preparedStatement = connection.prepareStatement("UPDATE animal SET "
@@ -809,8 +1113,14 @@ public abstract class BancoDeDados {
         }
     }
 
-    public static boolean drop(Venda venda){
-        try{
+    /**
+     * Metodo para remover resgistro de venda do banco de dados caso ocorra uma erro.
+     *
+     * @param venda
+     * @return boolean
+     **/
+    public static boolean drop(Venda venda) {
+        try {
             preparedStatement = connection.prepareStatement("DELETE FROM saidaservicos "
                     + "WHERE venda=?");
             preparedStatement.setInt(1, venda.getCodigo());
@@ -828,13 +1138,71 @@ public abstract class BancoDeDados {
 
             return true;
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public static Venda[] consultar(Venda v) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public static Venda[] consultar(Venda venda) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        int contador = 0;
+        int nRegistro = 0;
+        try {
+            if (venda.getCodigo() != 0) {
+                preparedStatement = connection.prepareStatement(""
+                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
+                        + "WHERE codigo=?");
+                preparedStatement.setInt(1, venda.getCodigo());
+                resultset = preparedStatement.executeQuery();
+            } else if (!venda.getCliente().getNome().equals("")) {
+                preparedStatement = connection.prepareStatement(""
+                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
+                        + "WHERE nome like ?");
+                preparedStatement.setString(1, "%" + venda.getCliente().getNome() + "%");
+                resultset = preparedStatement.executeQuery();
+            } else if (!venda.getCliente().getCpf().getCpf().equals("")) {
+                preparedStatement = connection.prepareStatement(""
+                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
+                        + "WHERE cpf like ?");
+                preparedStatement.setString(1, venda.getCliente().getCpf().getCpf() + "%");
+                resultset = preparedStatement.executeQuery();
+            }else{
+                preparedStatement = connection.prepareStatement(""
+                        + "SELECT id_venda,id_cliente,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento");
+                resultset = preparedStatement.executeQuery();
+            }
+
+            while (resultset.next()) {
+                nRegistro++;
+            }
+            resultset.beforeFirst();
+            Venda[] vendaList = new Venda[nRegistro];
+
+            while (resultset.next()) {
+                Venda v = new Venda();
+                v.setCodigo((Integer) resultset.getObject(1));
+                v.setCliente(getCliente((Integer) resultset.getObject(2)));
+                v.setCarrinhoProdutos(getCarrinhoProdutos(v));
+                v.setCarrinhoServicos(getCarrinhoServicos(v));
+
+            }
+
+            return vendaList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Venda[] vendaList = new Venda[0];
+            return vendaList;
+        }
     }
 }
