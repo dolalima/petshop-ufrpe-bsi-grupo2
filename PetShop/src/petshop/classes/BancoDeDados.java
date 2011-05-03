@@ -511,7 +511,7 @@ public abstract class BancoDeDados {
         ResultSet resultset;
         int cod = 0;
         try {
-            preparedStatement = connection.prepareStatement("SELECT MAX(codigo) from vendas");
+            preparedStatement = connection.prepareStatement("SELECT MAX(id_venda) from vendas");
             resultset = preparedStatement.executeQuery();
             resultset.next();
             cod = (Integer) resultset.getObject(1);
@@ -1201,31 +1201,31 @@ public abstract class BancoDeDados {
             if (venda.getCodigo() != 0) {
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
-                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
-                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
-                        + "WHERE codigo=?");
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
+                        + "WHERE id_venda=?");
                 preparedStatement.setInt(1, venda.getCodigo());
                 resultset = preparedStatement.executeQuery();
             } else if (!venda.getCliente().getNome().equals("")) {
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
-                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
-                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
                         + "WHERE nome like ?");
                 preparedStatement.setString(1, "%" + venda.getCliente().getNome() + "%");
                 resultset = preparedStatement.executeQuery();
             } else if (!venda.getCliente().getCpf().getCpf().equals("")) {
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
-                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
-                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento"
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
                         + "WHERE cpf like ?");
                 preparedStatement.setString(1, venda.getCliente().getCpf().getCpf() + "%");
                 resultset = preparedStatement.executeQuery();
             }else{
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
-                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.id_cliente "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento");
                 resultset = preparedStatement.executeQuery();
             }
@@ -1242,7 +1242,8 @@ public abstract class BancoDeDados {
                 v.setCliente(getCliente((Integer) resultset.getObject(2)));
                 v.setCarrinhoProdutos(getCarrinhoProdutos(v));
                 v.setCarrinhoServicos(getCarrinhoServicos(v));
-
+                vendaList[contador] = v;
+                contador++;
             }
 
             return vendaList;

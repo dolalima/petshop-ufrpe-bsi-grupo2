@@ -34,6 +34,23 @@ public class JanelaAdicionaServico extends JanelaAdiciona {
         double[] tamanhosColunas = new double[] {30, 70};
 
         painel.setModelo(modelo, tamanhosColunas);
+
+        this.painel.botaoPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisar();
+            }
+        });
+
+        this.botaoOK.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if(botaoOK.isEnabled()){
+                    Number valor = (Number) painel.tabela.getValueAt(painel.tabela.getSelectedRow(), 0);
+                    ok(valor.intValue());
+                }
+            }
+        });
     }
 
     /** This method is called from within the constructor to
@@ -91,5 +108,12 @@ public class JanelaAdicionaServico extends JanelaAdiciona {
         if(servicos.length == 0){
             JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
         }
+    }
+
+    private void ok(int cod) {
+        pai.getCampoCodigo().setText(cod + "");
+        reiniciar();
+
+        this.dispose();
     }
 }

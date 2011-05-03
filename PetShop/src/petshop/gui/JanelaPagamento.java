@@ -54,7 +54,7 @@ public class JanelaPagamento extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        comboTipoPag.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tipo de Pagamento", "Dinheiro", "Cheque", "Cartão" }));
+        comboTipoPag.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TIPO DE PAGAMENTO", "DINHEIRO", "CARTÃO", "CHEQUE" }));
         comboTipoPag.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboTipoPagItemStateChanged(evt);
@@ -123,12 +123,21 @@ public class JanelaPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelar
 
     private void concluir(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_concluir
-        if(BancoDeDados.cadastrar(venda.gerarVenda(getTipoPagamento(), checkParcelado.isSelected()))){
-            JOptionPane.showMessageDialog(this, "Venda efetuada com sucesso");
-            venda.dispose();
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Falha ao efetuar venda");
+        if(comboTipoPag.getSelectedIndex() != 0){
+            if(BancoDeDados.cadastrar(venda.gerarVenda(getTipoPagamento(), checkParcelado.isSelected()))){
+                int resp = JOptionPane.showConfirmDialog(this, "Venda efetuada com sucesso. Deseja realizar nova venda?", "Concluído", JOptionPane.YES_NO_OPTION);
+
+                this.reiniciar();
+                if(resp == JOptionPane.YES_OPTION){
+                    venda.reiniciar();
+                    this.dispose();
+                } else {
+                    venda.dispose();
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao efetuar venda");
+            }
         }
     }//GEN-LAST:event_concluir
 
@@ -152,12 +161,16 @@ public class JanelaPagamento extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private TipoPagamento getTipoPagamento(){
-        if(this.comboTipoPag.getSelectedIndex() == 0){
+        if(this.comboTipoPag.getSelectedIndex() == 1){
             return TipoPagamento.DINHEIRO;
-        } else if(this.comboTipoPag.getSelectedIndex() == 0){
-            return TipoPagamento.CHEQUE;
-        } else {
+        } else if(this.comboTipoPag.getSelectedIndex() == 2){
             return TipoPagamento.CARTAO;
         }
+        return TipoPagamento.CHEQUE;
+    }
+
+    private void reiniciar(){
+        comboTipoPag.setSelectedIndex(0);
+        checkParcelado.setSelected(false);
     }
 }

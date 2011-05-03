@@ -124,6 +124,7 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
 
     private void ok(int cod) {
         pai.adicionar(BancoDeDados.consultar(new Cliente(cod))[0]);
+        reiniciar();
 
         this.dispose();
     }
