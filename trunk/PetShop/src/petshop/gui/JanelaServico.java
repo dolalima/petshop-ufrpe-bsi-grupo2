@@ -254,9 +254,12 @@ public class JanelaServico extends javax.swing.JDialog {
         if(!existemDependencias()){
             if(tipo == TipoJanela.CADASTRO){
                 if(BancoDeDados.cadastrar(servico)){
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Servico cadastrado com sucesso!");
-                    reiniciar();
-                    this.dispose();
+                    int resp = JOptionPane.showConfirmDialog(this, "Cliente cadastrado com sucesso. Deseja realizar novo cadastro?", "Concluído", JOptionPane.YES_NO_OPTION);
+
+                    this.reiniciar();
+                    if(resp != JOptionPane.YES_OPTION){
+                        this.dispose();
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar servico!");
                 }

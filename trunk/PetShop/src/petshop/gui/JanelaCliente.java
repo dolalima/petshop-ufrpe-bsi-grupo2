@@ -511,8 +511,13 @@ public class JanelaCliente extends javax.swing.JDialog {
             if(tipo == TipoJanela.CADASTRO){
                 if(BancoDeDados.cadastrar(cliente)){
                     if(cadastrarAnimais()){
-                        JOptionPane.showMessageDialog(this.getContentPane(), "Cliente cadastrado com sucesso!");
-                        this.dispose();
+                        int resp = JOptionPane.showConfirmDialog(this, "Cliente cadastrado com sucesso. Deseja realizar novo cadastro?", "Concluído", JOptionPane.YES_NO_OPTION);
+
+                        this.reiniciar();
+                        if(resp != JOptionPane.YES_OPTION){
+                            this.dispose();
+                        }
+                        
                     } else {
                         JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
                     }
@@ -523,6 +528,7 @@ public class JanelaCliente extends javax.swing.JDialog {
                 if(BancoDeDados.alterar(cliente)){
                     if(alterarAnimais() && cadastrarAnimais()){
                         JOptionPane.showMessageDialog(this.getContentPane(), "Cliente alterado com sucesso!");
+                        this.reiniciar();
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
