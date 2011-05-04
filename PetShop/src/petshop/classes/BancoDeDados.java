@@ -859,13 +859,54 @@ public abstract class BancoDeDados {
         }
     }
 
+    public static Produto[] consultar(Produto produto, double max) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        int contador = 0;
+        int nRegistro = 0;
+        try {
+            if (produto.getPrecoCusto() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE codigo>=? AND codigo<=? AND ativo=1");
+                preparedStatement.setDouble(1, produto.getPrecoCusto());
+                preparedStatement.setDouble(2, max);
+                resultset = preparedStatement.executeQuery();
+            } else if (produto.getPrecoVenda() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE codigo>=? AND codigo<=? AND ativo=1");
+                preparedStatement.setDouble(1, produto.getPrecoVenda());
+                preparedStatement.setDouble(2, max);
+                resultset = preparedStatement.executeQuery();
+            } else{
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE AND ativo=1");
+                resultset = preparedStatement.executeQuery();
+            }
+
+            while (resultset.next()) {
+                nRegistro++;
+            }
+            Produto[] produtoList = new Produto[nRegistro];
+            resultset.beforeFirst();
+            while (resultset.next()) {
+                contador++;
+                produtoList[contador - 1] = gerarProdutoFromResultset(resultset);
+            }
+            return produtoList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Produto[] produtoList = new Produto[0];
+            return produtoList;
+        }
+    }
+
     /**
      * Medoto que realiza uma consulta de servicos no banco de dados.
      *
      * @param Servico
      * @return Servico[]
      **/
-    public static Servico[] consultar(Servico servico, double min, double max) {
+    public static Servico[] consultar(Servico servico) {
         PreparedStatement preparedStatement;
         ResultSet resultset;
         int contador = 0;
@@ -881,13 +922,6 @@ public abstract class BancoDeDados {
                         + "WHERE nome LIKE ? AND ativo=1");
                 preparedStatement.setString(1, "%" + servico.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else if (servico.getPrecoVenda() != 0) {
-                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
-                        + "WHERE preco>= ? AND preco<=? AND ativo=1");
-                preparedStatement.setDouble(1, min);
-                preparedStatement.setDouble(2, max);
-                resultset = preparedStatement.executeQuery();
-
             } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE ativo=1");
@@ -914,7 +948,39 @@ public abstract class BancoDeDados {
         }
     }
 
-    
+    public static Servico[] consulta(Servico servico, double max) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        int contador = 0;
+        int nRegistro = 0;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                    + "WHERE preco>= ? AND  preco<=? AND ativo=1");
+            preparedStatement.setDouble(1, servico.getPrecoVenda());
+            preparedStatement.setDouble(2, max);
+            resultset = preparedStatement.executeQuery();
+
+            while (resultset.next()) {
+                nRegistro++;
+            }
+
+            Servico[] servicoList = new Servico[nRegistro];
+            resultset.beforeFirst();
+
+            while (resultset.next()) {
+                contador++;
+
+                servicoList[contador - 1] = gerarServicoFromResultset(resultset);
+            }
+            return servicoList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Servico[] servicoList = new Servico[0];
+            return servicoList;
+        }
+
+    }
 
     /**
      * Medoto que realiza uma consulta de animals no banco de dados.
