@@ -73,12 +73,13 @@ public class JanelaCliente extends javax.swing.JDialog {
             botaoCadastrar.setVisible(false);
             botaoCancelar.setVisible(false);
             botaoAdicionarAnimal.setText("Informação");
+            botaoAdicionarAnimal.setVisible(false);
             desabilitarCampos();
         }
         
         campoNome.setDocument(new petshop.classes.LetraMaiuscula(80));
         campoRua.setDocument(new petshop.classes.LetraMaiuscula(70));
-        campoNumero.setDocument(new petshop.classes.LetraMaiuscula(6));
+        campoNumero.setDocument(new petshop.classes.LetraMaiuscula(5));
         campoComplemento.setDocument(new petshop.classes.LetraMaiuscula(30));
         campoBairro.setDocument(new petshop.classes.LetraMaiuscula(30));
         campoCidade.setDocument(new petshop.classes.LetraMaiuscula(30));
@@ -486,6 +487,11 @@ public class JanelaCliente extends javax.swing.JDialog {
     private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
         JanelaAnimal animal = new JanelaAnimal(this, TipoJanela.CADASTRO);
 
+        if(tipo == TipoJanela.INFORMACAO){
+            animal = new JanelaAnimal(this, TipoJanela.INFORMACAO);
+            preencher(animal);
+        }
+
         animal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         animal.setVisible(true);
 }//GEN-LAST:event_adicionarAnimal
@@ -497,7 +503,7 @@ public class JanelaCliente extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this.getContentPane(), "CPF Inválido!");
                 return;
             }
-            if(BancoDeDados.existeCPF(cliente.getCpf())){
+            if(BancoDeDados.existeCPF(cliente.getCpf()) && tipo != TipoJanela.ALTERACAO){
                 JOptionPane.showMessageDialog(this.getContentPane(), "Este CPF já está cadastrado no banco de dados!");
                 return;
             }
@@ -583,9 +589,14 @@ public class JanelaCliente extends javax.swing.JDialog {
         if(comboAnimais.getSelectedIndex() > 0){
             if(this.tipo != TipoJanela.INFORMACAO){
                 botaoRemoverAnimal.setVisible(true);
+            } else {
+                botaoAdicionarAnimal.setVisible(true);
             }
         } else {
             botaoRemoverAnimal.setVisible(false);
+            if(this.tipo == TipoJanela.INFORMACAO){
+                botaoAdicionarAnimal.setVisible(false);
+            }
         }
     }//GEN-LAST:event_mudarComboAnimais
 
@@ -646,7 +657,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         } else if(campo.equals(campoRua)){
             return "RUA";
         } else if(campo.equals(campoNumero)){
-            return "NÚMERO";
+            return "Nº";
         } else if(campo.equals(campoComplemento)){
             return "COMPLEMENTO";
         } else if(campo.equals(campoBairro)){
@@ -764,17 +775,31 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         if(existeDependencias){
             JOptionPane.showMessageDialog(this.getContentPane(), msg);
+            return true;
         }
 
-        if(campoCelular.getText().length() < 13){
-            JOptionPane.showMessageDialog(this.getContentPane(), "Celular Inválido!");
-            return true;
-        } else if(campoTelefone.getText().length() < 13){
-            JOptionPane.showMessageDialog(this.getContentPane(), "Telefone Inválido!");
-            return true;
-        } else if(campoCEP.getText().length() < 9){
+        boolean celularValido = campoCelular.getText().substring(0,1).equals("(") &&
+                campoCelular.getText().substring(3,4).equals(")") &&
+                campoCelular.getText().substring(8,9).equals("-");
+        boolean telefoneValido = campoTelefone.getText().substring(0,1).equals("(") &&
+                campoTelefone.getText().substring(3,4).equals(")") &&
+                campoTelefone.getText().substring(8,9).equals("-");
+
+        if(campoCelular.getText().length() < 13 || !celularValido){
+            if(!campoCelular.getText().equals(getEtiqueta(campoCelular))){
+                JOptionPane.showMessageDialog(this.getContentPane(), "Celular Inválido!");
+                return true;
+            }
+        } else if(campoTelefone.getText().length() < 13 || !telefoneValido){
+            if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone))){
+                JOptionPane.showMessageDialog(this.getContentPane(), "Telefone Inválido!");
+                return true;
+            }
+        } else if((campoCEP.getText().length() < 9 && !campoCEP.getText().equals(getEtiqueta(campoCEP))) ||
+                !campoCEP.getText().substring(5, 6).equals("-")){
             JOptionPane.showMessageDialog(this.getContentPane(), "CEP Inválido!");
             return true;
+
         }
 
         return existeDependencias;

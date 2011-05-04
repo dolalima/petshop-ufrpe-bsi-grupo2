@@ -46,6 +46,11 @@ public class PainelConsultaServicos extends PainelConsulta {
 
     protected void pesquisar() {
         Servico[] servicos = getServicos();
+        if(servicos.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+            return;
+        }
+
         Object[][] dados = new Object[servicos.length][4];
 
         for(int i = 0; i < servicos.length; i++){
@@ -58,10 +63,6 @@ public class PainelConsultaServicos extends PainelConsulta {
 
         model.setDataVector(dados, modelo);
         redimensionarColunas();
-
-        if(servicos.length == 0){
-            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
-        }
     }
 
     private void preencher(JanelaServico janela, int cod) {

@@ -110,7 +110,7 @@ public class JanelaPagamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboTipoPagItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoPagItemStateChanged
-        if(comboTipoPag.getSelectedIndex() == 3){
+        if(comboTipoPag.getSelectedIndex() == 2){
             checkParcelado.setEnabled(true);
         } else {
             checkParcelado.setSelected(false);
@@ -138,6 +138,8 @@ public class JanelaPagamento extends javax.swing.JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "Falha ao efetuar venda");
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um tipo de pagamento!");
         }
     }//GEN-LAST:event_concluir
 

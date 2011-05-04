@@ -88,6 +88,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         painelSplit.setMinimumSize(new java.awt.Dimension(170, 400));
         painelSplit.setPreferredSize(new java.awt.Dimension(700, 350));
 
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.setMinimumSize(new java.awt.Dimension(170, 400));
         jPanel1.setPreferredSize(new java.awt.Dimension(170, 400));
 
@@ -259,5 +260,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private void configurarFonte(java.awt.Component c, Color cor, int estilo, int tamanhoFonte){
         c.setForeground(cor);
         c.setFont(new Font("Tahoma", estilo, tamanhoFonte));
+    }
+
+    private void setIconImage(ImageIcon imageIcon) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

@@ -48,7 +48,10 @@ public class PainelConsultaProdutos extends PainelConsulta {
 
     protected void pesquisar() {
         Produto[] produtos = getProdutos();
-        if(produtos.length == 0) return;
+        if(produtos.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+            return;
+        }
         
         Object[][] dados = new Object[produtos.length][4];
 
@@ -63,10 +66,6 @@ public class PainelConsultaProdutos extends PainelConsulta {
 
         model.setDataVector(dados, modelo);
         redimensionarColunas();
-
-        if(produtos.length == 0){
-            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
-        }
     }
 
     private void preencher(JanelaProduto janela, int cod) {

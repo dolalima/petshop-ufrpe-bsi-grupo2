@@ -110,6 +110,9 @@ public class JanelaAdicionaProduto extends JanelaAdiciona {
     
     private void ok(int cod) {
         pai.getCampoCodigo().setText(cod + "");
+        if(!pai.getCampoQtde().getText().equals(pai.getEtiqueta(pai.getCampoQtde()))){
+            pai.getBotaoAdd().setEnabled(true);
+        }
         reiniciar();
 
         this.dispose();

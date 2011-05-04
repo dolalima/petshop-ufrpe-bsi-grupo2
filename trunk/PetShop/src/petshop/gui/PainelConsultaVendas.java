@@ -1,11 +1,13 @@
 package petshop.gui;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
 import petshop.classes.Cliente;
+import petshop.classes.TipoPagamento;
 import petshop.classes.Venda;
 
 public class PainelConsultaVendas extends PainelConsulta {
@@ -40,6 +42,10 @@ public class PainelConsultaVendas extends PainelConsulta {
 
     protected void pesquisar() {
         Venda[] vendas = getVendas();
+        if(vendas.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+            return;
+        }
 
         Object[][] dados = new Object[vendas.length][4];
 
@@ -54,10 +60,6 @@ public class PainelConsultaVendas extends PainelConsulta {
 
         model.setDataVector(dados, modelo);
         redimensionarColunas();
-
-        if(vendas.length == 0){
-            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
-        }
     }
 
     void alterar(int integer) {
@@ -73,6 +75,21 @@ public class PainelConsultaVendas extends PainelConsulta {
         for(int i = 0; i < a.length; i++){
             janela.getComboAnimais().addItem(a[i].getNome());
         }
+
+        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        /*gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.weightx = 5;
+        gridBagConstraints.ipadx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        String pag = "TIPO DE PAGAMENTO: ";
+        if(v.getTipoPagamento() == TipoPagamento.DINHEIRO) pag += "DINHEIRO";
+        else if(v.getTipoPagamento() == TipoPagamento.CARTAO) pag += "CARTAO";
+        else if(v.getTipoPagamento() == TipoPagamento.CHEQUE) pag += "CHEQUE";
+        if(v.isParcelado()) pag += ", PARCELADO.";
+        else pag += ", NÃO PARCELADO.";
+        janela.getPainel().add(new JLabel(pag), gridBagConstraints);*/
 
         janela.getVenda().setCarrinhoProdutos(v.getCarrinhoProdutos());
         janela.getVenda().setCarrinhoServicos(v.getCarrinhoServicos());
