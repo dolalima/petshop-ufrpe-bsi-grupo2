@@ -42,10 +42,7 @@ public class PainelConsultaVendas extends PainelConsulta {
 
     protected void pesquisar() {
         Venda[] vendas = getVendas();
-        if(vendas.length == 0){
-            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
-            return;
-        }
+        
 
         Object[][] dados = new Object[vendas.length][4];
 
@@ -60,6 +57,10 @@ public class PainelConsultaVendas extends PainelConsulta {
 
         model.setDataVector(dados, modelo);
         redimensionarColunas();
+
+        if(vendas.length == 0){
+            JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
+        }
     }
 
     void alterar(int integer) {
