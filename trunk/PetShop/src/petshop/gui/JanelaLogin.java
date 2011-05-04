@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import petshop.classes.BancoDeDados;
 import java.sql.*;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
  *
@@ -15,6 +16,10 @@ public class JanelaLogin extends javax.swing.JFrame {
     /** Creates new form JanelaLogin */
     public JanelaLogin() {
         initComponents();
+        this.setTitle("Login");
+        ImageIcon logo = new ImageIcon("./imagens/logo-16.gif");
+
+        this.setIconImage(logo.getImage());
     }
 
     /** This method is called from within the constructor to
