@@ -467,6 +467,7 @@ public abstract class BancoDeDados {
                 preparedStatement.setLong(2, produtoList.get(i).getCodigo());
                 preparedStatement.setInt(3, qtdeList.get(i));
                 preparedStatement.setDouble(4, produtoList.get(i).getPrecoVenda());
+                baixarEstoque(produtoList.get(i),qtdeList.get(i));
                 preparedStatement.executeUpdate();
 
 
@@ -477,6 +478,22 @@ public abstract class BancoDeDados {
             }
         }
         return true;
+    }
+
+    private static boolean baixarEstoque(Produto produto, int qtde) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE produtos SET "
+                    + "qt=? WHERE codigo=?");
+            preparedStatement.setInt(1, produto.getQtdeEstoque()-qtde);
+            preparedStatement.setInt(2, produto.getCodigo());
+            preparedStatement.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -877,7 +894,7 @@ public abstract class BancoDeDados {
                 preparedStatement.setDouble(1, produto.getPrecoVenda());
                 preparedStatement.setDouble(2, max);
                 resultset = preparedStatement.executeQuery();
-            } else{
+            } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
                         + "WHERE AND ativo=1");
                 resultset = preparedStatement.executeQuery();
