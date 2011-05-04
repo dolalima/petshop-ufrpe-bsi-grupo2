@@ -538,6 +538,7 @@ public class JanelaVenda extends javax.swing.JDialog {
                             return;
                         }
                         model.setValueAt(q + qtde, i, 2);
+                        venda.getCarrinhoProdutos().getQtde().set(i, venda.getCarrinhoProdutos().getQtde().get(i) + qtde);
                         existeProduto = true;
                     }
                 }
@@ -545,9 +546,9 @@ public class JanelaVenda extends javax.swing.JDialog {
                 if(!existeProduto){
                     model.addRow(dados);
                     redimensionarColunas(tabelaProdutos);
+                    venda.getCarrinhoProdutos().add(produto, qtde);
                 }
                 
-                venda.getCarrinhoProdutos().add(produto, qtde);
             } else {
                 Servico servico;
                 try{
