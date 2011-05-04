@@ -20,11 +20,15 @@ public class Servico extends ItemVenda {
     
     public Servico(int cod) {
         super(cod, "", 0);
+        this.duracao = 0;
+        this.info = "";
 
     }
 
     public Servico() {
         super(0, "", 0);
+        this.duracao = 0;
+        this.info = "";
     }
 
     public int getDuracao() {

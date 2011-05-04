@@ -39,8 +39,8 @@ public class Main {
         }
 
         BancoDeDados.conectar();
-        //JanelaLogin janela = new JanelaLogin();
-        JanelaPrincipal janela = new JanelaPrincipal();
+        JanelaLogin janela = new JanelaLogin();
+        //JanelaPrincipal janela = new JanelaPrincipal();
 
         // Get the size of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

@@ -3,6 +3,7 @@ package petshop.gui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.BancoDeDados;
+import petshop.classes.LetraMaiuscula;
 import petshop.classes.Produto;
 
 public class PainelConsultaProdutos extends PainelConsulta {
@@ -46,21 +47,9 @@ public class PainelConsultaProdutos extends PainelConsulta {
     }
 
     protected void pesquisar() {
-        Produto p = new Produto();
-
-        if(!campoPesquisa.getText().equals("")){
-            if(comboPesquisa.getSelectedIndex() == 0){
-                p.setCodigo(Integer.valueOf(campoPesquisa.getText()));
-            } else if(comboPesquisa.getSelectedIndex() == 1){
-                p.setNome(campoPesquisa.getText());
-            } else if(comboPesquisa.getSelectedIndex() == 2){
-                p.setPrecoCusto(Integer.valueOf(campoPesquisa.getText()));
-            } else if(comboPesquisa.getSelectedIndex() == 3){
-                p.setPrecoVenda(Integer.valueOf(campoPesquisa.getText()));
-            }
-        }
-
-        Produto[] produtos = BancoDeDados.consultar(p);
+        Produto[] produtos = getProdutos();
+        if(produtos.length == 0) return;
+        
         Object[][] dados = new Object[produtos.length][4];
 
         for(int i = 0; i < produtos.length; i++){
@@ -81,11 +70,11 @@ public class PainelConsultaProdutos extends PainelConsulta {
     }
 
     private void preencher(JanelaProduto janela, int cod) {
-        Produto[] produto = BancoDeDados.consultar(new Produto(cod));
-        Produto p = produto[0];
+        Produto p = BancoDeDados.consultar(new Produto(cod))[0];
 
         if(p.getCodigo() != 0) {
-            janela.getCampoCodigo().setText(String.valueOf(p.getCodigo()));
+            janela.getCampoCodigo().setDocument(new LetraMaiuscula(10));
+            janela.getCampoCodigo().setText(p.getCodigo() + "");
         }
         janela.getCampoNome().setText(p.getNome());
         janela.getCampoQtde().setText(String.valueOf(p.getQtdeEstoque()));
@@ -104,6 +93,36 @@ public class PainelConsultaProdutos extends PainelConsulta {
         if(resp == JOptionPane.YES_OPTION){
             Produto p = new Produto(cod);
             BancoDeDados.remover(p);
+        }
+    }
+
+    private Produto[] getProdutos(){
+        Produto p = new Produto();
+        double min; double max;
+
+        if(!campoMin.getText().equals(getEtiqueta(campoMin))) min = Double.valueOf(campoMin.getText());
+        else min = 0;
+        if(!campoMax.getText().equals(getEtiqueta(campoMax))) max = Double.valueOf(campoMax.getText());
+        else max = 0;
+
+        if(comboPesquisa.getSelectedIndex() < 2){
+            if(!campoPesquisa.getText().equals("")){
+                if(comboPesquisa.getSelectedIndex() == 0){
+                    p.setCodigo(Integer.valueOf(campoPesquisa.getText()));
+                } else if(comboPesquisa.getSelectedIndex() == 1){
+                    p.setNome(campoPesquisa.getText());
+                }
+            }
+            return BancoDeDados.consultar(p);
+        }
+
+        if(min <= max || max == 0){
+            if(comboPesquisa.getSelectedIndex() == 2) p.setPrecoCusto(min);
+            else if(comboPesquisa.getSelectedIndex() == 3) p.setPrecoVenda(min);
+            return BancoDeDados.consultar(p, max);
+        } else {
+            JOptionPane.showMessageDialog(this, "O máximo não pode ser menor que o mínimo!");
+            return new Produto[0];
         }
     }
 }

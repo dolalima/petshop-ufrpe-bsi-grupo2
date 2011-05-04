@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -26,9 +27,9 @@ public abstract class BancoDeDados {
     /**Varivel de execução de comandos SQL no banco de dados**/
     public static Statement statement = null;
     /**varivel de comando sql pre configurados**/
-    public static PreparedStatement preparedStatement = null;
+    public static PreparedStatement prepared = null;
     /**Variavel que recebe o resultado das pesquisas do banco de dados**/
-    public static ResultSet resultset = null;
+    public static ResultSet result = null;
     /**Variavel de recebe os metadados das pesquisas no banco de dados. **/
     public static ResultSetMetaData resultsetmetadata = null;
     /**Variavel de status da conecxão**/
@@ -51,7 +52,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Metodo que gera um cliente a partir de uma linha da consulta do banco de dados.
+     * Metodo que gera um cliente a partir de uma linha da consultar do banco de dados.
      *
      * @param ResultSet
      **/
@@ -98,7 +99,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Metodo que gera um produto a partir de uma linha da consulta do banco de dados.
+     * Metodo que gera um produto a partir de uma linha da consultar do banco de dados.
      *
      * @param ResultSet
      **/
@@ -122,7 +123,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Metodo que gera um serviço a partir de uma linha da consulta do banco de dados.
+     * Metodo que gera um serviço a partir de uma linha da consultar do banco de dados.
      *
      * @param ResultSet
      **/
@@ -144,7 +145,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Metodo que gera um animal a partir de uma linha da consulta do banco de dados.
+     * Metodo que gera um animal a partir de uma linha da consultar do banco de dados.
      *
      * @param ResultSet
      **/
@@ -192,7 +193,7 @@ public abstract class BancoDeDados {
             // Entrada de valores
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
-            preparedStatement.setString(3, cliente.getCpf().getCpf());
+            preparedStatement.setString(3, cliente.getCpf().toString());
             preparedStatement.setLong(4, cliente.getRg());
             preparedStatement.setString(5, cliente.getEndereco().getRua());
             preparedStatement.setInt(6, cliente.getEndereco().getNum());
@@ -617,10 +618,10 @@ public abstract class BancoDeDados {
                         + "WHERE nome LIKE ? AND ativo=1");
                 preparedStatement.setString(1, "%" + cliente.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else if (!cliente.getCpf().getCpf().equals("")) {
+            } else if (!cliente.getCpf().toString().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE cpf LIKE ? AND ativo=1");
-                preparedStatement.setString(1, cliente.getCpf().getCpf() + "%");
+                preparedStatement.setString(1, cliente.getCpf().toString() + "%");
                 resultset = preparedStatement.executeQuery();
             } else if (cliente.getRg() != 0) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
@@ -669,7 +670,7 @@ public abstract class BancoDeDados {
         try {
             preparedStatement = connection.prepareStatement("SELECT codigo FROM cliente "
                     + "WHERE cpf=?");
-            preparedStatement.setString(1, cliente.getCpf().getCpf());
+            preparedStatement.setString(1, cliente.getCpf().toString());
             resultset = preparedStatement.executeQuery();
 
             if (resultset.next()) {
@@ -691,10 +692,10 @@ public abstract class BancoDeDados {
         PreparedStatement preparesStatement;
         ResultSet resultset;
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
+            prepared = connection.prepareStatement("SELECT * FROM cliente "
                     + "WHERE codigo=?");
-            preparedStatement.setInt(1, cod);
-            resultset = preparedStatement.executeQuery();
+            prepared.setInt(1, cod);
+            resultset = prepared.executeQuery();
 
             if (resultset.next()) {
                 return gerarClienteFromResultset(resultset);
@@ -763,13 +764,13 @@ public abstract class BancoDeDados {
      * @param Cliente
      * @return Boolean
      **/
-    public static boolean checkCPF(Cliente cliente) {
+    public static boolean existeCPF(CPF cpf) {
         PreparedStatement preparedStatement;
         ResultSet resultset;
         try {
             preparedStatement = connection.prepareStatement("SELECT cpf FROM "
                     + "cliente WHERE cpf=?");
-            preparedStatement.setString(1, cliente.getCpf().getCpf());
+            preparedStatement.setString(1, cpf.toString());
             resultset = preparedStatement.executeQuery();
 
             if (resultset.next()) {
@@ -830,7 +831,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Metodo que realiza uma consulta de produtos no banco de dados a partir
+     * Metodo que realiza uma consultar de produtos no banco de dados a partir
      * de produto com algumas informações.
      *
      * @param Produto
@@ -882,21 +883,41 @@ public abstract class BancoDeDados {
         int contador = 0;
         int nRegistro = 0;
         try {
-            if (produto.getPrecoCusto() != 0) {
+            if (produto.getPrecoCusto() != 0 && (max != 0)) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
-                        + "WHERE codigo>=? AND codigo<=? AND ativo=1");
+                        + "WHERE preco_custo>=? AND preco_custo<=? AND ativo=1");
                 preparedStatement.setDouble(1, produto.getPrecoCusto());
                 preparedStatement.setDouble(2, max);
                 resultset = preparedStatement.executeQuery();
-            } else if (produto.getPrecoVenda() != 0) {
+            } else if (produto.getPrecoCusto() != 0 && (max == 0)) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
-                        + "WHERE codigo>=? AND codigo<=? AND ativo=1");
+                        + "WHERE preco_custo>=? AND ativo=1");
+                preparedStatement.setDouble(1, produto.getPrecoCusto());
+                resultset = preparedStatement.executeQuery();
+            } else if (produto.getPrecoCusto() == 0 && (max != 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE preco_custo<=? AND ativo=1");
+                preparedStatement.setDouble(1, produto.getPrecoCusto());
+                resultset = preparedStatement.executeQuery();
+            } else if (produto.getPrecoVenda() != 0 && (max != 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE preco_venda>=? AND preco_venda<=? AND ativo=1");
                 preparedStatement.setDouble(1, produto.getPrecoVenda());
                 preparedStatement.setDouble(2, max);
                 resultset = preparedStatement.executeQuery();
+            } else if ((produto.getPrecoVenda() != 0) && (max == 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE preco_venda>=? AND ativo=1");
+                preparedStatement.setDouble(1, produto.getPrecoVenda());
+                resultset = preparedStatement.executeQuery();
+            } else if ((produto.getPrecoVenda() == 0) && (max != 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
+                        + "WHERE preco_venda<=? AND ativo=1");
+                preparedStatement.setDouble(1, produto.getPrecoVenda());
+                resultset = preparedStatement.executeQuery();
             } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
-                        + "WHERE AND ativo=1");
+                        + "WHERE ativo=1");
                 resultset = preparedStatement.executeQuery();
             }
 
@@ -918,7 +939,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Medoto que realiza uma consulta de servicos no banco de dados.
+     * Medoto que realiza uma consultar de servicos no banco de dados.
      *
      * @param Servico
      * @return Servico[]
@@ -965,17 +986,33 @@ public abstract class BancoDeDados {
         }
     }
 
-    public static Servico[] consulta(Servico servico, double max) {
+    public static Servico[] consultar(Servico servico, double max) {
         PreparedStatement preparedStatement;
         ResultSet resultset;
         int contador = 0;
         int nRegistro = 0;
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
-                    + "WHERE preco>= ? AND  preco<=? AND ativo=1");
-            preparedStatement.setDouble(1, servico.getPrecoVenda());
-            preparedStatement.setDouble(2, max);
-            resultset = preparedStatement.executeQuery();
+            if (servico.getPrecoVenda() != 0 && (max != 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                        + "WHERE preco>=? AND preco<=? AND ativo=1");
+                preparedStatement.setDouble(1, servico.getPrecoVenda());
+                preparedStatement.setDouble(2, max);
+                resultset = preparedStatement.executeQuery();
+            } else if ((servico.getPrecoVenda() != 0) && (max == 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicoss "
+                        + "WHERE preco>=? AND ativo=1");
+                preparedStatement.setDouble(1, servico.getPrecoVenda());
+                resultset = preparedStatement.executeQuery();
+            } else if ((servico.getPrecoVenda() == 0) && (max != 0)) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                        + "WHERE preco<=? AND ativo=1");
+                preparedStatement.setDouble(1, servico.getPrecoVenda());
+                resultset = preparedStatement.executeQuery();
+            } else {
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                        + "WHERE ativo=1");
+                resultset = preparedStatement.executeQuery();
+            }
 
             while (resultset.next()) {
                 nRegistro++;
@@ -1000,7 +1037,7 @@ public abstract class BancoDeDados {
     }
 
     /**
-     * Medoto que realiza uma consulta de animals no banco de dados.
+     * Medoto que realiza uma consultar de animals no banco de dados.
      *
      * @param Animal
      * @return Animal[]
@@ -1010,25 +1047,29 @@ public abstract class BancoDeDados {
         int nRegistro = 0;
         try {
             if (!a.getNome().equals("")) {
-                preparedStatement = connection.prepareStatement("SELECT * FROM animal"
+                prepared = connection.prepareStatement("SELECT * FROM animal"
                         + " WHERE nome LIKE %" + a.getNome() + "%");
-                resultset = preparedStatement.executeQuery();
+                result = prepared.executeQuery();
+            } else if (a.getCodigo() != 0) {
+                prepared = connection.prepareStatement("SELECT * FROM animal "
+                        + "WHERE codigo LIKE ? AND ativo=1");
+                prepared.setString(1, a.getCodigo() + "");
+                result = prepared.executeQuery();
             }
 
-            while (resultset.next()) {
+            while (result.next()) {
                 nRegistro++;
             }
 
-            resultset.beforeFirst();
+            result.beforeFirst();
 
             Animal[] animalList = new Animal[nRegistro];
 
-            while (resultset.next()) {
+            while (result.next()) {
                 contador++;
-                animalList[contador - 1] = gerarAnimalFromResultset(resultset);
-
-
+                animalList[contador - 1] = gerarAnimalFromResultset(result);
             }
+            return animalList;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1045,30 +1086,30 @@ public abstract class BancoDeDados {
     public static boolean alterar(Cliente cliente) {
         try {
             // Preparação de commando SQL para atualização de registros
-            preparedStatement = connection.prepareStatement("UPDATE cliente SET "
+            prepared = connection.prepareStatement("UPDATE cliente SET "
                     + "nome=?,sexo=?,cpf=?,rg=?,rua=?,ncasa=?,bairro=?,cidade=?"
                     + ",complemento=?,uf=?,email=?,telefone=?,celular=?,cep=?,info=? "
                     + "WHERE codigo=?");
             // introdução das variaveis no comando
-            preparedStatement.setString(1, cliente.getNome());
-            preparedStatement.setString(2, String.valueOf(cliente.getSexo()));
-            preparedStatement.setString(3, cliente.getCpf().getCpf());
-            preparedStatement.setLong(4, cliente.getRg());
-            preparedStatement.setString(5, cliente.getEndereco().getRua());
-            preparedStatement.setInt(6, cliente.getEndereco().getNum());
-            preparedStatement.setString(7, cliente.getEndereco().getBairro());
-            preparedStatement.setString(8, cliente.getEndereco().getCidade());
-            preparedStatement.setString(9, cliente.getEndereco().getComplemento());
-            preparedStatement.setString(10, cliente.getEndereco().getUf());
-            preparedStatement.setString(11, cliente.getEmail());
-            preparedStatement.setString(12, cliente.getTelefone());
-            preparedStatement.setString(13, cliente.getCelular());
-            preparedStatement.setString(14, cliente.getEndereco().getCep());
-            preparedStatement.setString(15, cliente.getInformacoes());
+            prepared.setString(1, cliente.getNome());
+            prepared.setString(2, String.valueOf(cliente.getSexo()));
+            prepared.setString(3, cliente.getCpf().toString());
+            prepared.setLong(4, cliente.getRg());
+            prepared.setString(5, cliente.getEndereco().getRua());
+            prepared.setInt(6, cliente.getEndereco().getNum());
+            prepared.setString(7, cliente.getEndereco().getBairro());
+            prepared.setString(8, cliente.getEndereco().getCidade());
+            prepared.setString(9, cliente.getEndereco().getComplemento());
+            prepared.setString(10, cliente.getEndereco().getUf());
+            prepared.setString(11, cliente.getEmail());
+            prepared.setString(12, cliente.getTelefone());
+            prepared.setString(13, cliente.getCelular());
+            prepared.setString(14, cliente.getEndereco().getCep());
+            prepared.setString(15, cliente.getInformacoes());
             // Codigo do cliente que ira ser alterado
-            preparedStatement.setLong(16, cliente.getCodigo());
+            prepared.setLong(16, cliente.getCodigo());
             //Executa alteraçõe no banco de dados
-            preparedStatement.executeUpdate();
+            prepared.executeUpdate();
 
             return true;
 
@@ -1088,19 +1129,19 @@ public abstract class BancoDeDados {
     public static boolean alterar(Produto produto) {
         try {
             // Configuração de pre-comando
-            preparedStatement = connection.prepareStatement("UPDATE produtos SET "
+            prepared = connection.prepareStatement("UPDATE produtos SET "
                     + "nome=?,qt=?,preco_custo=?,preco_venda=?,info=? "
                     + "WHERE codigo=?");
             //Entrada de valores
-            preparedStatement.setString(1, produto.getNome());
-            preparedStatement.setInt(2, produto.getQtdeEstoque());
-            preparedStatement.setDouble(3, produto.getPrecoCusto());
-            preparedStatement.setDouble(4, produto.getPrecoVenda());
-            preparedStatement.setString(5, produto.getInformacoes());
+            prepared.setString(1, produto.getNome());
+            prepared.setInt(2, produto.getQtdeEstoque());
+            prepared.setDouble(3, produto.getPrecoCusto());
+            prepared.setDouble(4, produto.getPrecoVenda());
+            prepared.setString(5, produto.getInformacoes());
             // Codico do produto que ira ser alterado
-            preparedStatement.setLong(6, produto.getCodigo());
+            prepared.setLong(6, produto.getCodigo());
             // Executando comando SQL
-            preparedStatement.executeUpdate();
+            prepared.executeUpdate();
             // Resultado
             System.out.println("Alteração do produto realizada com exito.");
             return true;
@@ -1123,18 +1164,18 @@ public abstract class BancoDeDados {
     public static boolean alterar(Servico servico) {
         try {
             // Pre-comando SQL
-            preparedStatement = connection.prepareStatement("UPDATE INTO produtos "
-                    + "(nome,duracao,preco,info) VALUES (?,?,?,?) "
+            prepared = connection.prepareStatement("UPDATE servicos SET "
+                    + "nome=?,duracao=?,preco=?,info=? "
                     + "WHERE codigo=?");
             //Configuração das varieaveis
-            preparedStatement.setString(1, servico.getNome());
-            preparedStatement.setInt(2, servico.getDuracao());
-            preparedStatement.setDouble(3, servico.getPrecoVenda());
-            preparedStatement.setString(4, servico.getInfo());
+            prepared.setString(1, servico.getNome());
+            prepared.setInt(2, servico.getDuracao());
+            prepared.setDouble(3, servico.getPrecoVenda());
+            prepared.setString(4, servico.getInfo());
             // Codido do servico que ira ser alterado
-            preparedStatement.setLong(5, servico.getCodigo());
+            prepared.setLong(5, servico.getCodigo());
             //Execução de comando SQL
-            preparedStatement.executeUpdate();
+            prepared.executeUpdate();
             // Resultado
             System.out.println("Servico alterado com exito.");
             return true;
@@ -1154,21 +1195,21 @@ public abstract class BancoDeDados {
      **/
     public static boolean alterar(Animal animal) {
         try {
-            preparedStatement = connection.prepareStatement("UPDATE animal SET "
+            prepared = connection.prepareStatement("UPDATE animal SET "
                     + "nome=?,sexo=?,nascimento=?,especie=?,raca=?,info=?,dono=? "
                     + "WHERE codigo=?");
 
-            preparedStatement.setString(1, animal.getNome());
-            preparedStatement.setString(2, String.valueOf(animal.getSexo()));
-            preparedStatement.setString(3, String.valueOf(animal.getDataNasc().toString()));
-            preparedStatement.setString(4, animal.getEspecie());
-            preparedStatement.setString(5, animal.getRaca());
-            preparedStatement.setString(6, animal.getInfo());
-            preparedStatement.setInt(7, animal.getCodigoDono());
+            prepared.setString(1, animal.getNome());
+            prepared.setString(2, String.valueOf(animal.getSexo()));
+            SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+            prepared.setString(3, data.format(animal.getDataNasc().getTime()));
+            prepared.setString(4, animal.getEspecie());
+            prepared.setString(5, animal.getRaca());
+            prepared.setString(6, animal.getInfo());
+            prepared.setInt(7, animal.getCodigoDono());
+            prepared.setInt(8, animal.getCodigo());
 
-            preparedStatement.setInt(8, animal.getCodigo());
-
-            preparedStatement.executeUpdate();
+            prepared.executeUpdate();
 
             return true;
         } catch (SQLException e) {
@@ -1187,10 +1228,10 @@ public abstract class BancoDeDados {
      **/
     public static boolean remover(Cliente cliente) {
         try {
-            preparedStatement = connection.prepareStatement("UPDATE cliente SET "
+            prepared = connection.prepareStatement("UPDATE cliente SET "
                     + "ativo=0 WHERE codigo=?");
-            preparedStatement.setLong(1, cliente.getCodigo());
-            preparedStatement.executeUpdate();
+            prepared.setLong(1, cliente.getCodigo());
+            prepared.executeUpdate();
 
             return true;
         } catch (SQLException e) {
@@ -1207,10 +1248,10 @@ public abstract class BancoDeDados {
      **/
     public static boolean remover(Produto produto) {
         try {
-            preparedStatement = connection.prepareStatement("UPDATE produtos SET "
+            prepared = connection.prepareStatement("UPDATE produtos SET "
                     + "ativo=0 WHERE codigo=?");
-            preparedStatement.setLong(1, produto.getCodigo());
-            preparedStatement.executeUpdate();
+            prepared.setLong(1, produto.getCodigo());
+            prepared.executeUpdate();
 
             return true;
         } catch (SQLException e) {
@@ -1227,10 +1268,10 @@ public abstract class BancoDeDados {
      **/
     public static boolean remover(Servico servico) {
         try {
-            preparedStatement = connection.prepareStatement("UPDATE servicos SET "
+            prepared = connection.prepareStatement("UPDATE servicos SET "
                     + "ativo=0 WHERE codigo=?");
-            preparedStatement.setLong(1, servico.getCodigo());
-            preparedStatement.executeUpdate();
+            prepared.setLong(1, servico.getCodigo());
+            prepared.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1246,11 +1287,11 @@ public abstract class BancoDeDados {
      **/
     public static boolean remover(Animal animal) {
         try {
-            preparedStatement = connection.prepareStatement("UPDATE animal SET "
+            prepared = connection.prepareStatement("UPDATE animal SET "
                     + "ativo=0 WHRE codigo=?");
-            preparedStatement.setInt(1, animal.getCodigo());
+            prepared.setInt(1, animal.getCodigo());
 
-            preparedStatement.executeUpdate();
+            prepared.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1267,20 +1308,20 @@ public abstract class BancoDeDados {
      **/
     public static boolean drop(Venda venda) {
         try {
-            preparedStatement = connection.prepareStatement("DELETE FROM saidaservicos "
+            prepared = connection.prepareStatement("DELETE FROM saidaservicos "
                     + "WHERE venda=?");
-            preparedStatement.setLong(1, venda.getCodigo());
-            preparedStatement.executeUpdate();
+            prepared.setLong(1, venda.getCodigo());
+            prepared.executeUpdate();
 
-            preparedStatement = connection.prepareStatement("DELETE FROM saidaprodutos "
+            prepared = connection.prepareStatement("DELETE FROM saidaprodutos "
                     + "WHERE venda=?");
-            preparedStatement.setLong(1, venda.getCodigo());
-            preparedStatement.executeUpdate();
+            prepared.setLong(1, venda.getCodigo());
+            prepared.executeUpdate();
 
-            preparedStatement = connection.prepareStatement("DELETE FROM vendas "
+            prepared = connection.prepareStatement("DELETE FROM vendas "
                     + "WHERE codigo=?");
-            preparedStatement.setLong(1, venda.getCodigo());
-            preparedStatement.executeUpdate();
+            prepared.setLong(1, venda.getCodigo());
+            prepared.executeUpdate();
 
             return true;
 
@@ -1312,13 +1353,13 @@ public abstract class BancoDeDados {
                         + "WHERE nome like ?");
                 preparedStatement.setString(1, "%" + venda.getCliente().getNome() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else if (!venda.getCliente().getCpf().getCpf().equals("")) {
+            } else if (!venda.getCliente().getCpf().toString().equals("")) {
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
                         + "WHERE cpf like ?");
-                preparedStatement.setString(1, venda.getCliente().getCpf().getCpf() + "%");
+                preparedStatement.setString(1, venda.getCliente().getCpf().toString() + "%");
                 resultset = preparedStatement.executeQuery();
             } else {
                 preparedStatement = connection.prepareStatement(""

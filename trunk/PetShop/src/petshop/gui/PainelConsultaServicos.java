@@ -3,6 +3,7 @@ package petshop.gui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.BancoDeDados;
+import petshop.classes.LetraMaiuscula;
 import petshop.classes.Servico;
 
 public class PainelConsultaServicos extends PainelConsulta {
@@ -44,19 +45,7 @@ public class PainelConsultaServicos extends PainelConsulta {
     }
 
     protected void pesquisar() {
-        Servico s = new Servico();
-        
-        if(!campoPesquisa.getText().equals("")){
-            if(comboPesquisa.getSelectedIndex() == 0){
-                s.setCodigo(Integer.valueOf(campoPesquisa.getText()));
-            } else if(comboPesquisa.getSelectedIndex() == 1){
-                s.setNome(campoPesquisa.getText());
-            } else if(comboPesquisa.getSelectedIndex() == 2){
-                s.setPrecoVenda(Integer.valueOf(campoPesquisa.getText()));
-            }
-        }
-
-        Servico[] servicos = BancoDeDados.consultar(s);
+        Servico[] servicos = getServicos();
         Object[][] dados = new Object[servicos.length][4];
 
         for(int i = 0; i < servicos.length; i++){
@@ -76,12 +65,11 @@ public class PainelConsultaServicos extends PainelConsulta {
     }
 
     private void preencher(JanelaServico janela, int cod) {
-
-        Servico[] servico = BancoDeDados.consultar(new Servico(cod));
-        Servico s = servico[0];
+        Servico s = BancoDeDados.consultar(new Servico(cod))[0];
 
         if(s.getCodigo() != 0) {
-            janela.getCampoCodigo().setText(String.valueOf(s.getCodigo()));
+            janela.getCampoCodigo().setDocument(new LetraMaiuscula(10));
+            janela.getCampoCodigo().setText(s.getCodigo() + "");
         }
         janela.getCampoNome().setText(s.getNome());
         janela.getCampoDuracao().setText(String.valueOf(s.getDuracao()));
@@ -99,6 +87,35 @@ public class PainelConsultaServicos extends PainelConsulta {
         if(resp == JOptionPane.YES_OPTION){
             Servico s = new Servico(cod);
             BancoDeDados.remover(s);
+        }
+    }
+
+    private Servico[] getServicos(){
+        Servico s = new Servico();
+        double min; double max;
+
+        if(!campoMin.getText().equals(getEtiqueta(campoMin))) min = Double.valueOf(campoMin.getText());
+        else min = 0;
+        if(!campoMax.getText().equals(getEtiqueta(campoMax))) max = Double.valueOf(campoMax.getText());
+        else max = 0;
+
+        if(comboPesquisa.getSelectedIndex() < 2){
+            if(!campoPesquisa.getText().equals("")){
+                if(comboPesquisa.getSelectedIndex() == 0){
+                    s.setCodigo(Integer.valueOf(campoPesquisa.getText()));
+                } else if(comboPesquisa.getSelectedIndex() == 1){
+                    s.setNome(campoPesquisa.getText());
+                }
+            }
+            return BancoDeDados.consultar(s);
+        }
+
+        if(min <= max || max == 0){
+            s.setPrecoVenda(min);
+            return BancoDeDados.consultar(s, max);
+        } else {
+            JOptionPane.showMessageDialog(this, "O máximo não pode ser menor que o mínimo!");
+            return new Servico[0];
         }
     }
 }

@@ -25,8 +25,8 @@ public abstract class PainelConsulta extends Painel {
     protected JButton botaoAlterar;
     protected JButton botaoExcluir;
     protected JButton botaoInformacoes;
-    private JTextField campoMin;
-    private JTextField campoMax;
+    protected JTextField campoMin;
+    protected JTextField campoMax;
     private JDialog cadastro;
     private int[] itensPreco;
 
@@ -197,8 +197,7 @@ public abstract class PainelConsulta extends Painel {
         getCadastro().setVisible(true);
     }
 
-    private void trocarTipoPesquisa() {
-
+    protected void trocarTipoPesquisa() {
         boolean trocarParaPreco = false;
 
         for(int i = 0; i < itensPreco.length; i++){
@@ -206,8 +205,6 @@ public abstract class PainelConsulta extends Painel {
                 trocarParaPreco = true;
             }
         }
-
-
         if(trocarParaPreco){
             campoPesquisa.setVisible(false);
             campoMin.setVisible(true);
@@ -217,6 +214,10 @@ public abstract class PainelConsulta extends Painel {
             campoMin.setVisible(false);
             campoMax.setVisible(false);
         }
+
+        campoPesquisa.setText("");
+        campoMin.setText(getEtiqueta(campoMin));
+        campoMax.setText(getEtiqueta(campoMax));
 
         this.updateUI();
     }
@@ -277,7 +278,7 @@ public abstract class PainelConsulta extends Painel {
         this.itensPreco = itensPreco;
     }
 
-    private String getEtiqueta(JTextComponent campo) {
+    protected String getEtiqueta(JTextComponent campo) {
         if(campo.equals(campoMin)) return "MIN";
         else if(campo.equals(campoMax)) return "MAX";
 

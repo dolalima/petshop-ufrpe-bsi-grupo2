@@ -46,7 +46,7 @@ public class JanelaProduto extends javax.swing.JDialog {
                     public void keyPressed(KeyEvent e) { }
                     public void keyReleased(KeyEvent e) { } };
 
-        campoQtde.addKeyListener(k1);
+        campoEstoque.addKeyListener(k1);
         campoCodigo.addKeyListener(k1);
         campoPrecoCusto.addKeyListener(k2);
         campoPrecoVenda.addKeyListener(k2);
@@ -61,7 +61,7 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         campoCodigo.setDocument(new LetraMaiuscula(9));
         campoNome.setDocument(new LetraMaiuscula(80));
-        campoQtde.setDocument(new LetraMaiuscula(7));
+        campoEstoque.setDocument(new LetraMaiuscula(7));
         areaInformacoes.setDocument(new LetraMaiuscula(400));
 
         reiniciar();
@@ -79,7 +79,7 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         campoNome = new javax.swing.JTextField();
-        campoQtde = new javax.swing.JTextField();
+        campoEstoque = new javax.swing.JTextField();
         campoPrecoCusto = new javax.swing.JTextField();
         scrollInformacoes = new javax.swing.JScrollPane();
         areaInformacoes = new javax.swing.JTextArea();
@@ -90,10 +90,9 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Produto");
-        setMinimumSize(new java.awt.Dimension(400, 260));
+        setMinimumSize(new java.awt.Dimension(380, 270));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(450, 260));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -109,12 +108,11 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 150;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNome, gridBagConstraints);
 
-        campoQtde.addFocusListener(new java.awt.event.FocusAdapter() {
+        campoEstoque.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tirarEtiqueta(evt);
             }
@@ -127,7 +125,7 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoQtde, gridBagConstraints);
+        jPanel1.add(campoEstoque, gridBagConstraints);
 
         campoPrecoCusto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -247,6 +245,8 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         if(campo.getText().equals(getEtiqueta(campo))){
             if(tipo != TipoJanela.INFORMACAO){
+                if(campo.equals(campoEstoque))
+                    campoEstoque.setDocument(new LetraMaiuscula(4));
                 campo.setText("");
             }
         }
@@ -256,6 +256,8 @@ public class JanelaProduto extends javax.swing.JDialog {
         JTextComponent campo = (JTextComponent) evt.getComponent();
 
         if(campo.getText().equals("")){
+            if(campo.equals(campoEstoque))
+                    campoEstoque.setDocument(new LetraMaiuscula(7));
             campo.setText(getEtiqueta(campo));
         }
 }//GEN-LAST:event_colocarEtiqueta
@@ -275,6 +277,7 @@ public class JanelaProduto extends javax.swing.JDialog {
             if(tipo == TipoJanela.CADASTRO){
                 if(BancoDeDados.cadastrar(produto)){
                     JOptionPane.showMessageDialog(this.getContentPane(), "Produto cadastrado com sucesso!");
+                    reiniciar();
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar produto!");
@@ -282,6 +285,7 @@ public class JanelaProduto extends javax.swing.JDialog {
             } else {
                 if(BancoDeDados.alterar(produto)){
                     JOptionPane.showMessageDialog(this.getContentPane(), "Produto alterado com sucesso!");
+                    reiniciar();
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar produto!");
@@ -330,10 +334,10 @@ public class JanelaProduto extends javax.swing.JDialog {
     private javax.swing.JButton botaoCadastrar;
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JTextField campoCodigo;
+    private javax.swing.JTextField campoEstoque;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoPrecoCusto;
     private javax.swing.JTextField campoPrecoVenda;
-    private javax.swing.JTextField campoQtde;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane scrollInformacoes;
     // End of variables declaration//GEN-END:variables
@@ -345,7 +349,7 @@ public class JanelaProduto extends javax.swing.JDialog {
         else if(campo.equals(campoPrecoCusto)) return "PREÇO DE CUSTO";
         else if(campo.equals(campoCodigo)) return "CÓDIGO";
         else if(campo.equals(campoPrecoVenda)) return "PREÇO DE VENDA";
-        else if(campo.equals(campoQtde)) return "QTDE ESTOQUE";
+        else if(campo.equals(campoEstoque)) return "ESTOQUE";
         else if(campo.equals(areaInformacoes)) return "INFORMAÇÕES ADICIONAIS";
 
         return "";
@@ -358,7 +362,8 @@ public class JanelaProduto extends javax.swing.JDialog {
         campoNome.setText(getEtiqueta(campoNome));
         campoPrecoCusto.setText(getEtiqueta(campoPrecoCusto));
         campoPrecoVenda.setText(getEtiqueta(campoPrecoVenda));
-        campoQtde.setText(getEtiqueta(campoQtde));
+        campoEstoque.setText(getEtiqueta(campoEstoque));
+        campoEstoque.setDocument(new LetraMaiuscula(7));
         areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
 
@@ -370,7 +375,7 @@ public class JanelaProduto extends javax.swing.JDialog {
         if(campoNome.getText().equals("Nome")){ msg += "- NOME\n"; existeDependencias = true;}
         if(campoPrecoCusto.getText().equals("Preço Custo")){ msg += "- PREÇO DE CUSTO\n"; existeDependencias = true;}
         if(campoPrecoVenda.getText().equals("Preço Venda")){ msg += "- PREÇO DE VENDA\n"; existeDependencias = true;}
-        if(campoQtde.getText().equals("Qtde Estoque")){ msg += "- QTDE EM ESTOQUE\n"; existeDependencias = true;}
+        if(campoEstoque.getText().equals("Qtde Estoque")){ msg += "- QTDE EM ESTOQUE\n"; existeDependencias = true;}
 
         if(existeDependencias){
             JOptionPane.showMessageDialog(this.getContentPane(), msg);
@@ -380,9 +385,8 @@ public class JanelaProduto extends javax.swing.JDialog {
     }
 
     private Produto gerarProduto(){
-
-        int codigo = new Random().nextInt();
         String informacoes = "";
+        int codigo = 0;
 
         if(!campoCodigo.getText().equals(getEtiqueta(campoCodigo)))
                 codigo = Integer.valueOf(campoCodigo.getText());
@@ -390,7 +394,7 @@ public class JanelaProduto extends javax.swing.JDialog {
                 informacoes = areaInformacoes.getText();
 
         String nome = campoNome.getText();
-        int qtdeEstoque = Integer.valueOf(campoQtde.getText());
+        int qtdeEstoque = Integer.valueOf(campoEstoque.getText());
         double precoCusto = Double.valueOf(campoPrecoCusto.getText());
         double precoVenda = Double.valueOf(campoPrecoVenda.getText());
 
@@ -418,13 +422,13 @@ public class JanelaProduto extends javax.swing.JDialog {
     }
 
     public JTextField getCampoQtde() {
-        return campoQtde;
+        return campoEstoque;
     }
 
     private void desabilitarCampos() {
         campoCodigo.setEditable(false);
         campoNome.setEditable(false);
-        campoQtde.setEditable(false);
+        campoEstoque.setEditable(false);
         campoPrecoCusto.setEditable(false);
         campoPrecoVenda.setEditable(false);
         areaInformacoes.setEditable(false);
