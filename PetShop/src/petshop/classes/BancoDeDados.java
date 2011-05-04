@@ -897,7 +897,7 @@ public abstract class BancoDeDados {
             } else if (produto.getPrecoCusto() == 0 && (max != 0)) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
                         + "WHERE preco_custo<=? AND ativo=1");
-                preparedStatement.setDouble(1, produto.getPrecoCusto());
+                preparedStatement.setDouble(1, max);
                 resultset = preparedStatement.executeQuery();
             } else if (produto.getPrecoVenda() != 0 && (max != 0)) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
@@ -913,7 +913,7 @@ public abstract class BancoDeDados {
             } else if ((produto.getPrecoVenda() == 0) && (max != 0)) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
                         + "WHERE preco_venda<=? AND ativo=1");
-                preparedStatement.setDouble(1, produto.getPrecoVenda());
+                preparedStatement.setDouble(1, max);
                 resultset = preparedStatement.executeQuery();
             } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
@@ -999,14 +999,14 @@ public abstract class BancoDeDados {
                 preparedStatement.setDouble(2, max);
                 resultset = preparedStatement.executeQuery();
             } else if ((servico.getPrecoVenda() != 0) && (max == 0)) {
-                preparedStatement = connection.prepareStatement("SELECT * FROM servicoss "
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE preco>=? AND ativo=1");
                 preparedStatement.setDouble(1, servico.getPrecoVenda());
                 resultset = preparedStatement.executeQuery();
             } else if ((servico.getPrecoVenda() == 0) && (max != 0)) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE preco<=? AND ativo=1");
-                preparedStatement.setDouble(1, servico.getPrecoVenda());
+                preparedStatement.setDouble(1, max);
                 resultset = preparedStatement.executeQuery();
             } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
@@ -1402,7 +1402,35 @@ public abstract class BancoDeDados {
 
 
         try {
-            if (min!=0&&max!=0) {
+            if (min != 0 && max != 0) {
+                preparedStatement = connection.prepareStatement("SELECT id_venda,codigo,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
+                        + "WHERE valor>= ? and valor<=?");
+                preparedStatement.setDouble(1, min);
+                preparedStatement.setDouble(2, max);
+                resultset = preparedStatement.executeQuery();
+            } else if (min != 0 && max == 0) {
+                preparedStatement = connection.prepareStatement("SELECT id_venda,codigo,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
+                        + "WHERE valor>= ?");
+                preparedStatement.setDouble(1, min);
+                resultset = preparedStatement.executeQuery();
+            } else if (min == 0 && max != 0) {
+                preparedStatement = connection.prepareStatement("SELECT id_venda,codigo,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
+                        + "WHERE valor<=?");
+                preparedStatement.setDouble(1, max);
+                resultset = preparedStatement.executeQuery();
+            } else {
+                preparedStatement = connection.prepareStatement("SELECT id_venda,codigo,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento");
+                resultset = preparedStatement.executeQuery();
+            }
+            /*if (min!=0&&max!=0) {
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
@@ -1417,7 +1445,7 @@ public abstract class BancoDeDados {
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
                         + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento ");
                  resultset = preparedStatement.executeQuery();
-            }
+            }*/
 
 
             while (resultset.next()) {

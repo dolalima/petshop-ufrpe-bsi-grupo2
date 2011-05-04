@@ -7,6 +7,8 @@ package petshop.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
@@ -14,6 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.JTextComponent;
+import petshop.classes.LetraMaiuscula;
 
 /**
  *
@@ -186,6 +189,28 @@ public abstract class PainelConsulta extends Painel {
             }
         });
 
+        KeyListener k = new KeyListener() {
+
+            public void keyTyped(KeyEvent e) {
+                if(!((e.getKeyChar() >= KeyEvent.VK_0
+                        && e.getKeyChar() <= KeyEvent.VK_9)
+                        || (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))){
+                    e.consume();
+                }
+            }
+
+            public void keyPressed(KeyEvent e) {
+            }
+
+            public void keyReleased(KeyEvent e) {
+            }
+        };
+
+        campoMin.addKeyListener(k);
+        campoMax.addKeyListener(k);
+        campoMin.setDocument(new LetraMaiuscula(6));
+        campoMax.setDocument(new LetraMaiuscula(6));
+
         trocarTipoPesquisa(); //serve para setar os campos de preço serem visiveis ou nao.
     }
 
@@ -197,7 +222,7 @@ public abstract class PainelConsulta extends Painel {
         getCadastro().setVisible(true);
     }
 
-    protected void trocarTipoPesquisa() {
+    protected final void trocarTipoPesquisa() {
         boolean trocarParaPreco = false;
 
         for(int i = 0; i < itensPreco.length; i++){
@@ -278,7 +303,7 @@ public abstract class PainelConsulta extends Painel {
         this.itensPreco = itensPreco;
     }
 
-    protected String getEtiqueta(JTextComponent campo) {
+    protected final String getEtiqueta(JTextComponent campo) {
         if(campo.equals(campoMin)) return "MIN";
         else if(campo.equals(campoMax)) return "MAX";
 

@@ -307,7 +307,7 @@ public class JanelaVenda extends javax.swing.JDialog {
         labelTotal.setForeground(new java.awt.Color(225, 1, 1));
         labelTotal.setText("Total 00.00");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
