@@ -272,9 +272,12 @@ public class JanelaProduto extends javax.swing.JDialog {
 
             if(tipo == TipoJanela.CADASTRO){
                 if(BancoDeDados.cadastrar(produto)){
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Produto cadastrado com sucesso!");
-                    reiniciar();
-                    this.dispose();
+                    int resp = JOptionPane.showConfirmDialog(this, "Produto cadastrado com sucesso. Deseja realizar novo cadastro?", "Concluído", JOptionPane.YES_NO_OPTION);
+
+                        this.reiniciar();
+                        if(resp != JOptionPane.YES_OPTION){
+                            this.dispose();
+                        }
                 } else {
                     JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar produto!");
                 }
