@@ -467,7 +467,7 @@ public abstract class BancoDeDados {
                 preparedStatement.setLong(2, produtoList.get(i).getCodigo());
                 preparedStatement.setInt(3, qtdeList.get(i));
                 preparedStatement.setDouble(4, produtoList.get(i).getPrecoVenda());
-                baixarEstoque(produtoList.get(i),qtdeList.get(i));
+                baixarEstoque(produtoList.get(i), qtdeList.get(i));
                 preparedStatement.executeUpdate();
 
 
@@ -486,11 +486,11 @@ public abstract class BancoDeDados {
         try {
             preparedStatement = connection.prepareStatement("UPDATE produtos SET "
                     + "qt=? WHERE codigo=?");
-            preparedStatement.setInt(1, produto.getQtdeEstoque()-qtde);
+            preparedStatement.setInt(1, produto.getQtdeEstoque() - qtde);
             preparedStatement.setInt(2, produto.getCodigo());
             preparedStatement.executeUpdate();
             return true;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -1351,5 +1351,57 @@ public abstract class BancoDeDados {
             Venda[] vendaList = new Venda[0];
             return vendaList;
         }
+    }
+
+    public static Venda[] consultar(double min, double max) {
+        PreparedStatement preparedStatement;
+        ResultSet resultset;
+        int contador = 0;
+        int nRegistro = 0;
+
+
+        try {
+            if (min!=0&&max!=0) {
+                preparedStatement = connection.prepareStatement(""
+                        + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento "
+                        + "WHERE valor>= ? and valor<=?");
+                preparedStatement.setDouble(1, min);
+                preparedStatement.setDouble(2, max);
+                resultset = preparedStatement.executeQuery();
+            } else{
+                 preparedStatement = connection.prepareStatement(""
+                        + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
+                        + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
+                        + "INNER JOIN pagamento ON vendas.pagamento=pagamento.id_pagamento ");
+                 resultset = preparedStatement.executeQuery();
+            }
+
+
+            while (resultset.next()) {
+                nRegistro++;
+            }
+            resultset.beforeFirst();
+            Venda[] vendaList = new Venda[nRegistro];
+
+            while (resultset.next()) {
+                Venda v = new Venda();
+                v.setCodigo((Integer) resultset.getObject(1));
+                v.setCliente(getCliente((Integer) resultset.getObject(2)));
+                v.setCarrinhoProdutos(getCarrinhoProdutos(v));
+                v.setCarrinhoServicos(getCarrinhoServicos(v));
+                vendaList[contador] = v;
+                contador++;
+            }
+
+            return vendaList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Venda[] vendaList = new Venda[0];
+            return vendaList;
+        }
+
     }
 }
