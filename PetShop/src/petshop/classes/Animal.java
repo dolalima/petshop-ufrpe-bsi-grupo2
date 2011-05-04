@@ -29,11 +29,33 @@ public class Animal {
     }
 
     public Animal(String nome) {
+        this.codigo = 0;
         this.nome = nome;
+        this.sexo = ' ';
+        this.dataNasc = new GregorianCalendar();
+        this.especie = "";
+        this.raca = "";
+        this.info = "";
     }
 
     Animal() {
+        this.codigo = 0;
+        this.nome = "";
+        this.sexo = ' ';
+        this.dataNasc = new GregorianCalendar();
+        this.especie = "";
+        this.raca = "";
+        this.info = "";
+    }
 
+    public Animal(int codigo) {
+        this.codigo = codigo;
+        this.nome = "";
+        this.sexo = ' ';
+        this.dataNasc = new GregorianCalendar();
+        this.especie = "";
+        this.raca = "";
+        this.info = "";
     }
 
     public int getCodigo() {

@@ -11,11 +11,14 @@
 
 package petshop.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import petshop.classes.BancoDeDados;
@@ -34,7 +37,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     /** Creates new form JanelaPrincipal */
     public JanelaPrincipal() {
         initComponents();
-        this.setTitle("Menu Principal");
+        this.setTitle(" Pet Store ");
         
         painelClientes = new PainelConsultaClientes();
         painelProdutos = new PainelConsultaProdutos();
@@ -42,6 +45,14 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         painelVendas = new PainelConsultaVendas();
         
         painelSplit.setRightComponent(painelClientes);
+
+        ImageIcon icone = new ImageIcon("logo-42.png");
+        setIconImage(icone.getImage());
+
+        configurarFonte(botaoClientes, Color.BLACK, Font.BOLD, 16);
+        configurarFonte(botaoProdutos, Color.BLACK, Font.PLAIN, 12);
+        configurarFonte(botaoServicos, Color.BLACK, Font.PLAIN, 12);
+        configurarFonte(botaoVendas, Color.BLACK, Font.PLAIN, 12);
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -84,7 +95,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         botaoClientes.setPreferredSize(new java.awt.Dimension(150, 40));
         botaoClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoClientesMouseClicked(evt);
+                clicarBotaoClientes(evt);
+                mudarFonte(evt);
             }
         });
         jPanel1.add(botaoClientes);
@@ -93,7 +105,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         botaoProdutos.setPreferredSize(new java.awt.Dimension(150, 40));
         botaoProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoProdutosMouseClicked(evt);
+                clicarBotaoProdutos(evt);
+                mudarFonte(evt);
             }
         });
         jPanel1.add(botaoProdutos);
@@ -102,7 +115,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         botaoServicos.setPreferredSize(new java.awt.Dimension(150, 40));
         botaoServicos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoServicosMouseClicked(evt);
+                clicarBotaoServicos(evt);
+                mudarFonte(evt);
             }
         });
         jPanel1.add(botaoServicos);
@@ -111,7 +125,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         botaoVendas.setPreferredSize(new java.awt.Dimension(150, 40));
         botaoVendas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botaoVendasMouseClicked(evt);
+                clicarBotaoVendas(evt);
+                mudarFonte(evt);
             }
         });
         jPanel1.add(botaoVendas);
@@ -145,29 +160,23 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botaoClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoClientesMouseClicked
-        if(!painelSplit.getRightComponent().equals(painelClientes)){
-            painelSplit.setRightComponent(painelClientes);
-        }
-}//GEN-LAST:event_botaoClientesMouseClicked
-
-    private void botaoProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoProdutosMouseClicked
+    private void clicarBotaoProdutos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoProdutos
         if(!painelSplit.getRightComponent().equals(painelProdutos)){
             painelSplit.setRightComponent(painelProdutos);
         }
-}//GEN-LAST:event_botaoProdutosMouseClicked
+}//GEN-LAST:event_clicarBotaoProdutos
 
-    private void botaoServicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoServicosMouseClicked
+    private void clicarBotaoServicos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoServicos
         if(!painelSplit.getRightComponent().equals(painelServicos)){
             painelSplit.setRightComponent(painelServicos);
         }
-    }//GEN-LAST:event_botaoServicosMouseClicked
+    }//GEN-LAST:event_clicarBotaoServicos
 
-    private void botaoVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoVendasMouseClicked
+    private void clicarBotaoVendas(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoVendas
         if(!painelSplit.getRightComponent().equals(painelVendas)){
             painelSplit.setRightComponent(painelVendas);
         }
-    }//GEN-LAST:event_botaoVendasMouseClicked
+    }//GEN-LAST:event_clicarBotaoVendas
 
     private void clicarMenuLogout(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clicarMenuLogout
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja fazer logout?", "Logout", JOptionPane.YES_NO_OPTION);
@@ -208,6 +217,20 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void mudarFonte(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mudarFonte
+        configurarFonte(botaoClientes, Color.BLACK, Font.PLAIN, 12);
+        configurarFonte(botaoProdutos, Color.BLACK, Font.PLAIN, 12);
+        configurarFonte(botaoServicos, Color.BLACK, Font.PLAIN, 12);
+        configurarFonte(botaoVendas, Color.BLACK, Font.PLAIN, 12);
+        configurarFonte(evt.getComponent(), Color.BLACK, Font.BOLD, 16);
+    }//GEN-LAST:event_mudarFonte
+
+    private void clicarBotaoClientes(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoClientes
+        if(!painelSplit.getRightComponent().equals(painelClientes)){
+            painelSplit.setRightComponent(painelClientes);
+        }
+    }//GEN-LAST:event_clicarBotaoClientes
+
     /**
     * @param args the command line arguments
     */
@@ -232,7 +255,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSplitPane painelSplit;
     // End of variables declaration//GEN-END:variables
 
-    public void cadastrarCliente(){
 
+    private void configurarFonte(java.awt.Component c, Color cor, int estilo, int tamanhoFonte){
+        c.setForeground(cor);
+        c.setFont(new Font("Tahoma", estilo, tamanhoFonte));
     }
 }

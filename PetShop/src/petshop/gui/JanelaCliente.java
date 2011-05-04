@@ -2,6 +2,7 @@ package petshop.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,6 +25,8 @@ public class JanelaCliente extends javax.swing.JDialog {
 
     private Cliente cliente;
     private ArrayList<Animal> animais;
+    private ArrayList<Integer> cadastrado;
+    private ArrayList<Integer> alterado;
     private TipoJanela tipo;
     
     /** Creates new form JanelaCliente */
@@ -58,11 +61,14 @@ public class JanelaCliente extends javax.swing.JDialog {
         campoNumero.addKeyListener(k);
 
         animais = new ArrayList();
+        cadastrado = new ArrayList();
+        alterado = new ArrayList();
 
         reiniciar();
 
         if(this.tipo == TipoJanela.ALTERACAO){
             botaoCadastrar.setText("Alterar");
+            botaoRemoverAnimal.setText("Alterar");
         } else if(this.tipo == TipoJanela.INFORMACAO){
             botaoCadastrar.setVisible(false);
             botaoCancelar.setVisible(false);
@@ -487,7 +493,14 @@ public class JanelaCliente extends javax.swing.JDialog {
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
         if(!existemDependencias()){
             cliente = gerarCliente();
-            
+            if(!cliente.getCpf().isValido()){
+                JOptionPane.showMessageDialog(this.getContentPane(), "CPF Inválido!");
+                return;
+            }
+            if(BancoDeDados.existeCPF(cliente.getCpf())){
+                JOptionPane.showMessageDialog(this.getContentPane(), "Este CPF já está cadastrado no banco de dados!");
+                return;
+            }
 
             if(tipo == TipoJanela.CADASTRO){
                 if(BancoDeDados.cadastrar(cliente)){
@@ -577,12 +590,16 @@ public class JanelaCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_mudarComboAnimais
 
     private void removerAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removerAnimal
-        animais.remove(comboAnimais.getSelectedIndex() - 1);
-        comboAnimais.removeItemAt(comboAnimais.getSelectedIndex());
-
         if(tipo == TipoJanela.ALTERACAO){
-            Animal[] a = BancoDeDados.consultar(new Animal((String) comboAnimais.getSelectedItem()));
-            BancoDeDados.remover(a[0]);
+            JanelaAnimal janela = new JanelaAnimal(this, TipoJanela.ALTERACAO);
+
+            preencher(janela);
+
+            janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+            janela.setVisible(true);
+        } else {
+            animais.remove(comboAnimais.getSelectedIndex() - 1);
+            comboAnimais.removeItemAt(comboAnimais.getSelectedIndex());
         }
     }//GEN-LAST:event_removerAnimal
 
@@ -680,8 +697,23 @@ public class JanelaCliente extends javax.swing.JDialog {
 
     void adicionarAnimal(Animal a) {
         animais.add(a);
+        cadastrado.add(1);
+        alterado.add(0);
 
         comboAnimais.addItem(a.getNome());
+    }
+
+    void alterarAnimal(int index, Animal a) {
+        animais.remove(index);
+        animais.add(a);
+        alterado.remove(index);
+        alterado.add(1);
+        cadastrado.remove(index);
+        cadastrado.add(0);
+
+        comboAnimais.removeItemAt(index + 1);
+        comboAnimais.addItem(a.getNome());
+        comboAnimais.updateUI();
     }
 
     private boolean existemDependencias() {
@@ -734,10 +766,22 @@ public class JanelaCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this.getContentPane(), msg);
         }
 
+        if(campoCelular.getText().length() < 13){
+            JOptionPane.showMessageDialog(this.getContentPane(), "Celular Inválido!");
+            return true;
+        } else if(campoTelefone.getText().length() < 13){
+            JOptionPane.showMessageDialog(this.getContentPane(), "Telefone Inválido!");
+            return true;
+        } else if(campoCEP.getText().length() < 9){
+            JOptionPane.showMessageDialog(this.getContentPane(), "CEP Inválido!");
+            return true;
+        }
+
         return existeDependencias;
     }
 
     public Cliente gerarCliente() {
+        
         String complemento = "";
         String cep = "";
         String email = "";
@@ -780,8 +824,10 @@ public class JanelaCliente extends javax.swing.JDialog {
             sexo = "F";
         }
         Endereco endereco = new Endereco(rua, numero, complemento, bairro, cidade, uf, cep);
+        String CPF = campoCPF.getText().substring(0, 3) + campoCPF.getText().substring(4, 7) +
+                campoCPF.getText().substring(8, 11) + campoCPF.getText().substring(12, 14);
+        CPF cpf = new CPF(CPF);
         long rg = Long.valueOf(campoRG.getText());
-        CPF cpf = new CPF(campoCPF.getText());
         Animal[] listaAnimais;
         try {
             listaAnimais = (Animal[]) animais.toArray();
@@ -907,13 +953,39 @@ public class JanelaCliente extends javax.swing.JDialog {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public ArrayList<Animal> getAnimais() {
+        return animais;
+    }
+
+    public void setAnimais(ArrayList<Animal> animais) {
+        this.animais = animais;
+    }
+
+    public ArrayList<Integer> getAlterado() {
+        return alterado;
+    }
+
+    public void setAlterado(ArrayList<Integer> alterado) {
+        this.alterado = alterado;
+    }
+
+    public ArrayList<Integer> getCadastrado() {
+        return cadastrado;
+    }
+
+    public void setCadastrado(ArrayList<Integer> cadastrado) {
+        this.cadastrado = cadastrado;
+    }
+
+
     
     private boolean cadastrarAnimais(){
         boolean cadastrouAnimais = true;
 
         for(int i = 0; i < animais.size(); i++){
             animais.get(i).setCodigoDono(BancoDeDados.getClienteCod(cliente));
-            if(animais.get(i).getCodigo() == 0)
+            if(cadastrado.get(i) == 1)
                 cadastrouAnimais = cadastrouAnimais && BancoDeDados.cadastrar(animais.get(i));
         }
 
@@ -925,10 +997,25 @@ public class JanelaCliente extends javax.swing.JDialog {
 
         for(int i = 0; i < animais.size(); i++){
             animais.get(i).setCodigoDono(BancoDeDados.getClienteCod(cliente));
-            if(animais.get(i).getCodigo() != 0)
+            if(alterado.get(i) == 1)
                 alterouAnimais = alterouAnimais && BancoDeDados.alterar(animais.get(i));
         }
 
         return alterouAnimais;
+    }
+
+    private void preencher(JanelaAnimal janelaAnimal){
+        Animal a = animais.get(comboAnimais.getSelectedIndex() - 1);
+        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+        
+        janelaAnimal.getCampoNome().setText(a.getNome());
+        if(a.getSexo() == 'M') janelaAnimal.getComboSexo().setSelectedIndex(1);
+        else janelaAnimal.getComboSexo().setSelectedIndex(2);
+        janelaAnimal.getCampoDataNasc().setText(data.format(a.getDataNasc().getTime()));
+        janelaAnimal.getComboEspecie().setSelectedItem(a.getEspecie());
+        janelaAnimal.getCampoRaca().setText(a.getRaca());
+        if(!a.getInfo().equals("")) {
+            janelaAnimal.getAreaInformacoes().setText(a.getInfo());
+        }
     }
 }

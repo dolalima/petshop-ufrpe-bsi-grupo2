@@ -9,10 +9,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
+import petshop.classes.BancoDeDados;
 import petshop.classes.LetraMaiuscula;
 
 /**
@@ -23,6 +26,8 @@ public class JanelaAnimal extends javax.swing.JDialog {
 
     TipoJanela tipo;
     JanelaCliente janelaCliente;
+
+    int index;
 
     /** Creates new form JanelaAnimal */
     public JanelaAnimal(JanelaCliente janelaCliente, TipoJanela tipo) {
@@ -48,6 +53,12 @@ public class JanelaAnimal extends javax.swing.JDialog {
         areaInformacoes.setDocument(new LetraMaiuscula(400));
 
         reiniciar();
+
+        if(tipo == TipoJanela.INFORMACAO){
+            desabilitarCampos();
+        } else if(tipo == TipoJanela.ALTERACAO){
+            this.botaoAdicionar.setText("Alterar");
+        }
     }
 
     /** This method is called from within the constructor to
@@ -246,7 +257,9 @@ public class JanelaAnimal extends javax.swing.JDialog {
         if(!existemDependencias()){
             Animal animal = gerarAnimal();
 
-            janelaCliente.adicionarAnimal(animal);
+            if(tipo == TipoJanela.CADASTRO) janelaCliente.adicionarAnimal(animal);
+            else if(tipo == TipoJanela.ALTERACAO) janelaCliente.alterarAnimal(janelaCliente.getComboAnimais().getSelectedIndex() - 1, animal);
+
             this.dispose();
         }
     }//GEN-LAST:event_cadastrar
@@ -390,6 +403,47 @@ public class JanelaAnimal extends javax.swing.JDialog {
         if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
                 info = areaInformacoes.getText();
 
-        return new Animal(nome, sexo, cal, especie, raca, info);
+        Animal a = new Animal(nome, sexo, cal, especie, raca, info);
+
+        //se for de alteração pegue o código do animal que esta sendo alterado.
+        if(tipo == TipoJanela.ALTERACAO)
+            a.setCodigo(janelaCliente.getAnimais().get(janelaCliente.getComboAnimais().getSelectedIndex() - 1).getCodigo());
+
+        return a;
     }
+
+    private void desabilitarCampos(){
+        campoNome.setEditable(false);
+        comboSexo.setEnabled(false);
+        campoDataNasc.setEditable(false);
+        comboEspecie.setEnabled(false);
+        campoRaca.setEditable(false);
+        areaInformacoes.setEditable(false);
+    }
+
+    public JTextField getCampoDataNasc() {
+        return campoDataNasc;
+    }
+
+    public JTextField getCampoNome() {
+        return campoNome;
+    }
+
+    public JTextField getCampoRaca() {
+        return campoRaca;
+    }
+
+    public JComboBox getComboEspecie() {
+        return comboEspecie;
+    }
+
+    public JComboBox getComboSexo() {
+        return comboSexo;
+    }
+
+    public JTextArea getAreaInformacoes() {
+        return areaInformacoes;
+    }
+
+
 }

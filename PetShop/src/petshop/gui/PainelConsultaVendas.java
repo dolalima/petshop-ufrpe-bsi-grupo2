@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
+import petshop.classes.CPF;
 import petshop.classes.Cliente;
 import petshop.classes.Venda;
 
@@ -38,28 +39,14 @@ public class PainelConsultaVendas extends PainelConsulta {
     }
 
     protected void pesquisar() {
-        Venda v = new Venda();
-
-        if(!campoPesquisa.getText().equals("")){
-            if(comboPesquisa.getSelectedIndex() == 0){
-                v.setCodigo(Integer.valueOf(campoPesquisa.getText()));
-            } else if(comboPesquisa.getSelectedIndex() == 1){
-                Cliente c = new Cliente();
-                c.setNome(campoPesquisa.getText());
-                v.setCliente(c);
-            } else if(comboPesquisa.getSelectedIndex() == 2){
-
-            }
-        }
-
-        Venda[] vendas = BancoDeDados.consultar(v);
+        Venda[] vendas = getVendas();
 
         Object[][] dados = new Object[vendas.length][4];
 
         for(int i = 0; i < vendas.length; i++){
             dados[i][0] = vendas[i].getCodigo();
             dados[i][1] = vendas[i].getCliente().getNome();
-            dados[i][2] = vendas[i].getCliente().getCpf().getCpf();
+            dados[i][2] = vendas[i].getCliente().getCpf().toString();
             dados[i][3] = vendas[i].total();
         }
 
@@ -78,9 +65,7 @@ public class PainelConsultaVendas extends PainelConsulta {
     }
 
     private void preencher(JanelaVenda janela, int cod) {
-
-        Venda[] venda = BancoDeDados.consultar(new Venda(cod));
-        Venda v = venda[0];
+        Venda v = BancoDeDados.consultar(new Venda(cod))[0];
 
         janela.getLabelCliente().setText(v.getCliente().getNome());
         janela.setTotal(v.total());
@@ -116,5 +101,39 @@ public class PainelConsultaVendas extends PainelConsulta {
     @Override
     void excluir(int integer) {
         throw new UnsupportedOperationException("Venda não pode ser excluida");
+    }
+
+    private Venda[] getVendas(){
+        Venda v = new Venda();
+        double min; double max;
+
+        if(!campoMin.getText().equals(getEtiqueta(campoMin))) min = Double.valueOf(campoMin.getText());
+        else min = 0;
+        if(!campoMax.getText().equals(getEtiqueta(campoMax))) max = Double.valueOf(campoMax.getText());
+        else max = 0;
+
+        if(comboPesquisa.getSelectedIndex() < 3){
+            if(!campoPesquisa.getText().equals("")){
+                if(comboPesquisa.getSelectedIndex() == 0){
+                    v.setCodigo(Integer.valueOf(campoPesquisa.getText()));
+                } else if(comboPesquisa.getSelectedIndex() == 1){
+                    Cliente c = new Cliente();
+                    c.setNome(campoPesquisa.getText());
+                    v.setCliente(c);
+                } else if(comboPesquisa.getSelectedIndex() == 1){
+                    Cliente c = new Cliente();
+                    c.setCpf(new CPF(campoPesquisa.getText()));
+                    v.setCliente(c);
+                }
+            }
+            return BancoDeDados.consultar(v);
+        }
+
+        if(min <= max || max == 0){
+            return BancoDeDados.consultar(min, max);
+        } else {
+            JOptionPane.showMessageDialog(this, "O máximo não pode ser menor que o mínimo!");
+            return new Venda[0];
+        }
     }
 }

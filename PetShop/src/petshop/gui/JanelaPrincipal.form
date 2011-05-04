@@ -99,7 +99,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoClientesMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clicarBotaoClientes,mudarFonte"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoProdutos">
@@ -110,7 +110,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoProdutosMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clicarBotaoProdutos,mudarFonte"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoServicos">
@@ -121,7 +121,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoServicosMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clicarBotaoServicos,mudarFonte"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoVendas">
@@ -132,7 +132,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoVendasMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clicarBotaoVendas,mudarFonte"/>
               </Events>
             </Component>
           </SubComponents>

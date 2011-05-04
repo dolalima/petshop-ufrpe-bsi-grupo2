@@ -106,7 +106,7 @@ public class JanelaAdicionaCliente extends JanelaAdiciona {
         for(int i = 0; i < clientes.length; i++){
             dados[i][0] = clientes[i].getCodigo();
             dados[i][1] = clientes[i].getNome();
-            dados[i][2] = clientes[i].getCpf().getCpf();
+            dados[i][2] = clientes[i].getCpf().toString();
             dados[i][3] = clientes[i].getRg();
         }
 

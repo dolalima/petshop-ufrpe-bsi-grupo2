@@ -1,7 +1,9 @@
 package petshop.gui;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
 import petshop.classes.Cliente;
@@ -65,7 +67,7 @@ public class PainelConsultaClientes extends PainelConsulta {
         for(int i = 0; i < clientes.length; i++){
             dados[i][0] = clientes[i].getCodigo();
             dados[i][1] = clientes[i].getNome();
-            dados[i][2] = clientes[i].getCpf().getCpf();
+            dados[i][2] = clientes[i].getCpf().toString();
             dados[i][3] = clientes[i].getRg();
         }
         
@@ -80,9 +82,7 @@ public class PainelConsultaClientes extends PainelConsulta {
     }
 
     private void preencher(JanelaCliente janela, int cod){
-
-        Cliente[] cliente = BancoDeDados.consultar(new Cliente(cod));
-        Cliente c = cliente[0];
+        Cliente c = BancoDeDados.consultar(new Cliente(cod))[0];
 
         janela.setCliente(c);
         janela.getCampoNome().setText(c.getNome());
@@ -98,16 +98,22 @@ public class PainelConsultaClientes extends PainelConsulta {
         if(!c.getEndereco().getCep().equals(""))
             janela.getCampoCEP().setText(c.getEndereco().getCep());
         janela.getCampoRG().setText(String.valueOf(c.getRg()));
-        janela.getCampoCPF().setText(c.getCpf().getCpf());
+        janela.getCampoCPF().setText(c.getCpf().toString());
         if(!c.getEmail().equals(""))
             janela.getCampoEMail().setText(c.getEmail());
         if(!c.getTelefone().equals(""))
             janela.getCampoTelefone().setText(c.getTelefone());
         if(!c.getCelular().equals(""))
             janela.getCampoCelular().setText(c.getCelular());
+
+        ArrayList<Animal> animais = new ArrayList();
         for(int i = 0; i < c.getAnimais().length; i++){
             janela.getComboAnimais().addItem(c.getAnimais()[i].getNome());
+            animais.add(c.getAnimais()[i]);
+            janela.getCadastrado().add(0);
+            janela.getAlterado().add(0);
         }
+        janela.setAnimais(animais);
         if(!c.getInformacoes().equals(""))
             janela.getAreaInformacoes().setText(c.getInformacoes());
     }

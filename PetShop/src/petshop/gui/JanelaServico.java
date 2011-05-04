@@ -27,7 +27,6 @@ import petshop.classes.Servico;
  */
 public class JanelaServico extends javax.swing.JDialog {
 
-    Servico servico;
     private TipoJanela tipo;
 
     /** Creates new form JanelaCliente */
@@ -98,9 +97,9 @@ public class JanelaServico extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Serviço");
+        setMinimumSize(new java.awt.Dimension(380, 270));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(360, 220));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -116,7 +115,6 @@ public class JanelaServico extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 200;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoNome, gridBagConstraints);
@@ -220,7 +218,7 @@ public class JanelaServico extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 25;
+        gridBagConstraints.ipadx = 35;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoCodigo, gridBagConstraints);
 
@@ -234,7 +232,8 @@ public class JanelaServico extends javax.swing.JDialog {
 
         if(campo.getText().equals(getEtiqueta(campo))){
             if(tipo != TipoJanela.INFORMACAO){
-                if(campo.equals(campoDuracao)) campoDuracao.setDocument(new LetraMaiuscula(3));
+                if(campo.equals(campoDuracao))
+                    campoDuracao.setDocument(new LetraMaiuscula(3));
                 campo.setText("");
             }
         }
@@ -250,19 +249,26 @@ public class JanelaServico extends javax.swing.JDialog {
 }//GEN-LAST:event_colocarEtiqueta
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
-        // TODO add your handling code here:
-
-        servico = new Servico();
-        //Carregando dados do servico
-        servico.setCodigo(Integer.valueOf(this.getCampoCodigo().getText()));
-        servico.setNome(this.getCampoNome().getText());
-        servico.setDuracao(Integer.valueOf(this.getCampoDuracao().getText()));
-        servico.setPrecoVenda(Double.valueOf(this.getCampoPreco().getText()));
-        servico.setInfo(this.getAreaInformacoes().getText());
-        if (BancoDeDados.cadastrar(servico)==true){
-            JOptionPane.showConfirmDialog(rootPane,"Serviço cadastrado com sucesso." );
-        } else{
-            JOptionPane.showConfirmDialog(rootPane,"Erro ao casdastra o seriço." );
+        
+        Servico servico = gerarServico();
+        if(!existemDependencias()){
+            if(tipo == TipoJanela.CADASTRO){
+                if(BancoDeDados.cadastrar(servico)){
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Servico cadastrado com sucesso!");
+                    reiniciar();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar servico!");
+                }
+            } else {
+                if(BancoDeDados.alterar(servico)){
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Servico alterado com sucesso!");
+                    reiniciar();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar servico!");
+                }
+            }
         }
 }//GEN-LAST:event_cadastrar
 
@@ -387,5 +393,19 @@ public class JanelaServico extends javax.swing.JDialog {
         campoDuracao.setEditable(false);
         campoPreco.setEditable(false);
         areaInformacoes.setEditable(false);
+    }
+
+    private Servico gerarServico(){
+        Servico servico = new Servico();
+        //Carregando dados do servico
+        if(!campoCodigo.getText().equals(getEtiqueta(campoCodigo)))
+            servico.setCodigo(Integer.valueOf(campoCodigo.getText()));
+        servico.setNome(campoNome.getText());
+        servico.setDuracao(Integer.valueOf(campoDuracao.getText()));
+        servico.setPrecoVenda(Double.valueOf(campoPreco.getText()));
+        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes)))
+            servico.setInfo(areaInformacoes.getText());
+
+        return servico;
     }
 }
