@@ -125,7 +125,7 @@ public class Cliente{
     /**
      * @param rg the rg to set
      */
-    public void setRg(int rg) {
+    public void setRg(long rg) {
         this.rg = rg;
     }
 

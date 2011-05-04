@@ -79,10 +79,10 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="labelImagem">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/petshop/gui/imagens/logo-150.png"/>
+          <Image iconType="3" name="/petshop/gui/logo-150.png"/>
         </Property>
       </Properties>
       <Constraints>

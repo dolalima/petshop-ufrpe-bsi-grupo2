@@ -32,7 +32,7 @@ public class JanelaLogin extends javax.swing.JFrame {
         labelUsuario = new javax.swing.JLabel();
         labelSenha = new javax.swing.JLabel();
         campoSenha = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
+        labelImagem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(270, 380));
@@ -94,10 +94,10 @@ public class JanelaLogin extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 5, 5);
         getContentPane().add(campoSenha, gridBagConstraints);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/petshop/gui/imagens/logo-150.png"))); // NOI18N
+        labelImagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/petshop/gui/logo-150.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 15, 10);
-        getContentPane().add(jLabel1, gridBagConstraints);
+        getContentPane().add(labelImagem, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -148,7 +148,7 @@ public class JanelaLogin extends javax.swing.JFrame {
     private javax.swing.JButton botaoEntrar;
     private javax.swing.JPasswordField campoSenha;
     private javax.swing.JTextField campoUsuario;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel labelImagem;
     private javax.swing.JLabel labelSenha;
     private javax.swing.JLabel labelUsuario;
     // End of variables declaration//GEN-END:variables

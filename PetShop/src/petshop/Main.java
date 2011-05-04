@@ -7,6 +7,7 @@ package petshop;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import petshop.gui.*;
@@ -50,6 +51,10 @@ public class Main {
         int h = janela.getSize().height;
         int x = (dim.width-w)/2;
         int y = (dim.height-h)/2;
+
+        ImageIcon icone = new ImageIcon("logo-42.png");
+        janela.setIconImage(icone.getImage());
+        janela.setTitle("Login");
 
         // Move the window
         janela.setLocation(x, y);

@@ -65,7 +65,7 @@ public abstract class BancoDeDados {
             cliente.setSexo((String) resultset.getObject(3));
             CPF cpf = new CPF((String) resultset.getObject(4));
             cliente.setCpf(cpf);
-            cliente.setRg((Integer) resultset.getObject(5));
+            cliente.setRg((Long) resultset.getObject(5));
             //Enderero do cliente
             String rua = (String) resultset.getObject(6);
             int n = (Integer) resultset.getObject(7);
@@ -611,7 +611,7 @@ public abstract class BancoDeDados {
             if (cliente.getCodigo() != 0) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                         + "WHERE codigo LIKE ? AND ativo=1");
-                preparedStatement.setString(1, "%" + cliente.getCodigo() + "%");
+                preparedStatement.setString(1, cliente.getCodigo() + "");
                 resultset = preparedStatement.executeQuery();
             } else if (!cliente.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
@@ -689,13 +689,13 @@ public abstract class BancoDeDados {
     }
 
     public static Cliente getCliente(int cod) {
-        PreparedStatement preparesStatement;
+        PreparedStatement preparedStatement;
         ResultSet resultset;
         try {
-            prepared = connection.prepareStatement("SELECT * FROM cliente "
+            preparedStatement = connection.prepareStatement("SELECT * FROM cliente "
                     + "WHERE codigo=?");
-            prepared.setInt(1, cod);
-            resultset = prepared.executeQuery();
+            preparedStatement.setInt(1, cod);
+            resultset = preparedStatement.executeQuery();
 
             if (resultset.next()) {
                 return gerarClienteFromResultset(resultset);

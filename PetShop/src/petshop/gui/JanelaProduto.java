@@ -2,7 +2,6 @@ package petshop.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -61,7 +60,6 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         campoCodigo.setDocument(new LetraMaiuscula(9));
         campoNome.setDocument(new LetraMaiuscula(80));
-        campoEstoque.setDocument(new LetraMaiuscula(7));
         areaInformacoes.setDocument(new LetraMaiuscula(400));
 
         reiniciar();
@@ -90,7 +88,7 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Produto");
-        setMinimumSize(new java.awt.Dimension(380, 270));
+        setMinimumSize(new java.awt.Dimension(400, 290));
         setResizable(false);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -144,7 +142,6 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoPrecoCusto, gridBagConstraints);
 
@@ -216,7 +213,6 @@ public class JanelaProduto extends javax.swing.JDialog {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(campoPrecoVenda, gridBagConstraints);
 
@@ -257,7 +253,7 @@ public class JanelaProduto extends javax.swing.JDialog {
 
         if(campo.getText().equals("")){
             if(campo.equals(campoEstoque))
-                    campoEstoque.setDocument(new LetraMaiuscula(7));
+                    campoEstoque.setDocument(new LetraMaiuscula(8));
             campo.setText(getEtiqueta(campo));
         }
 }//GEN-LAST:event_colocarEtiqueta
@@ -362,8 +358,8 @@ public class JanelaProduto extends javax.swing.JDialog {
         campoNome.setText(getEtiqueta(campoNome));
         campoPrecoCusto.setText(getEtiqueta(campoPrecoCusto));
         campoPrecoVenda.setText(getEtiqueta(campoPrecoVenda));
+        campoEstoque.setDocument(new LetraMaiuscula(8));
         campoEstoque.setText(getEtiqueta(campoEstoque));
-        campoEstoque.setDocument(new LetraMaiuscula(7));
         areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
 
