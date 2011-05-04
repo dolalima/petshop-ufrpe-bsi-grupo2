@@ -334,13 +334,15 @@ public class JanelaAnimal extends javax.swing.JDialog {
         String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
 
         boolean existeDependencias = false;
-
-        if(!dataValida(campoDataNasc.getText())){
+        
+        if(!campoDataNasc.getText().equals(getEtiqueta(campoDataNasc))){
+            if(!dataValida(campoDataNasc.getText())  ){
                 JOptionPane.showMessageDialog(this.getContentPane(), "A data é inválida");
                 return true;
-        }
+            }
+        } else msg += "- DATA\n"; existeDependencias = true;
 
-        if(campoNome.getText().equals(getEtiqueta(campoNome))){ msg += "- NOME\n"; existeDependencias = true;}
+        if(campoNome.getText().equals(getEtiqueta(campoNome))){ }
         if(comboSexo.getSelectedIndex() == 0){ msg += "- SEXO\n"; existeDependencias = true;}
         if(comboEspecie.getSelectedIndex() == 0){ msg += "- ESPÉCIE\n"; existeDependencias = true;}
         if(campoRaca.getText().equals("QUAL?")){ msg += "- ESPÉCIE ESPECÍFICA\n"; existeDependencias = true;}
