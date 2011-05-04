@@ -38,6 +38,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     public JanelaPrincipal() {
         initComponents();
         this.setTitle(" Pet Store ");
+        ImageIcon logo = new ImageIcon("./imagens/logo-16.gif");
+
+        this.setIconImage(logo.getImage());
+
         
         painelClientes = new PainelConsultaClientes();
         painelProdutos = new PainelConsultaProdutos();

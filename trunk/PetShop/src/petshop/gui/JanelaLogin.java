@@ -18,7 +18,6 @@ public class JanelaLogin extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Login");
         ImageIcon logo = new ImageIcon("./imagens/logo-16.gif");
-
         this.setIconImage(logo.getImage());
     }
 
