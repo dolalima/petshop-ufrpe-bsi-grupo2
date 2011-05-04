@@ -414,14 +414,20 @@ public abstract class BancoDeDados {
             preparedStatement.setInt(3, pagamento);
             int dia = venda.getData().get(Calendar.DATE);
             String d;
-            if(dia < 10) d = "0" + dia;
-            else d = dia + "";
+            if (dia < 10) {
+                d = "0" + dia;
+            } else {
+                d = dia + "";
+            }
             int mes = venda.getData().get(Calendar.MONTH);
             String m;
-            if(mes < 10) m = "0" + mes;
-            else m = mes + "";
+            if (mes < 10) {
+                m = "0" + mes;
+            } else {
+                m = mes + "";
+            }
             int a = venda.getData().get(Calendar.YEAR);
-            
+
             preparedStatement.setString(4, d + "/" + m + "/" + a);
             preparedStatement.setBoolean(5, venda.isParcelado());
             preparedStatement.executeUpdate();
@@ -463,7 +469,7 @@ public abstract class BancoDeDados {
                 preparedStatement.setDouble(4, produtoList.get(i).getPrecoVenda());
                 preparedStatement.executeUpdate();
 
-                
+
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -557,10 +563,10 @@ public abstract class BancoDeDados {
             resultset = preparedStatement.executeQuery();
             CarrinhoServicos carrinho = new CarrinhoServicos();
 
-            while (resultset.next()){
-                Servico servico = getServico((Integer)resultset.getObject(3));
-                servico.setPrecoVenda((Double)resultset.getObject(5));
-                carrinho.add(servico, getAnimal((Integer)resultset.getObject(4)));
+            while (resultset.next()) {
+                Servico servico = getServico((Integer) resultset.getObject(3));
+                servico.setPrecoVenda((Double) resultset.getObject(5));
+                carrinho.add(servico, getAnimal((Integer) resultset.getObject(4)));
             }
             return carrinho;
 
@@ -821,8 +827,8 @@ public abstract class BancoDeDados {
         try {
             if (produto.getCodigo() != 0) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM produtos "
-                        + "WHERE codigo LIKE ? AND ativo=1");
-                preparedStatement.setString(1, "%" + produto.getCodigo() + "%");
+                        + "WHERE codigo=? AND ativo=1");
+                preparedStatement.setInt(1, produto.getCodigo());
                 resultset = preparedStatement.executeQuery();
             } else if (!produto.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM "
@@ -859,7 +865,7 @@ public abstract class BancoDeDados {
      * @param Servico
      * @return Servico[]
      **/
-    public static Servico[] consultar(Servico servico) {
+    public static Servico[] consultar(Servico servico, double min, double max) {
         PreparedStatement preparedStatement;
         ResultSet resultset;
         int contador = 0;
@@ -867,15 +873,22 @@ public abstract class BancoDeDados {
         try {
             if (servico.getCodigo() != 0) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
-                        + "WHERE codigo LIKE ? AND ativo=1");
-                preparedStatement.setString(1, "%" + servico.getCodigo() + "%");
+                        + "WHERE codigo= ? AND ativo=1");
+                preparedStatement.setInt(1, servico.getCodigo());
                 resultset = preparedStatement.executeQuery();
             } else if (!servico.getNome().equals("")) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE nome LIKE ? AND ativo=1");
                 preparedStatement.setString(1, "%" + servico.getNome() + "%");
                 resultset = preparedStatement.executeQuery();
-            } else{
+            } else if (servico.getPrecoVenda() != 0) {
+                preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
+                        + "WHERE preco>= ? AND preco<=? AND ativo=1");
+                preparedStatement.setDouble(1, min);
+                preparedStatement.setDouble(2, max);
+                resultset = preparedStatement.executeQuery();
+
+            } else {
                 preparedStatement = connection.prepareStatement("SELECT * FROM servicos "
                         + "WHERE ativo=1");
                 resultset = preparedStatement.executeQuery();
@@ -900,6 +913,8 @@ public abstract class BancoDeDados {
             return servicoList;
         }
     }
+
+    
 
     /**
      * Medoto que realiza uma consulta de animals no banco de dados.
@@ -1222,7 +1237,7 @@ public abstract class BancoDeDados {
                         + "WHERE cpf like ?");
                 preparedStatement.setString(1, venda.getCliente().getCpf().getCpf() + "%");
                 resultset = preparedStatement.executeQuery();
-            }else{
+            } else {
                 preparedStatement = connection.prepareStatement(""
                         + "SELECT id_venda,codigo,nome,cpf,pagamento,valor "
                         + "FROM vendas INNER JOIN cliente ON vendas.cliente=cliente.codigo "
