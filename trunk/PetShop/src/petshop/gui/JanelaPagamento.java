@@ -132,9 +132,11 @@ public class JanelaPagamento extends javax.swing.JDialog {
                     venda.reiniciar();
                     this.dispose();
                 } else {
+                    venda.reiniciar();
                     venda.dispose();
                     this.dispose();
                 }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Falha ao efetuar venda");
             }

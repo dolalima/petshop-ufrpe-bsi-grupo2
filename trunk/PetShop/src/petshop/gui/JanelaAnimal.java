@@ -340,7 +340,7 @@ public class JanelaAnimal extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this.getContentPane(), "A data é inválida");
                 return true;
             }
-        } else msg += "- DATA\n"; existeDependencias = true;
+        } else { msg += "- DATA\n"; existeDependencias = true; }
 
         if(campoNome.getText().equals(getEtiqueta(campoNome))){ }
         if(comboSexo.getSelectedIndex() == 0){ msg += "- SEXO\n"; existeDependencias = true;}

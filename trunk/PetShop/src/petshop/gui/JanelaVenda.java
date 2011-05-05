@@ -678,8 +678,10 @@ public class JanelaVenda extends javax.swing.JDialog {
         campoQtde.setText(getEtiqueta(campoQtde));
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(
                 new String[]{"ANIMAL"}));
-        DefaultTableModel dm = (DefaultTableModel)tabelaProdutos.getModel();
-        dm.getDataVector().removeAllElements();
+        DefaultTableModel dmP = (DefaultTableModel)tabelaProdutos.getModel();
+        DefaultTableModel dmS = (DefaultTableModel)tabelaServicos.getModel();
+        dmP.getDataVector().removeAllElements();
+        dmS.getDataVector().removeAllElements();
         setTotal(0.0);
         botaoAdd.setEnabled(false);
         botaoRemover.setEnabled(false);
