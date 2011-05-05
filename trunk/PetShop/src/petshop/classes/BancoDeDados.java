@@ -496,7 +496,6 @@ public abstract class BancoDeDados {
             return false;
         }
     }
-    private static boolean addEstoque(Produt)
 
     /**
      * Metodo privado para registra os serviços dad venda no banco de dados.
