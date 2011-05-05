@@ -710,6 +710,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"ANIMAIS"}));
 
         botaoRemoverAnimal.setVisible(false);
+        animais = new ArrayList();
     }
 
     void adicionarAnimal(Animal a) {
@@ -1044,7 +1045,8 @@ public class JanelaCliente extends javax.swing.JDialog {
         else janelaAnimal.getComboSexo().setSelectedIndex(2);
         janelaAnimal.getCampoDataNasc().setText(data.format(a.getDataNasc().getTime()));
         janelaAnimal.getComboEspecie().setSelectedItem(a.getEspecie());
-        janelaAnimal.getCampoRaca().setText(a.getRaca());
+        if(!a.getRaca().equals(""))
+            janelaAnimal.getCampoRaca().setText(a.getRaca());
         if(!a.getInfo().equals("")) {
             janelaAnimal.getAreaInformacoes().setText(a.getInfo());
         }

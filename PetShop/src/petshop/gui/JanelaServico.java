@@ -69,7 +69,6 @@ public class JanelaServico extends javax.swing.JDialog {
 
         campoCodigo.setDocument(new LetraMaiuscula(9));
         campoNome.setDocument(new LetraMaiuscula(80));
-        campoDuracao.setDocument(new LetraMaiuscula(14));
         areaInformacoes.setDocument(new LetraMaiuscula(400));
 
         reiniciar();
@@ -350,6 +349,7 @@ public class JanelaServico extends javax.swing.JDialog {
         campoCodigo.setText(getEtiqueta(campoCodigo));
         campoNome.setText(getEtiqueta(campoNome));
         campoPreco.setText(getEtiqueta(campoPreco));
+        campoDuracao.setDocument(new LetraMaiuscula(14));
         campoDuracao.setText(getEtiqueta(campoDuracao));
         areaInformacoes.setText(getEtiqueta(areaInformacoes));
     }
