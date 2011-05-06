@@ -37,36 +37,32 @@ public abstract class PainelConsulta extends Painel {
 
         itensPreco = new int[0];
 
-        botaoNovo = new JButton();
-        botaoAlterar = new JButton();
-        botaoExcluir = new JButton();
-        botaoInformacoes = new JButton();
 
-        botaoNovo.setText("Novo");
-        botaoNovo.setFocusCycleRoot(true);
-        botaoNovo.setMinimumSize(new java.awt.Dimension(35, 24));
-        botaoNovo.setPreferredSize(new java.awt.Dimension(45, 24));
-        GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 60;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(botaoNovo, gridBagConstraints);
+        botaoNovo = new JButton("Novo"); //cria o botão
+        botaoNovo.setMinimumSize(new java.awt.Dimension(35, 24)); //configura o tamanho minimo do botao
+        botaoNovo.setPreferredSize(new java.awt.Dimension(45, 24)); //configura o tamanho maximo do botao
+        //cria o organizador do grid. É nele que vao ser configuradas as opções de arrumação do botao
+        GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints(); 
+        gridBagConstraints.gridx = 0; //variavel que define a coluna que o componente ira ficar
+        gridBagConstraints.gridy = 2; //variavel que define a linha que o componente ira ficar
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL; //variavel que define pra que lados ele vai se esticar
+        gridBagConstraints.ipadx = 60; //tamanho que o componente terá a MAIS.
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5); //variavel que define o tamanho das bostas do componente
+        add(botaoNovo, gridBagConstraints); //adiciona ao painel o botao com as configurações do componente.
 
-        botaoAlterar.setText("Alterar");
+        botaoAlterar = new JButton("Alterar");
         botaoAlterar.setMinimumSize(new java.awt.Dimension(35, 24));
         botaoAlterar.setEnabled(false);
         gridBagConstraints.gridx = 1;
         add(botaoAlterar, gridBagConstraints);
 
-        botaoExcluir.setText("Excluir");
+        botaoExcluir = new JButton("Excluir");
         botaoExcluir.setMinimumSize(new java.awt.Dimension(35, 24));
         botaoExcluir.setEnabled(false);
         gridBagConstraints.gridx = 2;
         add(botaoExcluir, gridBagConstraints);
 
-        botaoInformacoes.setText("Informações");
+        botaoInformacoes = new JButton("Informações");
         botaoInformacoes.setMinimumSize(new java.awt.Dimension(35, 24));
         botaoInformacoes.setEnabled(false);
         gridBagConstraints.gridx = 5;
@@ -122,6 +118,7 @@ public abstract class PainelConsulta extends Painel {
             }
         });
 
+        //configura um evento para o botaoNovo. Ele irá chamar o método eventoBotaoNovo(evt); ao ser clicado.
         botaoNovo.addMouseListener(new java.awt.event.MouseAdapter() {
 
             @Override
