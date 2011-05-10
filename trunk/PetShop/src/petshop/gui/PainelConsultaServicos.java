@@ -3,15 +3,16 @@ package petshop.gui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.BancoDeDados;
-import petshop.classes.LetraMaiuscula;
 import petshop.classes.Servico;
 
 public class PainelConsultaServicos extends PainelConsulta {
 
+    Servico[] servicos;
+
     public PainelConsultaServicos() {
         super();
 
-        this.setCadastro(new JanelaServico(TipoJanela.CADASTRO));
+        this.setCadastro(new JanelaServico(TipoJanela.CADASTRO, null));
 
         int[] itensPreco = new int[1];
         itensPreco[0] = 2;
@@ -23,21 +24,18 @@ public class PainelConsultaServicos extends PainelConsulta {
         setModelo(modelo, tamanhosColunas);
     }
 
-    protected void alterar(int cod){
-        JanelaServico janela = new JanelaServico(TipoJanela.ALTERACAO);
+    protected void alterar(int cod) {
+        Servico s = BancoDeDados.consultar(new Servico(cod))[0];
+        JanelaServico janela = new JanelaServico(TipoJanela.ALTERACAO, s);
 
-        preencher(janela, cod);
-
-        janela.getCampoCodigo().setEnabled(false);
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
         janela.setVisible(true);
     }
 
     protected void informacoes(int cod) {
-        JanelaServico janela = new JanelaServico(TipoJanela.INFORMACAO);
-
-        preencher(janela, cod);
+        Servico s = BancoDeDados.consultar(new Servico(cod))[0];
+        JanelaServico janela = new JanelaServico(TipoJanela.INFORMACAO, s);
 
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
@@ -45,8 +43,7 @@ public class PainelConsultaServicos extends PainelConsulta {
     }
 
     protected void pesquisar() {
-        Servico[] servicos = getServicos();
-        
+        servicos = getServicos();
 
         Object[][] dados = new Object[servicos.length][4];
 
@@ -66,21 +63,6 @@ public class PainelConsultaServicos extends PainelConsulta {
         }
     }
 
-    private void preencher(JanelaServico janela, int cod) {
-        Servico s = BancoDeDados.consultar(new Servico(cod))[0];
-
-        if(s.getCodigo() != 0) {
-            janela.getCampoCodigo().setDocument(new LetraMaiuscula(10));
-            janela.getCampoCodigo().setText(s.getCodigo() + "");
-        }
-        janela.getCampoNome().setText(s.getNome());
-        janela.getCampoDuracao().setText(String.valueOf(s.getDuracao()));
-        janela.getCampoPreco().setText(String.valueOf(s.getPrecoVenda()));
-        if(!s.getInfo().equals("")) {
-            janela.getAreaInformacoes().setText(s.getInfo());
-        }
-    }
-
     @Override
     void excluir(int cod) {
         int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir este serviço?",
@@ -92,14 +74,21 @@ public class PainelConsultaServicos extends PainelConsulta {
         }
     }
 
-    private Servico[] getServicos(){
+    private Servico[] getServicos() {
         Servico s = new Servico();
-        double min; double max;
+        double min;
+        double max;
 
-        if(!campoMin.getText().equals(getEtiqueta(campoMin))) min = Double.valueOf(campoMin.getText());
-        else min = 0;
-        if(!campoMax.getText().equals(getEtiqueta(campoMax))) max = Double.valueOf(campoMax.getText());
-        else max = 0;
+        if(!campoMin.getText().equals(getEtiqueta(campoMin))) {
+            min = Double.valueOf(campoMin.getText());
+        } else {
+            min = 0;
+        }
+        if(!campoMax.getText().equals(getEtiqueta(campoMax))) {
+            max = Double.valueOf(campoMax.getText());
+        } else {
+            max = 0;
+        }
 
         if(comboPesquisa.getSelectedIndex() < 2){
             if(!campoPesquisa.getText().equals("")){

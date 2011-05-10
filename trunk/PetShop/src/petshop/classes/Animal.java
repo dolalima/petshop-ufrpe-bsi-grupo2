@@ -38,7 +38,7 @@ public class Animal {
         this.info = "";
     }
 
-    Animal() {
+    public Animal() {
         this.codigo = 0;
         this.nome = "";
         this.sexo = ' ';

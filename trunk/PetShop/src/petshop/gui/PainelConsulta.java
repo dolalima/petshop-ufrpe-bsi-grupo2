@@ -16,7 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.JTextComponent;
-import petshop.classes.LetraMaiuscula;
+import petshop.classes.DocumentoMascara;
 
 /**
  *
@@ -205,8 +205,8 @@ public abstract class PainelConsulta extends Painel {
 
         campoMin.addKeyListener(k);
         campoMax.addKeyListener(k);
-        campoMin.setDocument(new LetraMaiuscula(6));
-        campoMax.setDocument(new LetraMaiuscula(6));
+        campoMin.setDocument(new DocumentoMascara(6));
+        campoMax.setDocument(new DocumentoMascara(6));
 
         trocarTipoPesquisa(); //serve para setar os campos de preço serem visiveis ou nao.
     }
