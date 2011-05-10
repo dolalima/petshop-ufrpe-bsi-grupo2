@@ -1,39 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * JanelaVenda.java
- *
- * Created on Apr 8, 2011, 4:00:32 PM
- */
-
 package petshop.gui;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
 import petshop.classes.Cliente;
-import petshop.classes.LetraMaiuscula;
 import petshop.classes.Produto;
 import petshop.classes.Servico;
 import petshop.classes.TipoPagamento;
@@ -43,7 +23,7 @@ import petshop.classes.Venda;
  *
  * @author arthur
  */
-public class JanelaVenda extends javax.swing.JDialog {
+public class JanelaVenda extends Janela {
 
     private JanelaAdicionaProduto adicionaProduto;
     private JanelaAdicionaServico adicionaServico;
@@ -51,67 +31,37 @@ public class JanelaVenda extends javax.swing.JDialog {
     private TipoJanela tipo;
     private DecimalFormat formatoDecimal;
     private double total;
-
     private Venda venda;
     private Cliente cliente;
-
     private JTable tabelaProdutos;
     private JTable tabelaServicos;
-    
     private double[] porcentagemTamanhoColunas;
 
     /** Creates new form JanelaVenda */
-    public JanelaVenda(TipoJanela tipo) {
+    public JanelaVenda(TipoJanela tipo, Venda v) {
         this.tipo = tipo;
         initComponents();
+
+        if(v == null){
+            venda = new Venda();
+        } else {
+            venda = v;
+        }
 
         adicionaServico = new JanelaAdicionaServico(this);
         adicionaProduto = new JanelaAdicionaProduto(this);
         adicionaCliente = new JanelaAdicionaCliente(this);
 
-        comboAnimais.setVisible(false);
         this.setLocationRelativeTo(this.getContentPane());
 
         total = 0.0;
         formatoDecimal = new DecimalFormat("0.00");
-
-        venda = new Venda();
-
-        KeyListener k = new KeyListener() {
-
-            public void keyTyped(KeyEvent e) {
-                if(!((e.getKeyChar() >= KeyEvent.VK_0
-                        && e.getKeyChar() <= KeyEvent.VK_9)
-                        || (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))){
-                    e.consume();
-                }
-            }
-
-            public void keyPressed(KeyEvent e) {
-            }
-
-            public void keyReleased(KeyEvent e) {
-            }
-        };
-
-        campoCodigo.addKeyListener(k);
-        campoQtde.addKeyListener(k);
-        campoCodigo.setDocument(new LetraMaiuscula(10));
-        campoQtde.setDocument(new LetraMaiuscula(4));
 
         scrollItens.setPreferredSize(new java.awt.Dimension(480, 200));
 
         tabelaProdutos = new JTable();
         tabelaServicos = new JTable();
 
-        setModelo(tabelaProdutos,
-            new String [] { "Código", "Nome", "Qtde", "Preço" },
-            new double[] {15, 50, 15, 20});
-
-        setModelo(tabelaServicos,
-            new String [] { "Código", "Nome", "Animal", "Preço" },
-            new double[] {15, 40, 25, 19.5});
-        
         tabelaProdutos.setMaximumSize(new java.awt.Dimension(300, 100));
         tabelaServicos.setMaximumSize(new java.awt.Dimension(300, 100));
         scrollItens.setViewportView(tabelaProdutos);
@@ -121,47 +71,40 @@ public class JanelaVenda extends javax.swing.JDialog {
         modeloSelecaoProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modeloSelecaoServicos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+        setModelo(tabelaProdutos,
+                new String[]{"Código", "Nome", "Qtde", "Preço"},
+                new double[]{15, 50, 15, 20});
+
+        setModelo(tabelaServicos,
+                new String[]{"Código", "Nome", "Animal", "Preço"},
+                new double[]{15, 40, 25, 19.5});
+
         modeloSelecaoProdutos.addListSelectionListener(new ListSelectionListener() {
+
             public void valueChanged(ListSelectionEvent e) {
                 verificarBotaoRemover(tabelaProdutos);
             }
         });
         modeloSelecaoServicos.addListSelectionListener(new ListSelectionListener() {
+
             public void valueChanged(ListSelectionEvent e) {
                 verificarBotaoRemover(tabelaServicos);
             }
         });
 
         if(this.tipo == TipoJanela.INFORMACAO){
-            botaoPagar.setVisible(false);
-            botaoCancelar.setVisible(false);
-            botaoRemover.setVisible(false);
-            botaoAdd.setVisible(false);
-            botaoPesquisarCliente.setEnabled(false);
-            campoCodigo.setEnabled(false);
-            campoQtde.setEnabled(false);
-            this.botaoPesquisaItem.setEnabled(false);
-            botaoPagar.setEnabled(false);
-            tabelaProdutos.setEnabled(false);
-            tabelaServicos.setEnabled(false);
+            desabilitarCampos();
+            preencher();
         } else {
             reiniciar();
         }
-
-
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        painel = new javax.swing.JPanel();
         botaoPesquisarCliente = new javax.swing.JButton();
         labelCliente = new javax.swing.JLabel();
         comboTipoCarrinho = new javax.swing.JComboBox();
@@ -175,14 +118,14 @@ public class JanelaVenda extends javax.swing.JDialog {
         botaoPagar = new javax.swing.JButton();
         comboAnimais = new javax.swing.JComboBox();
         campoQtde = new javax.swing.JTextField();
+        labelCodigo = new javax.swing.JLabel();
+        labelQtde = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova Venda");
-        setMinimumSize(new java.awt.Dimension(490, 330));
+        setMinimumSize(new java.awt.Dimension(570, 370));
         setResizable(false);
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
-
-        painel.setLayout(new java.awt.GridBagLayout());
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         botaoPesquisarCliente.setText("Pesquisar");
         botaoPesquisarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -196,18 +139,22 @@ public class JanelaVenda extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(botaoPesquisarCliente, gridBagConstraints);
+        getContentPane().add(botaoPesquisarCliente, gridBagConstraints);
 
         labelCliente.setText("CLIENTE");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(labelCliente, gridBagConstraints);
+        getContentPane().add(labelCliente, gridBagConstraints);
 
         comboTipoCarrinho.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PRODUTO", "SERVIÇO" }));
         comboTipoCarrinho.addItemListener(new java.awt.event.ItemListener() {
@@ -219,10 +166,9 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(comboTipoCarrinho, gridBagConstraints);
+        getContentPane().add(comboTipoCarrinho, gridBagConstraints);
 
         campoCodigo.setMinimumSize(new java.awt.Dimension(90, 24));
         campoCodigo.setPreferredSize(new java.awt.Dimension(90, 24));
@@ -231,25 +177,17 @@ public class JanelaVenda extends javax.swing.JDialog {
                 mudarCampo(evt);
             }
         });
-        campoCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
         campoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 digitarCampo(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        painel.add(campoCodigo, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        getContentPane().add(campoCodigo, gridBagConstraints);
 
         botaoPesquisaItem.setText("P");
         botaoPesquisaItem.setPreferredSize(new java.awt.Dimension(26, 26));
@@ -259,12 +197,12 @@ public class JanelaVenda extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        painel.add(botaoPesquisaItem, gridBagConstraints);
+        getContentPane().add(botaoPesquisaItem, gridBagConstraints);
 
         botaoAdd.setText("Adicionar");
         botaoAdd.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -273,21 +211,21 @@ public class JanelaVenda extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(botaoAdd, gridBagConstraints);
+        getContentPane().add(botaoAdd, gridBagConstraints);
 
-        scrollItens.setPreferredSize(new java.awt.Dimension(480, 200));
+        scrollItens.setMinimumSize(new java.awt.Dimension(500, 200));
+        scrollItens.setPreferredSize(new java.awt.Dimension(500, 200));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        painel.add(scrollItens, gridBagConstraints);
+        getContentPane().add(scrollItens, gridBagConstraints);
 
         botaoRemover.setText("Remover");
         botaoRemover.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -301,18 +239,18 @@ public class JanelaVenda extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        painel.add(botaoRemover, gridBagConstraints);
+        getContentPane().add(botaoRemover, gridBagConstraints);
 
         labelTotal.setFont(new java.awt.Font("Ubuntu", 0, 18));
         labelTotal.setForeground(new java.awt.Color(225, 1, 1));
         labelTotal.setText("Total 00.00");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        painel.add(labelTotal, gridBagConstraints);
+        getContentPane().add(labelTotal, gridBagConstraints);
 
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -322,11 +260,11 @@ public class JanelaVenda extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(botaoCancelar, gridBagConstraints);
+        getContentPane().add(botaoCancelar, gridBagConstraints);
 
         botaoPagar.setText("Pagar");
         botaoPagar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -335,39 +273,31 @@ public class JanelaVenda extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(botaoPagar, gridBagConstraints);
+        getContentPane().add(botaoPagar, gridBagConstraints);
 
-        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Animal" }));
+        comboAnimais.setMinimumSize(new java.awt.Dimension(110, 24));
+        comboAnimais.setPreferredSize(new java.awt.Dimension(110, 24));
         comboAnimais.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 mudarComboAnimal(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 30;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(comboAnimais, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        getContentPane().add(comboAnimais, gridBagConstraints);
 
-        campoQtde.setText("Qtde");
+        campoQtde.setMinimumSize(new java.awt.Dimension(50, 24));
+        campoQtde.setPreferredSize(new java.awt.Dimension(50, 24));
         campoQtde.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mudarCampo(evt);
-            }
-        });
-        campoQtde.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
             }
         });
         campoQtde.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -376,15 +306,26 @@ public class JanelaVenda extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        painel.add(campoQtde, gridBagConstraints);
+        getContentPane().add(campoQtde, gridBagConstraints);
 
-        getContentPane().add(painel);
+        labelCodigo.setText("Código");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(labelCodigo, gridBagConstraints);
+
+        labelQtde.setText("Qtde");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(labelQtde, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -398,15 +339,17 @@ public class JanelaVenda extends javax.swing.JDialog {
             comboAnimais.setVisible(false);
             campoQtde.setVisible(true);
             scrollItens.setViewportView(tabelaProdutos);
+            labelQtde.setText("Qtde");
             verificarBotaoRemover(tabelaProdutos);
         } else {
             comboAnimais.setVisible(true);
             campoQtde.setVisible(false);
             scrollItens.setViewportView(tabelaServicos);
+            labelQtde.setText("Animais");
             verificarBotaoRemover(tabelaServicos);
         }
 
-        campoCodigo.setText(getEtiqueta(campoCodigo));
+        campoCodigo.setText("");
         digitarCampo(null);
     }//GEN-LAST:event_comboTipoCarrinhoItemStateChanged
 
@@ -414,8 +357,11 @@ public class JanelaVenda extends javax.swing.JDialog {
         if(botaoPesquisaItem.isEnabled()){
             JanelaAdiciona adiciona;
 
-            if(comboTipoCarrinho.getSelectedIndex() == 0) adiciona = adicionaProduto;
-            else adiciona = adicionaServico;
+            if(comboTipoCarrinho.getSelectedIndex() == 0) {
+                adiciona = adicionaProduto;
+            } else {
+                adiciona = adicionaServico;
+            }
 
 
             adiciona.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
@@ -430,29 +376,10 @@ public class JanelaVenda extends javax.swing.JDialog {
             adicionaCliente.setModal(true);
             adicionaCliente.setVisible(true);
         }
-
     }//GEN-LAST:event_botaoPesquisarClienteMouseClicked
 
-    private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            if(tipo != TipoJanela.INFORMACAO){
-                campo.setText("");
-            }
-        }
-    }//GEN-LAST:event_tirarEtiqueta
-
-    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colocarEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-    }//GEN-LAST:event_colocarEtiqueta
-
     private void pagar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pagar
-        if(botaoPagar.isEnabled()){
+        if(botaoPagar.isEnabled() && !existemDependencias()){
             JanelaPagamento cadastro = new JanelaPagamento(this);
 
             cadastro.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
@@ -462,62 +389,57 @@ public class JanelaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_pagar
 
     private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
-        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
-
-        if(resp == JOptionPane.YES_OPTION){
-            this.dispose();
-            reiniciar();
-        }
+        cancelar();
     }//GEN-LAST:event_cancelar
 
     private void mudarCampo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mudarCampo
-        if(!campoQtde.getText().equals(getEtiqueta(campoQtde)) ||
-                !campoCodigo.getText().equals(getEtiqueta(campoCodigo))){
-            botaoAdd.setEnabled(true);
+        if(!campoQtde.getText().equals("")
+                || !campoCodigo.getText().equals("")){
+            botaoAdd.setVisible(true);
         } else {
-            botaoAdd.setEnabled(false);
+            botaoAdd.setVisible(false);
         }
     }//GEN-LAST:event_mudarCampo
 
     private void digitarCampo(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_digitarCampo
         if(this.comboTipoCarrinho.getSelectedItem().equals("PRODUTO")){
-            if((campoQtde.getText().equals(getEtiqueta(campoQtde)) ||
-                    campoQtde.getText().equals("")) ||
-                    ((campoCodigo.getText().equals(getEtiqueta(campoCodigo)) ||
-                    campoCodigo.getText().equals("")))){
-                botaoAdd.setEnabled(false);
+            if((campoQtde.getText().equals("")
+                    || campoQtde.getText().equals(""))
+                    || ((campoCodigo.getText().equals("")
+                    || campoCodigo.getText().equals("")))){
+                botaoAdd.setVisible(false);
             } else {
-                botaoAdd.setEnabled(true);
+                botaoAdd.setVisible(true);
             }
         } else {
-            if((comboAnimais.getSelectedIndex() == 0) ||
-                    ((campoCodigo.getText().equals(getEtiqueta(campoCodigo)) ||
-                    campoCodigo.getText().equals("")))){
-                botaoAdd.setEnabled(false);
+            if((comboAnimais.getSelectedIndex() == 0)
+                    || ((campoCodigo.getText().equals("")
+                    || campoCodigo.getText().equals("")))){
+                botaoAdd.setVisible(false);
             } else {
-                botaoAdd.setEnabled(true);
+                botaoAdd.setVisible(true);
             }
         }
     }//GEN-LAST:event_digitarCampo
 
     private void clicarBotaoAdicionar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoAdicionar
-        if(botaoAdd.isEnabled()){
+        if(botaoAdd.isVisible()){
             if(this.comboTipoCarrinho.getSelectedItem().equals("PRODUTO")){
-                Produto produto;                
-                try{
+                Produto produto;
+                try {
                     produto = BancoDeDados.consultar(new Produto(Integer.valueOf(campoCodigo.getText())))[0];
-                } catch (ArrayIndexOutOfBoundsException e){
+                } catch(ArrayIndexOutOfBoundsException e){
                     JOptionPane.showMessageDialog(this, "Este produto não existe!");
                     return;
                 }
-                
+
                 int qtde = Integer.valueOf(campoQtde.getText());
 
                 if(produto.getQtdeEstoque() < qtde){
                     JOptionPane.showMessageDialog(this, "A quantidade é maior que o estoque deste produto!");
                     return;
                 }
-                
+
                 Object[] dados = new Object[4];
                 dados[0] = produto.getCodigo();
                 dados[1] = produto.getNome();
@@ -548,12 +470,12 @@ public class JanelaVenda extends javax.swing.JDialog {
                     redimensionarColunas(tabelaProdutos);
                     venda.getCarrinhoProdutos().add(produto, qtde);
                 }
-                
+
             } else {
                 Servico servico;
-                try{
+                try {
                     servico = BancoDeDados.consultar(new Servico(Integer.valueOf(campoCodigo.getText())))[0];
-                } catch (ArrayIndexOutOfBoundsException e){
+                } catch(ArrayIndexOutOfBoundsException e){
                     JOptionPane.showMessageDialog(this, "Este serviço não existe!");
                     return;
                 }
@@ -589,26 +511,32 @@ public class JanelaVenda extends javax.swing.JDialog {
                 venda.getCarrinhoServicos().add(servico, cliente.getAnimais()[comboAnimais.getSelectedIndex() - 1]);
             }
             botaoAdd.setEnabled(false);
-            campoCodigo.setText(getEtiqueta(campoCodigo));
-            campoQtde.setText(getEtiqueta(campoQtde));
+            campoCodigo.setText("");
+            campoQtde.setText("");
             comboAnimais.setSelectedIndex(0);
         }
     }//GEN-LAST:event_clicarBotaoAdicionar
 
     private void mudarComboAnimal(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboAnimal
-        if(comboAnimais.getSelectedIndex() > 0) {
-            if(campoCodigo.getText().equals(getEtiqueta(campoCodigo))) botaoAdd.setEnabled(false);
-            else botaoAdd.setEnabled(true);
+        if(comboAnimais.getSelectedIndex() > 0){
+            if(campoCodigo.getText().equals("")) {
+                botaoAdd.setVisible(false);
+            } else {
+                botaoAdd.setVisible(true);
+            }
         } else {
-            botaoAdd.setEnabled(false);
+            botaoAdd.setVisible(false);
         }
     }//GEN-LAST:event_mudarComboAnimal
 
     private void clicarRemover(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarRemover
-        if(botaoRemover.isEnabled()){
+        if(botaoRemover.isVisible()){
             JTable tabela;
-            if(comboTipoCarrinho.getSelectedItem().equals("PRODUTO")) tabela = tabelaProdutos;
-            else tabela = tabelaServicos;
+            if(comboTipoCarrinho.getSelectedItem().equals("PRODUTO")) {
+                tabela = tabelaProdutos;
+            } else {
+                tabela = tabelaServicos;
+            }
 
             DefaultTableModel model = (DefaultTableModel) tabela.getModel();
 
@@ -618,24 +546,27 @@ public class JanelaVenda extends javax.swing.JDialog {
 
             int codigo = (Integer) tabela.getValueAt(tabela.getSelectedRow(), 0);
 
-            if(tabela.equals(tabelaProdutos)) venda.getCarrinhoProdutos().remove(codigo);
-            else venda.getCarrinhoServicos().remove(codigo);
+            if(tabela.equals(tabelaProdutos)) {
+                venda.getCarrinhoProdutos().remove(codigo);
+            } else {
+                venda.getCarrinhoServicos().remove(codigo);
+            }
 
             model.removeRow(tabela.getSelectedRow());
         }
     }//GEN-LAST:event_clicarRemover
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
-                new JanelaVenda(TipoJanela.CADASTRO).setVisible(true);
+                new JanelaVenda(TipoJanela.CADASTRO, null).setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoAdd;
     private javax.swing.JButton botaoCancelar;
@@ -648,43 +579,39 @@ public class JanelaVenda extends javax.swing.JDialog {
     private javax.swing.JComboBox comboAnimais;
     private javax.swing.JComboBox comboTipoCarrinho;
     private javax.swing.JLabel labelCliente;
+    private javax.swing.JLabel labelCodigo;
+    private javax.swing.JLabel labelQtde;
     private javax.swing.JLabel labelTotal;
-    private javax.swing.JPanel painel;
     private javax.swing.JScrollPane scrollItens;
     // End of variables declaration//GEN-END:variables
-    
+
     /**
      * Configura o label de total na janela. 
      * @param valor O valor do total de compras
      */
-    public void setTotal(double valor){
+    public void setTotal(double valor) {
         total = valor;
         labelTotal.setText("Total R$ " + formatoDecimal.format(valor));
     }
-    
-    String getEtiqueta(JTextComponent campo){
 
-        if(campo.equals(campoCodigo)) return "CÓDIGO";
-        else if(campo.equals(campoQtde)) return "QTDE";
+    protected final void reiniciar() {
 
-        return "";
-    }
-
-    protected final void reiniciar(){
-        
         labelCliente.setText("CLIENTE");
         comboTipoCarrinho.setSelectedIndex(0);
-        campoCodigo.setText(getEtiqueta(campoCodigo));
-        campoQtde.setText(getEtiqueta(campoQtde));
+        campoCodigo.setText("");
+        campoQtde.setText("");
+        labelQtde.setText("Qtde");
+        comboAnimais.setVisible(false);
         comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(
                 new String[]{"ANIMAL"}));
-        DefaultTableModel dmP = (DefaultTableModel)tabelaProdutos.getModel();
-        DefaultTableModel dmS = (DefaultTableModel)tabelaServicos.getModel();
-        dmP.getDataVector().removeAllElements();
-        dmS.getDataVector().removeAllElements();
+
+        //remove todos os elementos das tabelas de serviços e produtos.
+        ((DefaultTableModel) tabelaProdutos.getModel()).getDataVector().removeAllElements();
+        ((DefaultTableModel) tabelaServicos.getModel()).getDataVector().removeAllElements();
+
         setTotal(0.0);
-        botaoAdd.setEnabled(false);
-        botaoRemover.setEnabled(false);
+        botaoAdd.setVisible(false);
+        botaoRemover.setVisible(false);
 
         desabilitarCampos();
 
@@ -692,67 +619,36 @@ public class JanelaVenda extends javax.swing.JDialog {
         tabelaServicos.updateUI();
     }
 
-    public JLabel getLabelCliente() {
-        return labelCliente;
-    }
+    protected final void desabilitarCampos() {
+        if(tipo == TipoJanela.INFORMACAO){
+            botaoPagar.setVisible(false);
+            botaoCancelar.setVisible(false);
+            botaoPesquisarCliente.setEnabled(false);
+        } else {
+            botaoPagar.setEnabled(false);
+            comboTipoCarrinho.setEnabled(false);
+            comboAnimais.setEnabled(false);
+        }
 
-    public JTextField getCampoCodigo() {
-        return campoCodigo;
-    }
-
-    public JTextField getCampoQtde() {
-        return campoQtde;
-    }
-
-    public JComboBox getComboAnimais() {
-        return comboAnimais;
-    }
-
-    public JPanel getPainel() {
-        return painel;
-    }
-
-    public JComboBox getComboTipoCarrinho() {
-        return comboTipoCarrinho;
-    }
-
-    public Venda getVenda() {
-        return venda;
-    }
-
-    public JTable getTabelaProdutos() {
-        return tabelaProdutos;
-    }
-
-    public JTable getTabelaServicos() {
-        return tabelaServicos;
-    }
-
-    public JButton getBotaoAdd() {
-        return botaoAdd;
-    }
-
-
-
-    private void desabilitarCampos() {
-        botaoPesquisaItem.setEnabled(false);
-        campoCodigo.setEnabled(false);
-        comboTipoCarrinho.setEnabled(false);
-        comboAnimais.setEnabled(false);
-        botaoAdd.setEnabled(false);
-        botaoRemover.setEnabled(false);
+        botaoRemover.setVisible(false);
+        botaoAdd.setVisible(false);
+        tabelaProdutos.setEnabled(false);
+        tabelaServicos.setEnabled(false);
+        campoCodigo.setEnabled(false);         
         campoQtde.setEnabled(false);
-        botaoPagar.setEnabled(false);
+        botaoPesquisaItem.setEnabled(false);
     }
 
     private void setModelo(JTable tabela, String[] modelo, double[] porcentagemTamanhoColunas) {
 
         //Override o metodo isCellEditable para nao deixar editar as celulas da tabela.
-        tabela.setModel(new javax.swing.table.DefaultTableModel( new Object [][] {  }, modelo ){
+        tabela.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, modelo) {
+
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
-            } });
+            }
+        });
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         this.porcentagemTamanhoColunas = porcentagemTamanhoColunas;
@@ -760,15 +656,15 @@ public class JanelaVenda extends javax.swing.JDialog {
         redimensionarColunas(tabela);
     }
 
-    private void redimensionarColunas(JTable tabela){
-        double t = (this.getSize().getWidth()) - 25;
+    private void redimensionarColunas(JTable tabela) {
+        double t = scrollItens.getWidth();
 
         for(int i = 0; i < porcentagemTamanhoColunas.length; i++){
             tabela.getColumnModel().getColumn(i).setPreferredWidth((int) ((porcentagemTamanhoColunas[i] * t) / 100));
         }
     }
 
-    public void adicionar(Cliente c){
+    public void setCliente(Cliente c) {
         //se ja foi adicionado cliente anteriormente...
         if(cliente != null){
             reiniciar();
@@ -777,10 +673,9 @@ public class JanelaVenda extends javax.swing.JDialog {
         campoCodigo.setEnabled(true);
         comboTipoCarrinho.setEnabled(true);
         comboAnimais.setEnabled(true);
-        botaoAdd.setEnabled(true);
-        botaoRemover.setEnabled(true);
         campoQtde.setEnabled(true);
         botaoPagar.setEnabled(true);
+
         labelCliente.setText(c.getNome());
         for(int i = 0; i < c.getAnimais().length; i++){
             comboAnimais.addItem(c.getAnimais()[i].getNome());
@@ -788,26 +683,31 @@ public class JanelaVenda extends javax.swing.JDialog {
         this.cliente = c;
     }
 
-    public void adicionar(Produto p, int qtde){
+    public void adicionar(Produto p, int qtde) {
         venda.getCarrinhoProdutos().add(p, qtde);
         DefaultTableModel modelo = (DefaultTableModel) tabelaProdutos.getModel();
-        modelo.addRow(new Object[]{p.getCodigo(),p.getNome(), qtde, p.getPrecoVenda()});
+        modelo.addRow(new Object[]{p.getCodigo(), p.getNome(), qtde,
+                    formatoDecimal.format(p.getPrecoVenda())});
     }
 
-    public void adicionar(Servico s, Animal a){
+    public void adicionar(Servico s, Animal a) {
         venda.getCarrinhoServicos().add(s, a);
         DefaultTableModel modelo = (DefaultTableModel) tabelaServicos.getModel();
-        modelo.addRow(new Object[]{s.getCodigo(),s.getNome(), a.getNome(), s.getPrecoVenda()});
-        
+        modelo.addRow(new Object[]{s.getCodigo(), s.getNome(), a.getNome(),
+                    formatoDecimal.format(s.getPrecoVenda())});
+
     }
 
-    public void verificarBotaoRemover(JTable tabela){
-        if(tabela.getSelectedRow() != -1) botaoRemover.setEnabled(true);
-        else botaoRemover.setEnabled(false);
+    public void verificarBotaoRemover(JTable tabela) {
+        if(tabela.getSelectedRow() != -1) {
+            botaoRemover.setVisible(true);
+        } else {
+            botaoRemover.setVisible(false);
+        }
     }
-    
-    protected Venda gerarVenda(TipoPagamento tipo, boolean isParcelado){
-        
+
+    protected Venda gerarVenda(TipoPagamento tipo, boolean isParcelado) {
+
         venda.setTipoPagamento(tipo);
         venda.setCliente(cliente);
         String[] data = getDateTime().split("/");
@@ -823,5 +723,61 @@ public class JanelaVenda extends javax.swing.JDialog {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    protected final void preencher() {
+        labelCliente.setText(venda.getCliente().getNome());
+        setTotal(venda.total());
+
+        Animal[] a = BancoDeDados.getAnimais(venda.getCliente());
+        for(int i = 0; i < a.length; i++){
+            comboAnimais.addItem(a[i].getNome());
+        }
+
+        DefaultTableModel modeloServicos = (DefaultTableModel) tabelaServicos.getModel();
+        DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
+
+        for(int i = 0; i < venda.getCarrinhoProdutos().getProdutos().size(); i++){
+            Object[] dados = new Object[4];
+            dados[0] = venda.getCarrinhoProdutos().getProdutos().get(i).getCodigo();
+            dados[1] = venda.getCarrinhoProdutos().getProdutos().get(i).getNome();
+            dados[2] = venda.getCarrinhoProdutos().getQtde().get(i);
+            dados[3] = venda.getCarrinhoProdutos().getProdutos().get(i).getPrecoVenda();
+            modeloProdutos.addRow(dados);
+        }
+        for(int i = 0; i < venda.getCarrinhoServicos().getServicos().size(); i++){
+            Object[] dados = new Object[4];
+            dados[0] = venda.getCarrinhoServicos().getServicos().get(i).getCodigo();
+            dados[1] = venda.getCarrinhoServicos().getServicos().get(i).getNome();
+            dados[2] = venda.getCarrinhoServicos().getAnimal().get(i).getNome();
+            dados[3] = venda.getCarrinhoServicos().getServicos().get(i).getPrecoVenda();
+            modeloServicos.addRow(dados);
+        }
+    }
+
+    protected boolean existemDependencias() {
+        boolean existemDependencias = false;
+
+        if(total == 0){
+            JOptionPane.showMessageDialog(this, "A venda está vazia");
+            existemDependencias = true;
+        }
+
+        return existemDependencias;
+    }
+
+    protected void cadastrar() {
+    }
+
+    protected void alterar() {
+    }
+
+    public void setCodigo(int codigo) {
+        campoCodigo.setText(String.valueOf(codigo));
+        if(comboAnimais.getSelectedIndex() > 0){
+            botaoAdd.setVisible(true);
+        }
+
+        reiniciar();
     }
 }

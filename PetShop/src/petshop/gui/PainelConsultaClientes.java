@@ -1,20 +1,19 @@
 package petshop.gui;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
 import petshop.classes.Cliente;
 
 public class PainelConsultaClientes extends PainelConsulta {
-    
+
+    Cliente[] clientes;
     
     public PainelConsultaClientes(){
         super();
 
-        this.setCadastro(new JanelaCliente(TipoJanela.CADASTRO));
+        this.setCadastro(new JanelaCliente(TipoJanela.CADASTRO, null));
 
         int [] itensPreco = new int[0];
         this.setItensPreco(itensPreco);
@@ -23,13 +22,12 @@ public class PainelConsultaClientes extends PainelConsulta {
         
         setModelo(modelo, new double[]{15, 50, 20, 15});
 
-        this.remove(this.botaoExcluir);
+        this.remove(botaoExcluir);
     }
 
     protected void alterar(int cod){
-        JanelaCliente janela = new JanelaCliente(TipoJanela.ALTERACAO);
-
-        preencher(janela, cod);
+        JanelaCliente janela = new JanelaCliente(TipoJanela.ALTERACAO,
+                BancoDeDados.consultar(new Cliente(cod))[0]);
 
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
@@ -37,9 +35,8 @@ public class PainelConsultaClientes extends PainelConsulta {
     }
 
     protected void informacoes(int cod) {
-        JanelaCliente janela = new JanelaCliente(TipoJanela.INFORMACAO);
-
-        preencher(janela, cod);
+        JanelaCliente janela = new JanelaCliente(TipoJanela.INFORMACAO,
+                BancoDeDados.consultar(new Cliente(cod))[0]);
 
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
@@ -61,7 +58,7 @@ public class PainelConsultaClientes extends PainelConsulta {
             }
         }
         
-        Cliente[] clientes = BancoDeDados.consultar(c);
+        clientes = BancoDeDados.consultar(c);
         Object[][] dados = new Object[clientes.length][4];
         
         for(int i = 0; i < clientes.length; i++){
@@ -81,45 +78,6 @@ public class PainelConsultaClientes extends PainelConsulta {
         }
     }
 
-    private void preencher(JanelaCliente janela, int cod){
-        Cliente c = BancoDeDados.consultar(new Cliente(cod))[0];
-
-        janela.setCliente(c);
-        janela.getCampoNome().setText(c.getNome());
-        if(c.getSexo().equals("M")) janela.getComboSexo().setSelectedIndex(1);
-        else janela.getComboSexo().setSelectedIndex(2);
-        janela.getCampoRua().setText(c.getEndereco().getRua());
-        janela.getCampoNumero().setText(String.valueOf(c.getEndereco().getNum()));
-        if(!c.getEndereco().getComplemento().equals(""))
-            janela.getCampoComplemento().setText(c.getEndereco().getComplemento());
-        janela.getCampoBairro().setText(c.getEndereco().getBairro());
-        janela.getCampoCidade().setText(c.getEndereco().getCidade());
-        janela.getComboUF().setSelectedItem(c.getEndereco().getUf());
-        if(!c.getEndereco().getCep().equals(""))
-            janela.getCampoCEP().setText(c.getEndereco().getCep());
-        janela.getCampoRG().setText(String.valueOf(c.getRg()));
-        janela.getCampoCPF().setText(c.getCpf().toString());
-        if(!c.getEmail().equals(""))
-            janela.getCampoEMail().setText(c.getEmail());
-        if(!c.getTelefone().equals(""))
-            janela.getCampoTelefone().setText(c.getTelefone());
-        if(!c.getCelular().equals(""))
-            janela.getCampoCelular().setText(c.getCelular());
-
-        ArrayList<Animal> animais = new ArrayList();
-        for(int i = 0; i < c.getAnimais().length; i++){
-            janela.getComboAnimais().addItem(c.getAnimais()[i].getNome());
-            animais.add(c.getAnimais()[i]);
-            janela.getCadastrado().add(0);
-            janela.getAlterado().add(0);
-        }
-        janela.setAnimais(animais);
-        if(!c.getInformacoes().equals(""))
-            janela.getAreaInformacoes().setText(c.getInformacoes());
-    }
-
-    @Override
     void excluir(int cod) {
-        throw new UnsupportedOperationException("Cliente não pode ser excluído");
     }
 }

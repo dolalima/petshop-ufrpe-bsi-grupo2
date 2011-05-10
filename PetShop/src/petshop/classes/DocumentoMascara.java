@@ -8,11 +8,11 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-public class LetraMaiuscula extends PlainDocument {
+public class DocumentoMascara extends PlainDocument {
 
     private int tamanhoMaximo;
 
-    public LetraMaiuscula(int maxlen) {
+    public DocumentoMascara(int maxlen) {
         super();
         tamanhoMaximo = maxlen;
     }

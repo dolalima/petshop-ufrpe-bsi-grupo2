@@ -111,12 +111,7 @@ public class JanelaAdicionaServico extends JanelaAdiciona {
     }
 
     private void ok(int cod) {
-        pai.getCampoCodigo().setText(cod + "");
-        if(pai.getComboAnimais().getSelectedIndex() > 0){
-            pai.getBotaoAdd().setEnabled(true);
-        }
-        reiniciar();
-
+        pai.setCodigo(cod);
         this.dispose();
     }
 }

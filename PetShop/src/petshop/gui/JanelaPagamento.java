@@ -128,15 +128,12 @@ public class JanelaPagamento extends javax.swing.JDialog {
                 int resp = JOptionPane.showConfirmDialog(this, "Venda efetuada com sucesso. Deseja realizar nova venda?", "Concluído", JOptionPane.YES_NO_OPTION);
 
                 this.reiniciar();
-                if(resp == JOptionPane.YES_OPTION){
-                    venda.reiniciar();
-                    this.dispose();
-                } else {
-                    venda.reiniciar();
-                    venda.dispose();
+                venda.reiniciar();
+                if(resp == JOptionPane.NO_OPTION){
                     this.dispose();
                 }
 
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Falha ao efetuar venda");
             }

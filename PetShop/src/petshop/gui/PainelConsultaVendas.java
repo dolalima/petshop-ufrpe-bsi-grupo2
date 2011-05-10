@@ -1,25 +1,20 @@
 package petshop.gui;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
 import petshop.classes.CPF;
 import petshop.classes.Cliente;
-import petshop.classes.TipoPagamento;
 import petshop.classes.Venda;
 
 public class PainelConsultaVendas extends PainelConsulta {
 
+    Venda[] vendas;
 
     public PainelConsultaVendas(){
         super();
 
-        this.remove(this.botaoAlterar);
-        this.remove(this.botaoExcluir);
-        this.setCadastro(new JanelaVenda(TipoJanela.CADASTRO));
-
+        this.setCadastro(new JanelaVenda(TipoJanela.CADASTRO, null));
         int [] itensPreco = new int[1];
         itensPreco[0] = 3;
         this.setItensPreco(itensPreco);
@@ -28,12 +23,14 @@ public class PainelConsultaVendas extends PainelConsulta {
         tamanhosColunas = new double[] {15, 45, 23, 17};
 
         setModelo(modelo, tamanhosColunas);
+
+        this.remove(botaoAlterar);
+        this.remove(botaoExcluir);
     }
 
     protected void informacoes(int cod) {
-        JanelaVenda janela = new JanelaVenda(TipoJanela.INFORMACAO);
-
-        preencher(janela, cod);
+        Venda v = BancoDeDados.consultar(new Venda(cod))[0];
+        JanelaVenda janela = new JanelaVenda(TipoJanela.INFORMACAO, v);
 
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
@@ -41,8 +38,7 @@ public class PainelConsultaVendas extends PainelConsulta {
     }
 
     protected void pesquisar() {
-        Venda[] vendas = getVendas();
-        
+        vendas = getVendas();        
 
         Object[][] dados = new Object[vendas.length][4];
 
@@ -64,61 +60,9 @@ public class PainelConsultaVendas extends PainelConsulta {
     }
 
     void alterar(int integer) {
-        throw new UnsupportedOperationException("Venda não pode ser alterada");
     }
 
-    private void preencher(JanelaVenda janela, int cod) {
-        Venda v = BancoDeDados.consultar(new Venda(cod))[0];
-
-        janela.getLabelCliente().setText(v.getCliente().getNome());
-        janela.setTotal(v.total());
-        Animal[] a = BancoDeDados.getAnimais(v.getCliente());
-        for(int i = 0; i < a.length; i++){
-            janela.getComboAnimais().addItem(a[i].getNome());
-        }
-
-        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        /*gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.weightx = 5;
-        gridBagConstraints.ipadx = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        String pag = "TIPO DE PAGAMENTO: ";
-        if(v.getTipoPagamento() == TipoPagamento.DINHEIRO) pag += "DINHEIRO";
-        else if(v.getTipoPagamento() == TipoPagamento.CARTAO) pag += "CARTAO";
-        else if(v.getTipoPagamento() == TipoPagamento.CHEQUE) pag += "CHEQUE";
-        if(v.isParcelado()) pag += ", PARCELADO.";
-        else pag += ", NÃO PARCELADO.";
-        janela.getPainel().add(new JLabel(pag), gridBagConstraints);*/
-
-        janela.getVenda().setCarrinhoProdutos(v.getCarrinhoProdutos());
-        janela.getVenda().setCarrinhoServicos(v.getCarrinhoServicos());
-
-        DefaultTableModel modeloServicos = (DefaultTableModel) janela.getTabelaServicos().getModel();
-        DefaultTableModel modeloProdutos = (DefaultTableModel) janela.getTabelaProdutos().getModel();
-
-        for(int i = 0; i < janela.getVenda().getCarrinhoProdutos().getProdutos().size(); i++){
-            Object[] dados = new Object[4];
-            dados[0] = janela.getVenda().getCarrinhoProdutos().getProdutos().get(i).getCodigo();
-            dados[1] = janela.getVenda().getCarrinhoProdutos().getProdutos().get(i).getNome();
-            dados[2] = janela.getVenda().getCarrinhoProdutos().getQtde().get(i);
-            dados[3] = janela.getVenda().getCarrinhoProdutos().getProdutos().get(i).getPrecoVenda();
-            modeloProdutos.addRow(dados);
-        }
-        for(int i = 0; i < janela.getVenda().getCarrinhoServicos().getServicos().size(); i++){
-            Object[] dados = new Object[4];
-            dados[0] = janela.getVenda().getCarrinhoServicos().getServicos().get(i).getCodigo();
-            dados[1] = janela.getVenda().getCarrinhoServicos().getServicos().get(i).getNome();
-            dados[2] = janela.getVenda().getCarrinhoServicos().getAnimal().get(i).getNome();
-            dados[3] = janela.getVenda().getCarrinhoServicos().getServicos().get(i).getPrecoVenda();
-            modeloServicos.addRow(dados);
-        }
-    }
-
-    @Override
-    void excluir(int integer) {
-        throw new UnsupportedOperationException("Venda não pode ser excluida");
+    void excluir(int integer) {        
     }
 
     private Venda[] getVendas(){

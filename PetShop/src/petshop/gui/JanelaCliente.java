@@ -1,15 +1,8 @@
 package petshop.gui;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import petshop.classes.Animal;
 import petshop.classes.BancoDeDados;
@@ -21,71 +14,49 @@ import petshop.classes.Endereco;
  *
  * @author arthur
  */
-public class JanelaCliente extends javax.swing.JDialog {
+public class JanelaCliente extends Janela {
 
     private Cliente cliente;
     private ArrayList<Animal> animais;
     private ArrayList<Integer> cadastrado;
     private ArrayList<Integer> alterado;
     private TipoJanela tipo;
-    
+
     /** Creates new form JanelaCliente */
-    public JanelaCliente(TipoJanela tipo) {
+    public JanelaCliente(TipoJanela tipo, Cliente c) {
         this.tipo = tipo;
         initComponents();
+        campoCep.setFocusLostBehavior(JFormattedTextField.PERSIST);
+
+        if(c == null) {
+            cliente = new Cliente();
+        } else {
+            cliente = c;
+        }
 
         this.setLocationRelativeTo(this.getContentPane());
-
-        KeyListener k = new KeyListener() {
-
-            public void keyTyped(KeyEvent e) {
-                if(!((e.getKeyChar() >= KeyEvent.VK_0
-                        && e.getKeyChar() <= KeyEvent.VK_9)
-                        || (e.getKeyChar() == KeyEvent.VK_BACK_SPACE))){
-                    e.consume();
-                }
-            }
-
-            public void keyPressed(KeyEvent e) {
-            }
-
-            public void keyReleased(KeyEvent e) {
-            }
-        };
-
-        campoTelefone.addKeyListener(k);
-        campoCelular.addKeyListener(k);
-        campoCEP.addKeyListener(k);
-        campoCPF.addKeyListener(k);
-        campoRG.addKeyListener(k);
-        campoNumero.addKeyListener(k);
-
-        animais = new ArrayList();
-        cadastrado = new ArrayList();
-        alterado = new ArrayList();
-
-        reiniciar();
 
         if(this.tipo == TipoJanela.ALTERACAO){
             botaoCadastrar.setText("Alterar");
             botaoRemoverAnimal.setText("Alterar");
+            preencher();
         } else if(this.tipo == TipoJanela.INFORMACAO){
             botaoCadastrar.setVisible(false);
             botaoCancelar.setVisible(false);
             botaoAdicionarAnimal.setText("Informação");
-            botaoAdicionarAnimal.setVisible(false);
             desabilitarCampos();
+            preencher();
         }
-        
-        campoNome.setDocument(new petshop.classes.LetraMaiuscula(80));
-        campoRua.setDocument(new petshop.classes.LetraMaiuscula(70));
-        campoNumero.setDocument(new petshop.classes.LetraMaiuscula(5));
-        campoComplemento.setDocument(new petshop.classes.LetraMaiuscula(30));
-        campoBairro.setDocument(new petshop.classes.LetraMaiuscula(30));
-        campoCidade.setDocument(new petshop.classes.LetraMaiuscula(30));
-        campoRG.setDocument(new petshop.classes.LetraMaiuscula(15));
-        campoEmail.setDocument(new petshop.classes.LetraMaiuscula(70));
-        areaInformacoes.setDocument(new petshop.classes.LetraMaiuscula(400));
+
+        campoNome.setDocument(new petshop.classes.DocumentoMascara(80));
+        campoRua.setDocument(new petshop.classes.DocumentoMascara(70));
+        campoNumero.setDocument(new petshop.classes.DocumentoMascara(5));
+        campoComplemento.setDocument(new petshop.classes.DocumentoMascara(30));
+        campoBairro.setDocument(new petshop.classes.DocumentoMascara(30));
+        campoCidade.setDocument(new petshop.classes.DocumentoMascara(30));
+        campoRg.setDocument(new petshop.classes.DocumentoMascara(15));
+        campoEmail.setDocument(new petshop.classes.DocumentoMascara(70));
+        areaInformacoes.setDocument(new petshop.classes.DocumentoMascara(400));
 
         reiniciar();
     }
@@ -100,19 +71,13 @@ public class JanelaCliente extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
         campoNome = new javax.swing.JTextField();
         comboSexo = new javax.swing.JComboBox();
-        campoTelefone = new javax.swing.JTextField();
-        campoCelular = new javax.swing.JTextField();
         campoRua = new javax.swing.JTextField();
         campoComplemento = new javax.swing.JTextField();
         campoBairro = new javax.swing.JTextField();
         campoCidade = new javax.swing.JTextField();
         comboUF = new javax.swing.JComboBox();
-        campoCEP = new javax.swing.JTextField();
-        campoRG = new javax.swing.JTextField();
-        campoCPF = new javax.swing.JTextField();
         campoEmail = new javax.swing.JTextField();
         scrollInformacoes = new javax.swing.JScrollPane();
         areaInformacoes = new javax.swing.JTextArea();
@@ -121,266 +86,121 @@ public class JanelaCliente extends javax.swing.JDialog {
         comboAnimais = new javax.swing.JComboBox();
         botaoAdicionarAnimal = new javax.swing.JButton();
         botaoRemoverAnimal = new javax.swing.JButton();
-        campoNumero = new javax.swing.JTextField();
+        labelNome = new javax.swing.JLabel();
+        labelSexo = new javax.swing.JLabel();
+        labelRua = new javax.swing.JLabel();
+        labelNumero = new javax.swing.JLabel();
+        labelComplemento = new javax.swing.JLabel();
+        labelBairro = new javax.swing.JLabel();
+        labelCidade = new javax.swing.JLabel();
+        labelUf = new javax.swing.JLabel();
+        labelCep = new javax.swing.JLabel();
+        labelRg = new javax.swing.JLabel();
+        labelCpf = new javax.swing.JLabel();
+        labelEmail = new javax.swing.JLabel();
+        labelTelefone = new javax.swing.JLabel();
+        labelCelular = new javax.swing.JLabel();
+        labelAnimais = new javax.swing.JLabel();
+        labelInformacoes = new javax.swing.JLabel();
+        campoCep = new javax.swing.JFormattedTextField();
+        campoCpf = new javax.swing.JFormattedTextField();
+        campoTelefone = new javax.swing.JFormattedTextField();
+        campoCelular = new javax.swing.JFormattedTextField();
+        campoNumero = new javax.swing.JFormattedTextField();
+        campoRg = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-
-        jPanel1.setPreferredSize(new java.awt.Dimension(390, 365));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        campoNome.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
+        getContentPane().setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 250;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoNome, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoNome, gridBagConstraints);
 
-        comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEXO", "MASCULINO", "FEMININO" }));
+        comboSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MASCULINO", "FEMININO" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(comboSexo, gridBagConstraints);
-
-        campoTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        campoTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                eventoDigitarFone(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 80;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoTelefone, gridBagConstraints);
-
-        campoCelular.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        campoCelular.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                eventoDigitarFone(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 80;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoCelular, gridBagConstraints);
-
-        campoRua.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(comboSexo, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoRua, gridBagConstraints);
-
-        campoComplemento.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoRua, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoComplemento, gridBagConstraints);
-
-        campoBairro.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoBairro, gridBagConstraints);
-
-        campoCidade.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 170;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoCidade, gridBagConstraints);
-
-        comboUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "UF", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "GO", "ES", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SP", "SC", "SE", "TO" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(comboUF, gridBagConstraints);
-
-        campoCEP.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        campoCEP.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                eventoDigitarCEP(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoCEP, gridBagConstraints);
-
-        campoRG.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 120;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoRG, gridBagConstraints);
-
-        campoCPF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        campoCPF.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                eventoDigitarCPF(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 170;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoCPF, gridBagConstraints);
-
-        campoEmail.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoComplemento, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoBairro, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 170;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoCidade, gridBagConstraints);
+
+        comboUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "GO", "ES", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SP", "SC", "SE", "TO" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(comboUF, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoEmail, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoEmail, gridBagConstraints);
 
         areaInformacoes.setColumns(20);
         areaInformacoes.setLineWrap(true);
         areaInformacoes.setRows(5);
-        areaInformacoes.setText("Informações Adicionais");
-        areaInformacoes.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
-            }
-        });
         scrollInformacoes.setViewportView(areaInformacoes);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 30;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(scrollInformacoes, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(scrollInformacoes, gridBagConstraints);
 
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cancelar(evt);
+                clicarBotaoCancelar(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(botaoCancelar, gridBagConstraints);
+        getContentPane().add(botaoCancelar, gridBagConstraints);
 
         botaoCadastrar.setText("Cadastrar");
         botaoCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -390,14 +210,13 @@ public class JanelaCliente extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(botaoCadastrar, gridBagConstraints);
+        getContentPane().add(botaoCadastrar, gridBagConstraints);
 
-        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ANIMAIS" }));
         comboAnimais.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 mudarComboAnimais(evt);
@@ -405,11 +224,11 @@ public class JanelaCliente extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(comboAnimais, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(comboAnimais, gridBagConstraints);
 
         botaoAdicionarAnimal.setText("Adicionar");
         botaoAdicionarAnimal.setMinimumSize(null);
@@ -421,9 +240,9 @@ public class JanelaCliente extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
-        jPanel1.add(botaoAdicionarAnimal, gridBagConstraints);
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 1);
+        getContentPane().add(botaoAdicionarAnimal, gridBagConstraints);
 
         botaoRemoverAnimal.setText("Remover");
         botaoRemoverAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -433,67 +252,260 @@ public class JanelaCliente extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 5);
-        jPanel1.add(botaoRemoverAnimal, gridBagConstraints);
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 5, 5);
+        getContentPane().add(botaoRemoverAnimal, gridBagConstraints);
 
-        campoNumero.addFocusListener(new java.awt.event.FocusAdapter() {
+        labelNome.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelNome.setText("Nome");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelNome, gridBagConstraints);
+
+        labelSexo.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelSexo.setText("Sexo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelSexo, gridBagConstraints);
+
+        labelRua.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelRua.setText("Rua");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelRua, gridBagConstraints);
+
+        labelNumero.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelNumero.setText("Número");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelNumero, gridBagConstraints);
+
+        labelComplemento.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelComplemento.setText("Complemento");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelComplemento, gridBagConstraints);
+
+        labelBairro.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelBairro.setText("Bairro");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelBairro, gridBagConstraints);
+
+        labelCidade.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelCidade.setText("Cidade");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelCidade, gridBagConstraints);
+
+        labelUf.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelUf.setText("UF");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelUf, gridBagConstraints);
+
+        labelCep.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelCep.setText("CEP");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelCep, gridBagConstraints);
+
+        labelRg.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelRg.setText("RG");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelRg, gridBagConstraints);
+
+        labelCpf.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelCpf.setText("CPF");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelCpf, gridBagConstraints);
+
+        labelEmail.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelEmail.setText("e-mail");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelEmail, gridBagConstraints);
+
+        labelTelefone.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelTelefone.setText("Telefone");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelTelefone, gridBagConstraints);
+
+        labelCelular.setFont(new java.awt.Font("Ubuntu", 1, 12));
+        labelCelular.setText("Celular");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelCelular, gridBagConstraints);
+
+        labelAnimais.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelAnimais.setText("Animais");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelAnimais, gridBagConstraints);
+
+        labelInformacoes.setFont(new java.awt.Font("Ubuntu", 0, 12));
+        labelInformacoes.setText("Informações Adicionais");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(labelInformacoes, gridBagConstraints);
+
+        try {
+            campoCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        campoCep.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        campoCep.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
+        campoCep.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                tirarEtiqueta(evt);
+                ganharFoco(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                colocarEtiqueta(evt);
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoCep, gridBagConstraints);
+
+        try {
+            campoCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        campoCpf.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
+        campoCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ganharFoco(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoCpf, gridBagConstraints);
+
+        try {
+            campoTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        campoTelefone.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
+        campoTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ganharFoco(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoTelefone, gridBagConstraints);
+
+        try {
+            campoCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        campoCelular.setFocusLostBehavior(javax.swing.JFormattedTextField.PERSIST);
+        campoCelular.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ganharFoco(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(campoNumero, gridBagConstraints);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoCelular, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoNumero, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        getContentPane().add(campoRg, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tirarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tirarEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals(getEtiqueta(campo))){
-            if(tipo != TipoJanela.INFORMACAO){                
-                campo.setText("");
-            }
-        }
-}//GEN-LAST:event_tirarEtiqueta
-
-    private void colocarEtiqueta(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colocarEtiqueta
-        JTextComponent campo = (JTextComponent) evt.getComponent();
-
-        if(campo.getText().equals("")){
-            campo.setText(getEtiqueta(campo));
-        }
-}//GEN-LAST:event_colocarEtiqueta
-
-    private void cancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelar
-        int resp = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja cancelar?", "Sair", JOptionPane.YES_NO_OPTION);
-
-        if(resp == JOptionPane.YES_OPTION){
-            this.dispose();
-            reiniciar();
-        }
-}//GEN-LAST:event_cancelar
+    private void clicarBotaoCancelar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clicarBotaoCancelar
+        cancelar();
+}//GEN-LAST:event_clicarBotaoCancelar
 
     private void adicionarAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarAnimal
-        JanelaAnimal animal = new JanelaAnimal(this, TipoJanela.CADASTRO);
+        JanelaAnimal janelaAnimal;
 
         if(tipo == TipoJanela.INFORMACAO){
-            animal = new JanelaAnimal(this, TipoJanela.INFORMACAO);
-            preencher(animal);
+            janelaAnimal = new JanelaAnimal(this, TipoJanela.INFORMACAO,
+                    animais.get(comboAnimais.getSelectedIndex()));
+        } else {
+            janelaAnimal = new JanelaAnimal(this, TipoJanela.CADASTRO, null);
         }
 
-        animal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        animal.setVisible(true);
+        janelaAnimal.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
+        janelaAnimal.setVisible(true);
 }//GEN-LAST:event_adicionarAnimal
 
     private void cadastrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrar
@@ -503,122 +515,55 @@ public class JanelaCliente extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this.getContentPane(), "CPF Inválido!");
                 return;
             }
-            if(BancoDeDados.existeCPF(cliente.getCpf()) && tipo != TipoJanela.ALTERACAO){
+            if(BancoDeDados.existeCPF(cliente.getCpf())){
                 JOptionPane.showMessageDialog(this.getContentPane(), "Este CPF já está cadastrado no banco de dados!");
                 return;
             }
 
             if(tipo == TipoJanela.CADASTRO){
-                if(BancoDeDados.cadastrar(cliente)){
-                    if(cadastrarAnimais()){
-                        int resp = JOptionPane.showConfirmDialog(this, "Cliente cadastrado com sucesso. Deseja realizar novo cadastro?", "Concluído", JOptionPane.YES_NO_OPTION);
-
-                        this.reiniciar();
-                        if(resp != JOptionPane.YES_OPTION){
-                            this.dispose();
-                        }
-                        
-                    } else {
-                        JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
-                }
-            } else {
-                if(BancoDeDados.alterar(cliente)){
-                    if(alterarAnimais() && cadastrarAnimais()){
-                        JOptionPane.showMessageDialog(this.getContentPane(), "Cliente alterado com sucesso!");
-                        this.reiniciar();
-                        this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
-                }
+                cadastrar();
+            } else if(tipo == TipoJanela.ALTERACAO){
+                alterar();
             }
 
         }
     }//GEN-LAST:event_cadastrar
 
-    private void eventoDigitarFone(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarFone
-        JTextField campo = (JTextField) evt.getComponent();
-
-        if(campo.getText().length() == 13){
-            evt.consume();
-        }
-
-        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-            if(campo.getText().length() == 0){
-                campo.setText("(");
-            } else if(campo.getText().length() == 3){
-                campo.setText(campo.getText() + ")");
-            } else if(campo.getText().length() == 8){
-                campo.setText(campo.getText() + "-");
-            }
-        }
-    }//GEN-LAST:event_eventoDigitarFone
-
-    private void eventoDigitarCPF(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarCPF
-        JTextField campo = (JTextField) evt.getComponent();
-
-        if(campo.getText().length() == 14){
-            evt.consume();
-        }
-
-        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-            if(campo.getText().length() == 3){
-                campo.setText(campo.getText() + ".");
-            } else if(campo.getText().length() == 7){
-                campo.setText(campo.getText() + ".");
-            } else if(campo.getText().length() == 11){
-                campo.setText(campo.getText() + "-");
-            }
-        }
-    }//GEN-LAST:event_eventoDigitarCPF
-
-    private void eventoDigitarCEP(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eventoDigitarCEP
-        JTextField campo = (JTextField) evt.getComponent();
-
-        if(campo.getText().length() == 9){
-            evt.consume();
-        }
-
-        if(evt.getKeyChar() != KeyEvent.VK_BACK_SPACE){
-            if(campo.getText().length() == 5){
-                campo.setText(campo.getText() + "-");
-            }
-        }
-    }//GEN-LAST:event_eventoDigitarCEP
-
     private void mudarComboAnimais(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mudarComboAnimais
-        if(comboAnimais.getSelectedIndex() > 0){
-            if(this.tipo != TipoJanela.INFORMACAO){
-                botaoRemoverAnimal.setVisible(true);
-            } else {
-                botaoAdicionarAnimal.setVisible(true);
-            }
+        if(this.tipo == TipoJanela.INFORMACAO){
+            botaoAdicionarAnimal.setVisible(true);
         } else {
-            botaoRemoverAnimal.setVisible(false);
-            if(this.tipo == TipoJanela.INFORMACAO){
-                botaoAdicionarAnimal.setVisible(false);
-            }
+            botaoRemoverAnimal.setVisible(true);
         }
     }//GEN-LAST:event_mudarComboAnimais
 
     private void removerAnimal(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removerAnimal
         if(tipo == TipoJanela.ALTERACAO){
-            JanelaAnimal janela = new JanelaAnimal(this, TipoJanela.ALTERACAO);
-
-            preencher(janela);
+            JanelaAnimal janela = new JanelaAnimal(this, TipoJanela.ALTERACAO,
+                    animais.get(comboAnimais.getSelectedIndex()));
 
             janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
             janela.setVisible(true);
         } else {
-            animais.remove(comboAnimais.getSelectedIndex() - 1);
+            animais.remove(comboAnimais.getSelectedIndex());
             comboAnimais.removeItemAt(comboAnimais.getSelectedIndex());
         }
     }//GEN-LAST:event_removerAnimal
+
+    private void ganharFoco(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ganharFoco
+        JTextComponent t = (JTextComponent) evt.getComponent();
+        int posicao = 0;
+
+        for(int i = 0; i < t.getText().length(); i++){
+            if(!t.getText().substring(posicao, posicao + 1).equals(" ")) {
+                posicao++;
+            } else {
+                break;
+            }
+        }
+
+        t.setCaretPosition(posicao);
+    }//GEN-LAST:event_ganharFoco
 
     /**
      * @param args the command line arguments
@@ -627,7 +572,7 @@ public class JanelaCliente extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new JanelaCliente(TipoJanela.CADASTRO).setVisible(true);
+                new JanelaCliente(TipoJanela.CADASTRO, null).setVisible(true);
             }
         });
     }
@@ -638,79 +583,85 @@ public class JanelaCliente extends javax.swing.JDialog {
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoRemoverAnimal;
     private javax.swing.JTextField campoBairro;
-    private javax.swing.JTextField campoCEP;
-    private javax.swing.JTextField campoCPF;
-    private javax.swing.JTextField campoCelular;
+    private javax.swing.JFormattedTextField campoCelular;
+    private javax.swing.JFormattedTextField campoCep;
     private javax.swing.JTextField campoCidade;
     private javax.swing.JTextField campoComplemento;
+    private javax.swing.JFormattedTextField campoCpf;
     private javax.swing.JTextField campoEmail;
     private javax.swing.JTextField campoNome;
-    private javax.swing.JTextField campoNumero;
-    private javax.swing.JTextField campoRG;
+    private javax.swing.JFormattedTextField campoNumero;
+    private javax.swing.JFormattedTextField campoRg;
     private javax.swing.JTextField campoRua;
-    private javax.swing.JTextField campoTelefone;
+    private javax.swing.JFormattedTextField campoTelefone;
     private javax.swing.JComboBox comboAnimais;
     private javax.swing.JComboBox comboSexo;
     private javax.swing.JComboBox comboUF;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel labelAnimais;
+    private javax.swing.JLabel labelBairro;
+    private javax.swing.JLabel labelCelular;
+    private javax.swing.JLabel labelCep;
+    private javax.swing.JLabel labelCidade;
+    private javax.swing.JLabel labelComplemento;
+    private javax.swing.JLabel labelCpf;
+    private javax.swing.JLabel labelEmail;
+    private javax.swing.JLabel labelInformacoes;
+    private javax.swing.JLabel labelNome;
+    private javax.swing.JLabel labelNumero;
+    private javax.swing.JLabel labelRg;
+    private javax.swing.JLabel labelRua;
+    private javax.swing.JLabel labelSexo;
+    private javax.swing.JLabel labelTelefone;
+    private javax.swing.JLabel labelUf;
     private javax.swing.JScrollPane scrollInformacoes;
     // End of variables declaration//GEN-END:variables
 
-    private String getEtiqueta(JTextComponent campo) {
-
-        if(campo.equals(campoNome)){
-            return "NOME";
-        } else if(campo.equals(campoRua)){
-            return "RUA";
-        } else if(campo.equals(campoNumero)){
-            return "Nº";
-        } else if(campo.equals(campoComplemento)){
-            return "COMPLEMENTO";
-        } else if(campo.equals(campoBairro)){
-            return "BAIRRO";
-        } else if(campo.equals(campoCidade)){
-            return "CIDADE";
-        } else if(campo.equals(campoCEP)){
-            return "CEP";
-        } else if(campo.equals(campoRG)){
-            return "RG";
-        } else if(campo.equals(campoCPF)){
-            return "CPF";
-        } else if(campo.equals(campoEmail)){
-            return "E-MAIL";
-        } else if(campo.equals(campoTelefone)){
-            return "TELEFONE";
-        } else if(campo.equals(campoCelular)){
-            return "CELULAR";
-        } else if(campo.equals(areaInformacoes)){
-            return "INFORMAÇÕES ADICIONAIS";
+    protected void cadastrar() {
+        if(BancoDeDados.cadastrar(cliente) && cadastrarAnimais()){
+            int resp = JOptionPane.showConfirmDialog(this, "Cliente cadastrado com sucesso. Deseja realizar novo cadastro?", "Concluído", JOptionPane.YES_NO_OPTION);
+            this.reiniciar();
+            if(resp != JOptionPane.YES_OPTION) {
+                this.dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao cadastrar cliente!");
         }
-
-        return "NÚMERO";
     }
 
-    private void reiniciar() {
+    protected void alterar() {
+        if(BancoDeDados.alterar(cliente) && alterarAnimais() && cadastrarAnimais()){
+            JOptionPane.showMessageDialog(this.getContentPane(), "Cliente alterado com sucesso!");
+            this.reiniciar();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this.getContentPane(), "Falha ao alterar cliente!");
+        }
+    }
 
-        campoNome.setText(getEtiqueta(campoNome));
-        campoRua.setText(getEtiqueta(campoRua));
-        campoNumero.setText(getEtiqueta(campoNumero));
-        campoComplemento.setText(getEtiqueta(campoComplemento));
-        campoBairro.setText(getEtiqueta(campoBairro));
-        campoCidade.setText(getEtiqueta(campoCidade));
-        campoCEP.setText(getEtiqueta(campoCEP));
-        campoCPF.setText(getEtiqueta(campoCPF));
-        campoRG.setText(getEtiqueta(campoRG));
-        campoTelefone.setText(getEtiqueta(campoTelefone));
-        campoCelular.setText(getEtiqueta(campoCelular));
-        campoEmail.setText(getEtiqueta(campoEmail));
-        areaInformacoes.setText(getEtiqueta(areaInformacoes));
+    protected final void reiniciar() {
 
-        comboSexo.setSelectedIndex(0);
-        comboUF.setSelectedIndex(0);
-        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"ANIMAIS"}));
+        campoNome.setText("");
+        campoRua.setText("");
+        campoNumero.setText("");
+        campoComplemento.setText("");
+        campoBairro.setText("");
+        campoCidade.setText("");
+        campoCep.setText("");
+        campoCpf.setText("");
+        campoRg.setText("");
+        campoTelefone.setText("");
+        campoCelular.setText("");
+        campoEmail.setText("");
+        areaInformacoes.setText("");
+
+        comboSexo.setSelectedIndex(-1);
+        comboUF.setSelectedIndex(-1);
+        comboAnimais.setModel(new javax.swing.DefaultComboBoxModel(new String[0]));
 
         botaoRemoverAnimal.setVisible(false);
         animais = new ArrayList();
+        cadastrado = new ArrayList();
+        alterado = new ArrayList();
     }
 
     void adicionarAnimal(Animal a) {
@@ -721,61 +672,85 @@ public class JanelaCliente extends javax.swing.JDialog {
         comboAnimais.addItem(a.getNome());
     }
 
-    void alterarAnimal(int index, Animal a) {
-        animais.remove(index);
+    void alterarAnimal(Animal a) {
+        animais.remove(comboAnimais.getSelectedIndex());
         animais.add(a);
-        alterado.remove(index);
+        alterado.remove(comboAnimais.getSelectedIndex());
         alterado.add(1);
-        cadastrado.remove(index);
+        cadastrado.remove(comboAnimais.getSelectedIndex());
         cadastrado.add(0);
 
-        comboAnimais.removeItemAt(index + 1);
+        comboAnimais.removeItemAt(comboAnimais.getSelectedIndex() + 1);
         comboAnimais.addItem(a.getNome());
         comboAnimais.updateUI();
     }
 
-    private boolean existemDependencias() {
+    protected final void preencher() {
+
+        campoNome.setText(cliente.getNome());
+        if(cliente.getSexo().equals("M")) {
+            comboSexo.setSelectedIndex(0);
+        } else {
+            comboSexo.setSelectedIndex(1);
+        }
+        campoRua.setText(cliente.getEndereco().getRua());
+        campoNumero.setText(String.valueOf(cliente.getEndereco().getNum()));
+        campoComplemento.setText(cliente.getEndereco().getComplemento());
+        campoBairro.setText(cliente.getEndereco().getBairro());
+        campoCidade.setText(cliente.getEndereco().getCidade());
+        comboUF.setSelectedItem(cliente.getEndereco().getUf());
+        campoCep.setText(cliente.getEndereco().getCep());
+        campoRg.setText(String.valueOf(cliente.getRg()));
+        campoCpf.setText(cliente.getCpf().toString());
+        campoEmail.setText(cliente.getEmail());
+        campoTelefone.setText(cliente.getTelefone());
+        campoCelular.setText(cliente.getCelular());
+
+        for(int i = 0; i < animais.size(); i++){
+            comboAnimais.addItem(cliente.getAnimais()[i].getNome());
+            animais.add(cliente.getAnimais()[i]);
+            cadastrado.add(0);
+            alterado.add(0);
+        }
+
+        areaInformacoes.setText(cliente.getInformacoes());
+    }
+
+    protected boolean existemDependencias() {
         String msg = "Você esqueceu de preencher os \nseguintes campos obrigatórios:\n\n";
 
         boolean existeDependencias = false;
 
-        if(campoNome.getText().equals("Nome")){
+        if(campoNome.getText().equals("")){
             msg += "- NOME\n";
             existeDependencias = true;
         }
-        if(comboSexo.getSelectedIndex() == 0){
+        if(comboSexo.getSelectedIndex() == -1){
             msg += "- SEXO\n";
             existeDependencias = true;
         }
-        if(campoRua.getText().equals("Rua")){
+        if(campoRua.getText().equals("")){
             msg += "- RUA\n";
             existeDependencias = true;
         }
-        if(campoNumero.getText().equals("Número")){
-            msg += "- NÚMERO\n";
-            existeDependencias = true;
-        }
-        if(campoBairro.getText().equals("Bairro")){
-            msg += "- BAIRRO\n";
-            existeDependencias = true;
-        }
-        if(campoCidade.getText().equals("Cidade")){
+        if(campoCidade.getText().equals("")){
             msg += "- CIDADE\n";
             existeDependencias = true;
         }
-        if(comboUF.getSelectedIndex() == 0){
+        if(comboUF.getSelectedIndex() == -1){
             msg += "- UF\n";
             existeDependencias = true;
         }
-        if(campoRG.getText().equals("RG")){
+        if(campoRg.getText().equals("")){
             msg += "- RG\n";
             existeDependencias = true;
         }
-        if(campoCPF.getText().equals("CPF")){
+        if(campoCpf.getText().substring(0, 1).equals(" ")){
             msg += "- CPF\n";
             existeDependencias = true;
         }
-        if(campoTelefone.getText().equals("Telefone") && campoCelular.getText().equals("Celular")){
+        if(campoTelefone.getText().substring(1, 2).equals(" ")
+                && campoCelular.getText().substring(1, 2).equals(" ")){
             msg += "- TELEFONE OU CELULAR";
             existeDependencias = true;
         }
@@ -785,25 +760,25 @@ public class JanelaCliente extends javax.swing.JDialog {
             return true;
         }
 
-        boolean celularValido = campoCelular.getText().substring(0,1).equals("(") &&
-                campoCelular.getText().substring(3,4).equals(")") &&
-                campoCelular.getText().substring(8,9).equals("-");
-        boolean telefoneValido = campoTelefone.getText().substring(0,1).equals("(") &&
-                campoTelefone.getText().substring(3,4).equals(")") &&
-                campoTelefone.getText().substring(8,9).equals("-");
+        boolean celularValido = campoCelular.getText().substring(0, 1).equals("(")
+                && campoCelular.getText().substring(3, 4).equals(")")
+                && campoCelular.getText().substring(8, 9).equals("-");
+        boolean telefoneValido = campoTelefone.getText().substring(0, 1).equals("(")
+                && campoTelefone.getText().substring(3, 4).equals(")")
+                && campoTelefone.getText().substring(8, 9).equals("-");
 
         if(campoCelular.getText().length() < 13 || !celularValido){
-            if(!campoCelular.getText().equals(getEtiqueta(campoCelular))){
+            if(!campoCelular.getText().equals("")){
                 JOptionPane.showMessageDialog(this.getContentPane(), "Celular Inválido!");
                 return true;
             }
         } else if(campoTelefone.getText().length() < 13 || !telefoneValido){
-            if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone))){
+            if(!campoTelefone.getText().equals("")){
                 JOptionPane.showMessageDialog(this.getContentPane(), "Telefone Inválido!");
                 return true;
             }
-        } else if((campoCEP.getText().length() < 9 && !campoCEP.getText().equals(getEtiqueta(campoCEP))) ||
-                !campoCEP.getText().substring(5, 6).equals("-")){
+        } else if((campoCep.getText().length() < 9 && !campoCep.getText().equals(""))
+                || !campoCep.getText().substring(5, 6).equals("-")){
             JOptionPane.showMessageDialog(this.getContentPane(), "CEP Inválido!");
             return true;
 
@@ -813,32 +788,10 @@ public class JanelaCliente extends javax.swing.JDialog {
     }
 
     public Cliente gerarCliente() {
-        
-        String complemento = "";
-        String cep = "";
-        String email = "";
-        String telefone = "";
-        String celular = "";
-        String informacoes = "";
-
-        if(!campoComplemento.getText().equals(getEtiqueta(campoComplemento))){
-            complemento = campoComplemento.getText();
-        }
-        if(!campoCEP.getText().equals(getEtiqueta(campoCEP))){
-            cep = campoCEP.getText();
-        }
-        if(!campoEmail.getText().equals(getEtiqueta(campoEmail))){
-            email = campoEmail.getText();
-        }
-        if(!campoTelefone.getText().equals(getEtiqueta(campoTelefone))){
-            telefone = campoTelefone.getText();
-        }
-        if(!campoCelular.getText().equals(getEtiqueta(campoCelular))){
-            celular = campoCelular.getText();
-        }
-        if(!areaInformacoes.getText().equals(getEtiqueta(areaInformacoes))){
-            informacoes = areaInformacoes.getText();
-        }
+        String email = campoEmail.getText();
+        String telefone = campoTelefone.getText();
+        String celular = campoCelular.getText();
+        String informacoes = areaInformacoes.getText();
 
         //ENDEREÇO
         String rua = campoRua.getText();
@@ -846,37 +799,41 @@ public class JanelaCliente extends javax.swing.JDialog {
         String bairro = campoBairro.getText();
         String cidade = campoCidade.getText();
         String uf = (String) comboUF.getSelectedItem();
+        String complemento = campoComplemento.getText();
+        String cep = campoCep.getText();
 
         //CLIENTE
         String nome = campoNome.getText();
         String sexo;
-        if(comboSexo.getSelectedIndex() == 1){
+        if(comboSexo.getSelectedItem().equals("MASCULINO")) {
             sexo = "M";
         } else {
             sexo = "F";
         }
+
         Endereco endereco = new Endereco(rua, numero, complemento, bairro, cidade, uf, cep);
-        String CPF = campoCPF.getText().substring(0, 3) + campoCPF.getText().substring(4, 7) +
-                campoCPF.getText().substring(8, 11) + campoCPF.getText().substring(12, 14);
+        String CPF = campoCpf.getText().substring(0, 3) + campoCpf.getText().substring(4, 7)
+                + campoCpf.getText().substring(8, 11) + campoCpf.getText().substring(12, 14);
         CPF cpf = new CPF(CPF);
-        long rg = Long.valueOf(campoRG.getText());
+        long rg = Long.valueOf(campoRg.getText());
         Animal[] listaAnimais;
         try {
             listaAnimais = (Animal[]) animais.toArray();
         } catch(ClassCastException e){
             listaAnimais = new Animal[0];
         }
-        
+
         Cliente c = new Cliente(nome, sexo, endereco, rg, cpf, email,
                 telefone, celular, listaAnimais, informacoes);
+
         if(tipo == TipoJanela.ALTERACAO){
             c.setCodigo(cliente.getCodigo());
         }
-        
+
         return c;
     }
 
-    private void desabilitarCampos(){
+    protected final void desabilitarCampos() {
         campoNome.setEditable(false);
         comboSexo.setEnabled(false);
         campoRua.setEditable(false);
@@ -885,170 +842,38 @@ public class JanelaCliente extends javax.swing.JDialog {
         campoBairro.setEditable(false);
         campoCidade.setEditable(false);
         comboUF.setEnabled(false);
-        campoCEP.setEditable(false);
-        campoRG.setEditable(false);
-        campoCPF.setEditable(false);
+        campoCep.setEditable(false);
+        campoRg.setEditable(false);
+        campoCpf.setEditable(false);
         campoEmail.setEditable(false);
         campoTelefone.setEditable(false);
         campoCelular.setEditable(false);
         areaInformacoes.setEditable(false);
     }
 
-    public JTextArea getAreaInformacoes() {
-        return areaInformacoes;
-    }
-
-    public JButton getBotaoAdicionarAnimal() {
-        return botaoAdicionarAnimal;
-    }
-
-    public JButton getBotaoCadastrar() {
-        return botaoCadastrar;
-    }
-
-    public JButton getBotaoCancelar() {
-        return botaoCancelar;
-    }
-
-    public JButton getBotaoRemoverAnimal() {
-        return botaoRemoverAnimal;
-    }
-
-    public JTextField getCampoBairro() {
-        return campoBairro;
-    }
-
-    public JTextField getCampoCEP() {
-        return campoCEP;
-    }
-
-    public JTextField getCampoCPF() {
-        return campoCPF;
-    }
-
-    public JTextField getCampoCelular() {
-        return campoCelular;
-    }
-
-    public JTextField getCampoCidade() {
-        return campoCidade;
-    }
-
-    public JTextField getCampoComplemento() {
-        return campoComplemento;
-    }
-
-    public JTextField getCampoEMail() {
-        return campoEmail;
-    }
-
-    public JTextField getCampoNome() {
-        return campoNome;
-    }
-
-    public JTextField getCampoNumero() {
-        return campoNumero;
-    }
-
-    public JTextField getCampoRG() {
-        return campoRG;
-    }
-
-    public JTextField getCampoRua() {
-        return campoRua;
-    }
-
-    public JTextField getCampoTelefone() {
-        return campoTelefone;
-    }
-
-    public JComboBox getComboAnimais() {
-        return comboAnimais;
-    }
-
-    public JComboBox getComboSexo() {
-        return comboSexo;
-    }
-
-    public JComboBox getComboUF() {
-        return comboUF;
-    }
-
-    public JScrollPane getScrollInformacoes() {
-        return scrollInformacoes;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public ArrayList<Animal> getAnimais() {
-        return animais;
-    }
-
-    public void setAnimais(ArrayList<Animal> animais) {
-        this.animais = animais;
-    }
-
-    public ArrayList<Integer> getAlterado() {
-        return alterado;
-    }
-
-    public void setAlterado(ArrayList<Integer> alterado) {
-        this.alterado = alterado;
-    }
-
-    public ArrayList<Integer> getCadastrado() {
-        return cadastrado;
-    }
-
-    public void setCadastrado(ArrayList<Integer> cadastrado) {
-        this.cadastrado = cadastrado;
-    }
-
-
-    
-    private boolean cadastrarAnimais(){
+    private boolean cadastrarAnimais() {
         boolean cadastrouAnimais = true;
 
         for(int i = 0; i < animais.size(); i++){
             animais.get(i).setCodigoDono(BancoDeDados.getClienteCod(cliente));
-            if(cadastrado.get(i) == 1)
+            if(cadastrado.get(i) == 1) {
                 cadastrouAnimais = cadastrouAnimais && BancoDeDados.cadastrar(animais.get(i));
+            }
         }
 
         return cadastrouAnimais;
     }
 
-    private boolean alterarAnimais(){
+    private boolean alterarAnimais() {
         boolean alterouAnimais = true;
 
         for(int i = 0; i < animais.size(); i++){
             animais.get(i).setCodigoDono(BancoDeDados.getClienteCod(cliente));
-            if(alterado.get(i) == 1)
+            if(alterado.get(i) == 1) {
                 alterouAnimais = alterouAnimais && BancoDeDados.alterar(animais.get(i));
+            }
         }
 
         return alterouAnimais;
-    }
-
-    private void preencher(JanelaAnimal janelaAnimal){
-        Animal a = animais.get(comboAnimais.getSelectedIndex() - 1);
-        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
-        
-        janelaAnimal.getCampoNome().setText(a.getNome());
-        if(a.getSexo() == 'M') janelaAnimal.getComboSexo().setSelectedIndex(1);
-        else janelaAnimal.getComboSexo().setSelectedIndex(2);
-        janelaAnimal.getCampoDataNasc().setText(data.format(a.getDataNasc().getTime()));
-        janelaAnimal.getComboEspecie().setSelectedItem(a.getEspecie());
-        if(!a.getRaca().equals(""))
-            janelaAnimal.getCampoRaca().setText(a.getRaca());
-        if(!a.getInfo().equals("")) {
-            janelaAnimal.getAreaInformacoes().setText(a.getInfo());
-        }
     }
 }

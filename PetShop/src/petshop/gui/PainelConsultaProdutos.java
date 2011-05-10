@@ -3,16 +3,16 @@ package petshop.gui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import petshop.classes.BancoDeDados;
-import petshop.classes.LetraMaiuscula;
 import petshop.classes.Produto;
 
 public class PainelConsultaProdutos extends PainelConsulta {
 
+    Produto[] produtos;
 
     public PainelConsultaProdutos() {
         super();
 
-        this.setCadastro(new JanelaProduto(TipoJanela.CADASTRO));
+        this.setCadastro(new JanelaProduto(TipoJanela.CADASTRO, null));
 
         int[] itensPreco = new int[2];
         itensPreco[0] = 2;
@@ -26,20 +26,17 @@ public class PainelConsultaProdutos extends PainelConsulta {
     }
 
     protected void alterar(int cod){
-        JanelaProduto janela = new JanelaProduto(TipoJanela.ALTERACAO);
+        Produto p = BancoDeDados.consultar(new Produto(cod))[0];
+        JanelaProduto janela = new JanelaProduto(TipoJanela.ALTERACAO, p);
 
-        preencher(janela, cod);
-
-        janela.getCampoCodigo().setEnabled(false);
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
         janela.setVisible(true);
     }
 
     protected void informacoes(int cod) {
-        JanelaProduto janela = new JanelaProduto(TipoJanela.INFORMACAO);
-
-        preencher(janela, cod);
+        Produto p = BancoDeDados.consultar(new Produto(cod))[0];
+        JanelaProduto janela = new JanelaProduto(TipoJanela.INFORMACAO, p);
 
         janela.setModalityType(java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         janela.setModal(true);
@@ -47,7 +44,7 @@ public class PainelConsultaProdutos extends PainelConsulta {
     }
 
     protected void pesquisar() {
-        Produto[] produtos = getProdutos();
+        produtos = getProdutos();
         if(produtos.length == 0){
             JOptionPane.showMessageDialog(this, "A busca não retornou nenhum resultado!");
             return;
@@ -66,22 +63,6 @@ public class PainelConsultaProdutos extends PainelConsulta {
 
         model.setDataVector(dados, modelo);
         redimensionarColunas();
-    }
-
-    private void preencher(JanelaProduto janela, int cod) {
-        Produto p = BancoDeDados.consultar(new Produto(cod))[0];
-
-        if(p.getCodigo() != 0) {
-            janela.getCampoCodigo().setDocument(new LetraMaiuscula(10));
-            janela.getCampoCodigo().setText(p.getCodigo() + "");
-        }
-        janela.getCampoNome().setText(p.getNome());
-        janela.getCampoQtde().setText(String.valueOf(p.getQtdeEstoque()));
-        janela.getCampoPrecoCusto().setText(String.valueOf(p.getPrecoCusto()));
-        janela.getCampoPrecoVenda().setText(String.valueOf(p.getPrecoVenda()));
-        if(!p.getInformacoes().equals("")) {
-            janela.getAreaInformacoes().setText(p.getInformacoes());
-        }
     }
 
     @Override
